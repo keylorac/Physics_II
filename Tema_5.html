@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Física General II · FS0310 · Tema 5: Temperatura</title>
+<style>
+:root{
+  --eth-blue-dark:#133565;
+  --eth-blue:#215CAF;
+  --celeste-ucr:#50AAD7;
+  --gold-ucr:#C69214;
+  --gris-texto:#3C3C3C;
+  --fondo-nota:#F5F7FA;
+  --fondo-gold:#FBF3E1;
+  --linea:#D8DEE8;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; padding:0;
+  font-family: Georgia, 'Cambria', 'Times New Roman', serif;
+  color:var(--gris-texto);
+  background:#fff;
+  line-height:1.55;
+}
+img{max-width:100%;}
+h1,h2,h3{color:var(--eth-blue-dark); font-weight:700; margin:0 0 .5em 0;}
+p{margin:0 0 1em 0;}
+.wrap{max-width:900px; margin:0 auto; padding:0 24px;}
+.narrow{max-width:70ch;}
+
+/* ---------- Portada ---------- */
+.portada{
+  min-height:100vh;
+  display:flex; flex-direction:column; justify-content:center;
+  border-bottom:6px solid var(--gold-ucr);
+  padding:48px 24px 64px;
+  background:
+    radial-gradient(circle at 85% 12%, rgba(80,170,215,.10), transparent 45%),
+    radial-gradient(circle at 10% 85%, rgba(198,146,20,.08), transparent 45%);
+}
+.portada-header{
+  display:flex; align-items:center; justify-content:space-between;
+  max-width:900px; width:100%; margin:0 auto 56px;
+  padding-bottom:18px; border-bottom:1.5px solid rgba(33,92,175,.35);
+}
+.portada-header img.ucr{height:56px;}
+.portada-header img.efis{height:40px;}
+.portada-titulo{max-width:900px; width:100%; margin:0 auto; text-align:left;}
+.eyebrow{color:var(--gris-texto); font-size:1.05rem; letter-spacing:.02em;}
+.curso{color:var(--eth-blue-dark); font-size:2.6rem; font-weight:700; margin:.1em 0 .3em;}
+.gold-rule{width:110px; height:3px; background:var(--gold-ucr); margin:.4em 0 .7em;}
+.tema-titulo{font-size:1.7rem; color:var(--eth-blue); font-weight:700; margin:0 0 .15em;}
+.tema-sub{font-size:1.1rem; color:var(--gris-texto);}
+.portada-footer{max-width:900px; width:100%; margin:64px auto 0; font-size:.95rem; color:var(--gris-texto);}
+.portada-footer b{color:var(--eth-blue-dark);}
+
+/* ---------- Nav ---------- */
+nav.toc{
+  position:sticky; top:0; z-index:50;
+  background:rgba(255,255,255,.94); backdrop-filter:blur(4px);
+  border-bottom:1px solid var(--linea);
+  overflow-x:auto; white-space:nowrap;
+}
+nav.toc .wrap{display:flex; gap:4px; padding:10px 24px;}
+nav.toc a{
+  flex:0 0 auto;
+  font-family: Georgia, serif; font-size:.85rem; color:var(--eth-blue-dark);
+  text-decoration:none; padding:6px 12px; border-radius:16px;
+  border:1px solid transparent;
+}
+nav.toc a:hover{border-color:var(--eth-blue); background:var(--fondo-nota);}
+
+/* ---------- Secciones ---------- */
+section{padding:56px 0; border-bottom:1px solid var(--linea);}
+section:last-of-type{border-bottom:none;}
+.kicker{
+  display:inline-block; font-size:1.15rem; font-weight:700; color:var(--eth-blue-dark);
+  border:2px solid var(--gold-ucr); border-radius:10px;
+  padding:8px 18px; margin-bottom:24px; background:#fff;
+}
+
+/* ---------- Cajas ---------- */
+.ley{
+  background:#EAF3FB; border-left:4px solid var(--eth-blue);
+  border-radius:4px; padding:16px 20px; margin:18px 0;
+}
+.ley b{color:var(--eth-blue-dark);}
+.nota{
+  background:var(--fondo-nota); border:1px solid var(--linea); border-radius:6px;
+  padding:14px 18px; margin:18px 0; font-size:.94rem;
+}
+.leyenda{
+  border:1px solid var(--linea); border-radius:6px; padding:12px 16px; margin:14px 0 0;
+  font-size:.9rem; color:var(--gris-texto); background:#fff;
+}
+.leyenda b{color:var(--eth-blue-dark);}
+
+/* ---------- Ecuaciones ---------- */
+.eq{
+  display:block; text-align:center; font-style:italic; font-size:1.25rem;
+  background:var(--fondo-nota); border-left:3px solid var(--eth-blue);
+  padding:14px 10px; margin:18px 0; border-radius:4px; overflow-x:auto;
+}
+.eq sub{font-style:normal;}
+.var{font-style:italic;}
+
+/* ---------- Paneles interactivos ---------- */
+.panel{
+  background:#fff; border:1px solid var(--linea); border-radius:10px;
+  padding:22px 24px; margin:20px 0;
+  box-shadow:0 1px 3px rgba(19,53,101,.06);
+}
+.panel h3{font-size:1.05rem; margin-bottom:14px;}
+.controls{display:flex; flex-wrap:wrap; gap:18px; align-items:center; margin-bottom:16px; font-size:.92rem;}
+.controls label{display:flex; flex-direction:column; gap:4px; font-size:.85rem; color:var(--gris-texto); margin-right:18px;}
+input[type=range]{accent-color:var(--eth-blue); width:180px;}
+select, button, input[type=number]{
+  font-family:inherit; font-size:.9rem; padding:6px 10px; border-radius:6px;
+  border:1px solid var(--linea); background:#fff; color:var(--gris-texto);
+}
+button{
+  background:var(--eth-blue-dark); color:#fff; border:none; cursor:pointer;
+  padding:8px 16px; font-weight:600;
+}
+button:hover{background:var(--eth-blue);}
+button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible{
+  outline:3px solid var(--celeste-ucr); outline-offset:2px;
+}
+button.secundario{background:#fff; color:var(--eth-blue-dark); border:1px solid var(--eth-blue-dark);}
+button.secundario:hover{background:var(--fondo-nota);}
+button.chip{
+  background:#fff; color:var(--eth-blue-dark); border:1.5px solid var(--eth-blue);
+  border-radius:20px; padding:6px 14px; font-weight:600; font-size:.85rem;
+}
+button.chip.activo{background:var(--eth-blue); color:#fff;}
+.readout{font-size:.95rem; margin-top:8px;}
+.readout .num{font-weight:700; color:var(--eth-blue-dark);}
+
+/* ---------- Ley cero ---------- */
+.leycero-stage{display:flex; align-items:center; justify-content:space-around; gap:16px; padding:20px 0; flex-wrap:wrap;}
+.bloque{
+  width:90px; height:90px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+  color:#fff; font-weight:700; font-size:1.3rem; transition:background-color 1.8s ease;
+  box-shadow:0 2px 6px rgba(0,0,0,.15);
+}
+.termometro-mini{display:flex; flex-direction:column; align-items:center; gap:4px;}
+.termometro-mini .lectura{font-size:.85rem; color:var(--gris-texto);}
+
+/* ---------- Termómetro SVG ---------- */
+.term-stage{display:flex; align-items:center; gap:36px; flex-wrap:wrap;}
+
+/* ---------- Expansión térmica ---------- */
+.barra-contenedor{
+  background:#EFF3F8; border-radius:8px; padding:30px 20px; margin:10px 0 18px;
+  overflow-x:auto;
+}
+.barra-track{position:relative; height:46px; width:100%; min-width:320px;}
+.barra{
+  position:absolute; left:0; top:0; height:46px; border-radius:6px;
+  background:linear-gradient(180deg, #C69214, #A87A0E);
+  transition:width .35s ease;
+  display:flex; align-items:center; justify-content:flex-end; padding-right:8px;
+}
+.barra::before{
+  content:''; position:absolute; left:-8px; top:-10px; width:16px; height:66px;
+  background:#555; border-radius:2px;
+}
+
+/* ---------- Tabla de referencia ---------- */
+table.tabla-ref{
+  width:100%; border-collapse:collapse; font-size:.88rem; margin:14px 0;
+}
+table.tabla-ref caption{
+  text-align:left; font-weight:700; color:var(--eth-blue-dark); margin-bottom:6px; font-size:.92rem;
+}
+table.tabla-ref th, table.tabla-ref td{
+  border-bottom:1px solid var(--linea); padding:6px 10px; text-align:left;
+}
+table.tabla-ref th{color:var(--eth-blue-dark); background:var(--fondo-nota);}
+table.tabla-ref tr:hover td{background:#FAFBFD;}
+
+/* ---------- Gas ideal ---------- */
+.gas-contenedor{
+  position:relative; background:#EFF3F8; border:2px solid var(--eth-blue-dark);
+  border-radius:6px; height:220px; margin:14px 0; overflow:hidden; transition:width .3s ease;
+}
+.particula{
+  position:absolute; width:10px; height:10px; border-radius:50%;
+  background:var(--gold-ucr);
+}
+.piston{
+  position:absolute; top:-2px; bottom:-2px; right:-6px; width:12px;
+  background:repeating-linear-gradient(45deg,#555,#555 3px,#777 3px,#777 6px);
+  border-left:3px solid #333;
+}
+
+/* ---------- Ejemplos paso a paso ---------- */
+.ejemplo{
+  border:1px solid var(--linea); border-radius:10px; margin:26px 0; overflow:hidden;
+  outline:none;
+}
+.ejemplo:focus{box-shadow:0 0 0 3px rgba(33,92,175,.25);}
+.ejemplo-header{
+  background:var(--eth-blue-dark); color:#fff; padding:12px 20px;
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;
+}
+.ejemplo-header b{font-size:1rem;}
+.ejemplo-body{padding:20px 22px;}
+.enunciado{
+  background:var(--fondo-nota); border-left:4px solid var(--eth-blue-dark);
+  padding:14px 18px; border-radius:4px; margin-bottom:6px;
+}
+.step{
+  opacity:0; max-height:0; overflow:hidden;
+  transform:translateY(8px);
+  transition:opacity .45s ease, transform .45s ease, max-height .45s ease;
+  padding-top:0;
+}
+.step.shown{opacity:1; max-height:600px; transform:translateY(0); padding-top:14px;}
+.step .titulo-paso{font-weight:700; color:var(--eth-blue); margin-bottom:4px; font-size:.92rem;}
+.resultado-final{
+  background:var(--fondo-gold); border:1px solid var(--gold-ucr); border-radius:6px;
+  padding:12px 16px; font-weight:700; color:#7A5A0C;
+}
+.ejemplo-controles{
+  display:flex; gap:10px; align-items:center; padding:14px 22px 20px;
+  border-top:1px dashed var(--linea);
+}
+.hint-enter{font-size:.82rem; color:#8a8a8a;}
+.progreso{font-size:.82rem; color:var(--gris-texto);}
+
+/* ---------- Ejercicios ---------- */
+.ejercicios-lista{display:flex; flex-wrap:wrap; gap:8px; margin:16px 0;}
+.ejercicios-lista .num-ej{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:34px; height:34px; border-radius:50%; background:var(--fondo-nota);
+  border:1px solid var(--linea); font-size:.85rem; color:var(--eth-blue-dark); font-weight:700;
+}
+
+footer.doc-footer{padding:40px 24px 60px; text-align:center; color:#8a8a8a; font-size:.85rem;}
+
+@media (max-width:640px){
+  .curso{font-size:2rem;}
+  .term-stage{gap:20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- PORTADA -->
+<!-- ============================================================ -->
+<div class="portada">
+  <div class="portada-header">
+    <img class="ucr" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iNjAiPjx0ZXh0IHg9IjEwIiB5PSI0MCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEiIGZvbnQtc2l6ZT0iMzUiIGZpbGw9IiM1MEFBRDciIGZvbnQtd2VpZ2h0PSJib2xkIj5VQ1I8L3RleHQ+PC9zdmc+" alt="Universidad de Costa Rica">
+    <img class="efis" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTAiIGhlaWdodD0iNjAiPjx0ZXh0IHg9IjEwIiB5PSI0MCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMxMzM1NjUiIGZvbnQtd2VpZ2h0PSJib2xkIj5Fc2N1ZWxhIGRlIEbDrXNpY2E8L3RleHQ+PC9zdmc+" alt="Escuela de Física">
+  </div>
+  <div class="portada-titulo">
+    <div class="eyebrow">Física General II</div>
+    <div class="curso">FS0310</div>
+    <div class="gold-rule"></div>
+    <div class="tema-titulo">Tema 5 — Temperatura</div>
+    <div class="tema-sub">Basado en Serway &amp; Jewett, <i>Física para ciencias e ingeniería 1</i>, 10.ª edición</div>
+  </div>
+  <div class="portada-footer">
+    <div><b>Docente:</b> Keylor Arley Castro</div>
+    <div>Escuela de Física, Universidad de Costa Rica</div>
+  </div>
+</div>
+
+<nav class="toc">
+  <div class="wrap">
+    <a href="#ley-cero">Ley cero</a>
+    <a href="#termometro">Termómetros</a>
+    <a href="#cero-absoluto">Cero absoluto</a>
+    <a href="#escalas">Escalas</a>
+    <a href="#expansion">Expansión térmica</a>
+    <a href="#agua">Agua</a>
+    <a href="#gas-ideal">Gas ideal</a>
+    <a href="#ejemplos">Ejemplos</a>
+    <a href="#ejercicios">Ejercicios</a>
+  </div>
+</nav>
+
+<!-- ============================================================ -->
+<!-- LEY CERO -->
+<!-- ============================================================ -->
+<section id="ley-cero">
+  <div class="wrap">
+    <div class="kicker">Temperatura y ley cero de la termodinámica</div>
+    <p class="narrow">Podemos considerar la temperatura como la propiedad que determina si un objeto
+    está en equilibrio térmico con otros objetos.</p>
+
+    <div class="ley">
+      <b>Ley cero de la termodinámica.</b> Si los objetos A y B están, por separado, en equilibrio
+      térmico con un tercer objeto C, entonces A y B están en equilibrio térmico entre sí.
+    </div>
+
+    <div class="panel">
+      <h3>Toca "Poner en contacto" y observa qué pasa con A y B</h3>
+      <div class="leycero-stage">
+        <div class="termometro-mini">
+          <div class="bloque" id="bloqueA" style="background:#2E6DB4;">A</div>
+          <div class="lectura">T<sub>A</sub> = <span id="lecturaA">10 °C</span></div>
+        </div>
+        <div class="termometro-mini">
+          <svg width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="11" fill="#fff" stroke="var(--eth-blue-dark)" stroke-width="2"/><text x="13" y="18" font-size="13" text-anchor="middle" fill="var(--eth-blue-dark)" font-family="Georgia" font-weight="bold">C</text></svg>
+        </div>
+        <div class="termometro-mini">
+          <div class="bloque" id="bloqueB" style="background:#B4432E;">B</div>
+          <div class="lectura">T<sub>B</sub> = <span id="lecturaB">38 °C</span></div>
+        </div>
+      </div>
+      <div class="controls">
+        <button id="btnLeyCero">Poner ambos en contacto con C (22 °C)</button>
+        <button class="secundario" id="btnLeyCeroReset">Reiniciar</button>
+      </div>
+      <p id="leyCeroTexto" class="readout"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- TERMÓMETRO CELSIUS -->
+<!-- ============================================================ -->
+<section id="termometro">
+  <div class="wrap">
+    <div class="kicker">Termómetros y escala de temperatura Celsius</div>
+    <p class="narrow">En la escala Celsius, la mezcla de hielo y agua en equilibrio se define en 0&nbsp;°C
+    (punto de hielo) y la mezcla de agua y vapor a presión atmosférica en 100&nbsp;°C (punto de vapor).</p>
+
+    <div class="panel">
+      <h3>Mueve la temperatura y observa la columna de mercurio</h3>
+      <div class="term-stage">
+        <svg width="100" height="240" viewBox="0 0 100 240">
+          <rect x="35" y="10" width="20" height="180" rx="10" fill="#fff" stroke="#8a8a8a" stroke-width="2"/>
+          <circle cx="45" cy="205" r="22" fill="#fff" stroke="#8a8a8a" stroke-width="2"/>
+          <rect id="mercurioColumna" x="40" y="100" width="10" height="90" fill="#D6413A"/>
+          <circle cx="45" cy="205" r="16" fill="#D6413A"/>
+          <line x1="58" y1="20" x2="63" y2="20" stroke="#8a8a8a" stroke-width="1.5"/>
+          <line x1="58" y1="100" x2="63" y2="100" stroke="#8a8a8a" stroke-width="1.5"/>
+          <line x1="58" y1="180" x2="63" y2="180" stroke="#8a8a8a" stroke-width="1.5"/>
+          <text x="66" y="24" font-size="9" fill="#666" font-family="Georgia">100°C</text>
+          <text x="66" y="104" font-size="9" fill="#666" font-family="Georgia">50°C</text>
+          <text x="66" y="184" font-size="9" fill="#666" font-family="Georgia">0°C</text>
+        </svg>
+        <div style="flex:1; min-width:220px;">
+          <div class="controls">
+            <label>Temperatura
+              <input type="range" id="sliderTerm" min="-20" max="110" value="20">
+            </label>
+          </div>
+          <p class="readout">Lectura: <span class="num" id="lecturaTerm">20 °C</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- CERO ABSOLUTO -->
+<!-- ============================================================ -->
+<section id="cero-absoluto">
+  <div class="wrap">
+    <div class="kicker">Termómetro de gas a volumen constante y escala absoluta</div>
+    <p class="narrow">Para varias cantidades de gas a volumen constante, la presión cae linealmente con la
+    temperatura. Al extrapolar las tres rectas, todas cruzan el eje en el mismo punto:
+    <span class="var">T</span> = −273.15&nbsp;°C, el cero absoluto.</p>
+
+    <div class="eq">T<sub>C</sub> = T − 273.15</div>
+    <div class="leyenda"><b>T<sub>C</sub></b>: temperatura Celsius [°C] &middot;
+      <b>T</b>: temperatura absoluta [K]</div>
+
+    <div class="panel">
+      <h3>Extrapolación al cero absoluto</h3>
+      <svg width="100%" height="260" viewBox="0 0 560 260" id="svgCeroAbs" style="max-width:560px;">
+        <line x1="120" y1="10" x2="120" y2="230" stroke="#999" stroke-width="1"/>
+        <line x1="20" y1="200" x2="540" y2="200" stroke="#999" stroke-width="1"/>
+        <text x="10" y="245" font-size="11" fill="#666" font-family="Georgia">−273</text>
+        <text x="115" y="245" font-size="11" fill="#666" font-family="Georgia">0°C</text>
+        <text x="510" y="245" font-size="11" fill="#666" font-family="Georgia">200°C</text>
+        <text x="8" y="20" font-size="11" fill="#666" font-family="Georgia">P</text>
+        <text x="480" y="215" font-size="11" fill="#666" font-family="Georgia">T</text>
+        <line class="recta-gas" x1="120" y1="200" x2="540" y2="60" stroke="#D6413A" stroke-width="2"/>
+        <line class="recta-gas" x1="120" y1="200" x2="540" y2="100" stroke="#215CAF" stroke-width="2"/>
+        <line class="recta-gas" x1="120" y1="200" x2="540" y2="140" stroke="#3D9140" stroke-width="2"/>
+        <circle id="puntoCero" cx="120" cy="200" r="5" fill="#C69214"/>
+      </svg>
+      <div class="controls">
+        <button id="btnCeroAbs">Extrapolar las tres rectas</button>
+        <button class="secundario" id="btnCeroAbsReset">Reiniciar</button>
+      </div>
+      <p class="readout">Las tres muestras de gas, con cantidades distintas, coinciden en
+        <span class="num">T = 0 K = −273.15 °C</span> aunque la pendiente de cada recta sea diferente.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ESCALAS -->
+<!-- ============================================================ -->
+<section id="escalas">
+  <div class="wrap">
+    <div class="kicker">Las escalas Celsius, Fahrenheit y Kelvin</div>
+    <div class="eq">T<sub>F</sub> = (9/5)&nbsp;T<sub>C</sub> + 32&nbsp;°F</div>
+    <div class="eq">&Delta;T<sub>C</sub> = &Delta;T = (5/9)&nbsp;&Delta;T<sub>F</sub></div>
+    <div class="nota">Si una ecuación pide una temperatura <span class="var">T</span> (no una diferencia),
+      conviértala siempre a kelvins antes de sustituir.</div>
+
+    <div class="panel">
+      <h3>Conversor en vivo</h3>
+      <div class="controls">
+        <label>Celsius (°C)
+          <input type="number" id="inC" value="20" style="width:100px;">
+        </label>
+        <label>Fahrenheit (°F)
+          <input type="number" id="inF" value="68" style="width:100px;">
+        </label>
+        <label>Kelvin (K)
+          <input type="number" id="inK" value="293.15" style="width:100px;">
+        </label>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- EXPANSIÓN TÉRMICA -->
+<!-- ============================================================ -->
+<section id="expansion">
+  <div class="wrap">
+    <div class="kicker">Expansión térmica de sólidos y líquidos</div>
+    <div class="eq">&alpha; &equiv; (&Delta;L / L<sub>i</sub>) / &Delta;T</div>
+    <div class="eq">&Delta;L = &alpha; L<sub>i</sub> &Delta;T</div>
+    <div class="leyenda"><b>&alpha;</b>: coeficiente de expansión lineal [°C&#8315;&sup1;] &middot;
+      <b>L<sub>i</sub></b>: longitud inicial &middot; <b>&Delta;L</b>: cambio de longitud &middot;
+      <b>&Delta;T</b>: cambio de temperatura [°C]</div>
+
+    <div class="panel">
+      <h3>Estira la barra según el material y &Delta;T</h3>
+      <div class="controls">
+        <label>Material
+          <select id="selMaterial">
+            <option value="0.0000009">Invar (0.9×10⁻⁶)</option>
+            <option value="0.0000032">Vidrio Pyrex (3.2×10⁻⁶)</option>
+            <option value="0.0000090">Vidrio ordinario (9×10⁻⁶)</option>
+            <option value="0.0000110">Acero (11×10⁻⁶)</option>
+            <option value="0.0000120">Concreto (12×10⁻⁶)</option>
+            <option value="0.0000170">Cobre (17×10⁻⁶)</option>
+            <option value="0.0000190" selected>Latón y bronce (19×10⁻⁶)</option>
+            <option value="0.0000240">Aluminio (24×10⁻⁶)</option>
+            <option value="0.0000290">Plomo (29×10⁻⁶)</option>
+          </select>
+        </label>
+        <label>&Delta;T (°C)
+          <input type="range" id="sliderExpansion" min="0" max="200" value="55">
+        </label>
+      </div>
+      <div class="barra-contenedor">
+        <div class="barra-track">
+          <div class="barra" id="barraExpansion" style="width:260px;"></div>
+        </div>
+      </div>
+      <p class="readout">L<sub>i</sub> = 1.000 m &nbsp;→&nbsp;
+        &Delta;L = <span class="num" id="deltaLExpansion">0</span> mm &nbsp;→&nbsp;
+        L<sub>f</sub> = <span class="num" id="lfExpansion">1.000</span> m</p>
+    </div>
+
+    <p class="narrow" style="margin-top:34px;">Cuando el objeto es una superficie (2D) o un cuerpo (3D), la
+      expansión también se describe con &alpha;, ya que las dos o tres dimensiones crecen a la vez.</p>
+    <div class="eq">&Delta;A = 2&alpha; A<sub>i</sub> &Delta;T &nbsp;&nbsp;&nbsp;&nbsp; &Delta;V = &beta; V<sub>i</sub> &Delta;T, &nbsp; &beta; = 3&alpha;</div>
+    <div class="leyenda"><b>A<sub>i</sub></b>: área inicial &middot; <b>V<sub>i</sub></b>: volumen inicial &middot;
+      <b>&beta;</b>: coeficiente de expansión volumétrica [°C&#8315;&sup1;]</div>
+
+    <div class="panel">
+      <h3>Expansión de una placa cuadrada (área) y un cubo (volumen)</h3>
+      <div class="controls">
+        <label>Material
+          <select id="selMaterialArea">
+            <option value="0.0000009">Invar (0.9×10⁻⁶)</option>
+            <option value="0.0000032">Vidrio Pyrex (3.2×10⁻⁶)</option>
+            <option value="0.0000090">Vidrio ordinario (9×10⁻⁶)</option>
+            <option value="0.0000110">Acero (11×10⁻⁶)</option>
+            <option value="0.0000120">Concreto (12×10⁻⁶)</option>
+            <option value="0.0000170">Cobre (17×10⁻⁶)</option>
+            <option value="0.0000190" selected>Latón y bronce (19×10⁻⁶)</option>
+            <option value="0.0000240">Aluminio (24×10⁻⁶)</option>
+            <option value="0.0000290">Plomo (29×10⁻⁶)</option>
+          </select>
+        </label>
+        <label>&Delta;T (°C)
+          <input type="range" id="sliderExpansionArea" min="0" max="200" value="55">
+        </label>
+      </div>
+      <div style="display:flex; gap:32px; flex-wrap:wrap; align-items:flex-end; margin:14px 0;">
+        <svg width="180" height="180" viewBox="0 0 180 180">
+          <rect id="cuadradoArea" x="65" y="65" width="50" height="50" fill="#EFF3F8" stroke="var(--eth-blue)" stroke-width="2.5"/>
+          <text x="90" y="20" font-size="11" fill="#666" font-family="Georgia" text-anchor="middle">Placa (2D): A = L&sup2;</text>
+        </svg>
+        <svg width="200" height="180" viewBox="0 0 200 180">
+          <g id="cuboVolumen">
+            <polygon points="60,110 100,130 140,110 140,60 100,40 60,60" fill="#FBF3E1" stroke="var(--gold-ucr)" stroke-width="2"/>
+            <polygon points="60,60 100,40 140,60 100,80" fill="#F5E3B8" stroke="var(--gold-ucr)" stroke-width="2"/>
+            <polygon points="100,80 140,60 140,110 100,130" fill="#E9D190" stroke="var(--gold-ucr)" stroke-width="2"/>
+          </g>
+          <text x="100" y="20" font-size="11" fill="#666" font-family="Georgia" text-anchor="middle">Cubo (3D): V = L&sup3;</text>
+        </svg>
+      </div>
+      <p class="readout">L<sub>i</sub> = 10.00 cm &nbsp;→&nbsp; A<sub>i</sub> = 100.0 cm&sup2;, V<sub>i</sub> = 1000 cm&sup3;<br>
+        &Delta;A = <span class="num" id="deltaAExpansion">0</span> cm&sup2; &nbsp;·&nbsp;
+        &Delta;V = <span class="num" id="deltaVExpansion">0</span> cm&sup3; &nbsp;·&nbsp;
+        &beta; = <span class="num" id="betaExpansion">0</span> °C&#8315;&sup1;</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- AGUA -->
+<!-- ============================================================ -->
+<section id="agua">
+  <div class="wrap">
+    <div class="kicker">El inusual comportamiento del agua</div>
+    <p class="narrow">A diferencia de la mayoría de sustancias, el agua alcanza su <b>densidad máxima
+      a 4&nbsp;°C</b>, no en su punto de congelación.</p>
+    <div class="panel">
+      <h3>Curva de densidad del agua</h3>
+      <svg width="100%" height="220" viewBox="0 0 520 220" style="max-width:520px;">
+        <line x1="60" y1="10" x2="60" y2="190" stroke="#999"/>
+        <line x1="60" y1="190" x2="500" y2="190" stroke="#999"/>
+        <text x="6" y="30" font-size="11" fill="#666" font-family="Georgia">&rho;</text>
+        <text x="470" y="208" font-size="11" fill="#666" font-family="Georgia">T (°C)</text>
+        <text x="55" y="205" font-size="10" fill="#666" font-family="Georgia">0</text>
+        <text x="150" y="205" font-size="10" fill="#666" font-family="Georgia">4</text>
+        <text x="480" y="205" font-size="10" fill="#666" font-family="Georgia">100</text>
+        <path d="M 60 90 Q 150 20 220 40 T 500 170" fill="none" stroke="#215CAF" stroke-width="2.5"/>
+        <circle id="puntoMaxDensidad" cx="150" cy="35" r="0" fill="#C69214"/>
+      </svg>
+      <div class="controls">
+        <button id="btnAgua">Mostrar el máximo</button>
+      </div>
+      <p class="readout" id="aguaTexto"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- GAS IDEAL -->
+<!-- ============================================================ -->
+<section id="gas-ideal">
+  <div class="wrap">
+    <div class="kicker">Descripción macroscópica de un gas ideal</div>
+    <p class="narrow">Un gas ideal es un gas de densidad y presión bajas, para el cual la ecuación que
+      relaciona P, V y T es sencilla. La cantidad de gas se expresa en número de moles <span class="var">n</span>.</p>
+    <div class="eq">n = m / M</div>
+    <div class="leyenda"><b>m</b>: masa del gas &middot; <b>M</b>: masa molar &middot;
+      cada mol contiene un número de Avogadro de partículas:
+      <b>N<sub>A</sub></b> = 6.022×10<sup>23</sup> mol&#8315;&sup1;</div>
+
+    <div class="eq">PV = nRT</div>
+    <div class="leyenda"><b>P</b>: presión [atm] &middot; <b>V</b>: volumen [L] &middot;
+      <b>n</b>: número de moles &middot;
+      <b>R</b> = 0.08206 L&middot;atm/(mol&middot;K) = 8.314 J/(mol&middot;K) &middot;
+      <b>T</b>: temperatura absoluta [K]</div>
+
+    <div class="eq">PV = N k<sub>B</sub> T</div>
+    <div class="leyenda"><b>N</b>: número total de moléculas &middot;
+      <b>k<sub>B</sub></b> = R / N<sub>A</sub> = 1.38×10<sup>-23</sup> J/K (constante de Boltzmann)</div>
+
+    <div class="nota">
+      <b>Casos particulares de PV = nRT</b> (con n constante):
+      <ul style="margin:8px 0 0 18px; padding:0;">
+        <li><b>Ley de Boyle</b> — a T constante, P es inversamente proporcional a V.</li>
+        <li><b>Ley de Charles</b> — a P constante, V es directamente proporcional a T.</li>
+        <li><b>Ley de Gay-Lussac</b> — a V constante, P es directamente proporcional a T.</li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <h3>Pistón con n = 0.0400 mol — elige la ley a demostrar</h3>
+      <div class="controls" style="gap:8px;">
+        <button class="chip activo" data-modo="boyle">Ley de Boyle (T cte.)</button>
+        <button class="chip" data-modo="charles">Ley de Charles (P cte.)</button>
+        <button class="chip" data-modo="gaylussac">Ley de Gay-Lussac (V cte.)</button>
+      </div>
+      <p class="nota" id="gasModoTexto" style="margin-top:0;"></p>
+      <div class="controls" id="gasControles"></div>
+      <div class="gas-contenedor" id="gasContenedor" style="width:70%;">
+        <div class="piston"></div>
+      </div>
+      <p class="readout">T = <span class="num" id="gasTLabel">300</span> K &nbsp;·&nbsp;
+        V = <span class="num" id="gasVLabel">1.40</span> L &nbsp;·&nbsp;
+        P = <span class="num" id="gasPLabel">0.700</span> atm
+        (PV = nRT)</p>
+      <button class="secundario" id="btnGasToggle" style="margin-top:10px;">Pausar</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- EJEMPLOS -->
+<!-- ============================================================ -->
+<section id="ejemplos">
+  <div class="wrap">
+    <div class="kicker">Ejemplos — resolvamos juntos</div>
+    <p class="narrow">Cada ejemplo comienza mostrando solo el enunciado. Haz clic dentro del recuadro y
+      presiona <b>Enter</b> (o toca "Siguiente ▶") para revelar el razonamiento paso a paso.</p>
+
+    <!-- EJEMPLO 1 -->
+    <div class="ejemplo" tabindex="0" data-example="1">
+      <div class="ejemplo-header">
+        <b>Ejemplo 1 — Dos barras que igualan su longitud</b>
+        <span class="progreso" data-progreso>Paso 0 / 5</span>
+      </div>
+      <div class="ejemplo-body">
+        <div class="enunciado">
+          Una barra de hierro (&alpha;=12×10&#8315;&#8310; °C&#8315;&sup1;) tiene exactamente un metro
+          de largo a 15&nbsp;°C. Una barra de latón (&alpha;=19×10&#8315;&#8310; °C&#8315;&sup1;) es
+          0.5&nbsp;mm más corta que la barra de hierro a 15&nbsp;°C. Ambas son calentadas en el mismo
+          horno. ¿A qué temperatura tendrán la misma longitud?
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 1 — Datos</div>
+          L<sub>Fe,i</sub> = 1.0000 m &middot; &alpha;<sub>Fe</sub> = 12×10&#8315;&#8310; °C&#8315;&sup1;
+          &middot; L<sub>latón,i</sub> = 0.9995 m &middot; &alpha;<sub>latón</sub> = 19×10&#8315;&#8310; °C&#8315;&sup1;
+          &middot; T<sub>i</sub> = 15 °C
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 2 — Longitud a temperatura T</div>
+          <div class="eq" style="font-size:1.05rem;">L(T) = L<sub>i</sub>[1 + &alpha;(T − T<sub>i</sub>)]</div>
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 3 — Igualamos ambas longitudes</div>
+          L<sub>Fe,i</sub>[1+&alpha;<sub>Fe</sub>&Delta;T] = L<sub>latón,i</sub>[1+&alpha;<sub>latón</sub>&Delta;T]
+          &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+          &Delta;T = (L<sub>Fe,i</sub> − L<sub>latón,i</sub>) / (L<sub>latón,i</sub>&alpha;<sub>latón</sub> − L<sub>Fe,i</sub>&alpha;<sub>Fe</sub>)
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 4 — Sustituimos</div>
+          &Delta;T = 0.0005 / (0.9995×19×10&#8315;&#8310; − 1.0000×12×10&#8315;&#8310;)
+          = 0.0005 / 6.99×10&#8315;&#8310; &asymp; 71.5 °C
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">T = 15 + 71.5 &asymp; 86.5 °C</div>
+        </div>
+      </div>
+      <div class="ejemplo-controles">
+        <button data-siguiente>Siguiente ▶</button>
+        <button class="secundario" data-reiniciar>Reiniciar</button>
+        <span class="hint-enter">o presiona Enter</span>
+      </div>
+    </div>
+
+    <!-- EJEMPLO 2 -->
+    <div class="ejemplo" tabindex="0" data-example="2">
+      <div class="ejemplo-header">
+        <b>Ejemplo 2 — Cubo de latón: área y volumen</b>
+        <span class="progreso" data-progreso>Paso 0 / 5</span>
+      </div>
+      <div class="ejemplo-body">
+        <div class="enunciado">
+          Un cubo de latón (&alpha;=19×10&#8315;&#8310; °C&#8315;&sup1;) tiene una longitud de 33.2&nbsp;cm
+          de lado a 20.0&nbsp;°C. Cuando se calienta a 75.0&nbsp;°C, calcule (a) el aumento en el área
+          superficial y (b) el aumento en el volumen.
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 1 — Datos</div>
+          L<sub>i</sub> = 0.332 m &middot; &Delta;T = 75.0 − 20.0 = 55.0 °C &middot;
+          A<sub>i</sub> (6 caras) = 6L<sub>i</sub>&sup2; = 0.6613 m&sup2; &middot;
+          V<sub>i</sub> = L<sub>i</sub>&sup3; = 0.036594 m&sup3;
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 2 — Coeficientes de área y volumen</div>
+          <div class="eq" style="font-size:1.05rem;">&Delta;A = 2&alpha;A<sub>i</sub>&Delta;T &nbsp;&nbsp;&nbsp; &Delta;V = &beta;V<sub>i</sub>&Delta;T, &nbsp; &beta;=3&alpha;</div>
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 3 — (a) Aumento de área</div>
+          &Delta;A = 2(19×10&#8315;&#8310;)(0.6613)(55.0) &asymp; 1.38×10&#8315;&sup3; m&sup2; = 13.8 cm&sup2;
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 4 — (b) Aumento de volumen</div>
+          &beta; = 57×10&#8315;&#8310; °C&#8315;&sup1; &nbsp;&nbsp;
+          &Delta;V = (57×10&#8315;&#8310;)(0.036594)(55.0) &asymp; 1.15×10&#8315;&sup3; m&sup3; = 114.7 cm&sup3;
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">&Delta;A &asymp; 13.8 cm&sup2; &nbsp;&nbsp;&nbsp; &Delta;V &asymp; 114.7 cm&sup3;</div>
+        </div>
+      </div>
+      <div class="ejemplo-controles">
+        <button data-siguiente>Siguiente ▶</button>
+        <button class="secundario" data-reiniciar>Reiniciar</button>
+        <span class="hint-enter">o presiona Enter</span>
+      </div>
+    </div>
+
+    <!-- EJEMPLO 3 -->
+    <div class="ejemplo" tabindex="0" data-example="3">
+      <div class="ejemplo-header">
+        <b>Ejemplo 3 — Trementina y aire en un recipiente</b>
+        <span class="progreso" data-progreso>Paso 0 / 6</span>
+      </div>
+      <div class="ejemplo-body">
+        <div class="enunciado">
+          Un recipiente cerrado de 1.00&nbsp;L contiene la mitad de su volumen relleno de trementina
+          (&beta;=9.7×10&#8315;&#8308; °C&#8315;&sup1;) y el resto contiene aire. Todo el sistema está
+          originalmente a 10&nbsp;°C con el aire a 1.00&nbsp;atm. Se calienta hasta 70&nbsp;°C. Suponga
+          que el aire es un gas ideal y que el recipiente no cambia de volumen. Calcule (a) el volumen de
+          trementina, (b) el volumen de aire, (c) los moles de aire y (d) la presión final del aire.
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 1 — (a) Volumen de trementina</div>
+          V<sub>tre,i</sub>=0.500 L &middot; &Delta;T=60 °C &middot;
+          V<sub>tre,f</sub> = 0.500(1+9.7×10&#8315;&#8308;×60) &asymp; <b>0.529 L</b>
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 2 — (b) Volumen de aire</div>
+          El recipiente no cambia de volumen total (1.00 L), así que el aire ocupa lo que sobra:<br>
+          V<sub>aire,f</sub> = 1.00 − 0.529 &asymp; <b>0.471 L</b>
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 3 — (c) Moles de aire (estado inicial)</div>
+          <div class="eq" style="font-size:1.05rem;">n = PV / RT</div>
+          n = (1.00)(0.500) / (0.08206 × 283) &asymp; <b>0.0215 mol</b>
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 4 — Ley combinada de los gases</div>
+          <div class="eq" style="font-size:1.05rem;">P<sub>i</sub>V<sub>i</sub>/T<sub>i</sub> = P<sub>f</sub>V<sub>f</sub>/T<sub>f</sub></div>
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 5 — Sustituimos</div>
+          P<sub>f</sub> = 1.00 × (0.500/0.471) × (343/283) &asymp; 1.29 atm
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">V<sub>tre,f</sub>&asymp;0.529 L &nbsp; V<sub>aire,f</sub>&asymp;0.471 L &nbsp;
+            n&asymp;0.0215 mol &nbsp; P<sub>f</sub>&asymp;1.29 atm</div>
+        </div>
+      </div>
+      <div class="ejemplo-controles">
+        <button data-siguiente>Siguiente ▶</button>
+        <button class="secundario" data-reiniciar>Reiniciar</button>
+        <span class="hint-enter">o presiona Enter</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- EJERCICIOS -->
+<!-- ============================================================ -->
+<section id="ejercicios">
+  <div class="wrap">
+    <div class="kicker">Ejercicios recomendados</div>
+    <p class="narrow">Capítulo 18 (Serway &amp; Jewett, 10.ª edición):</p>
+    <div class="ejercicios-lista">
+      <span class="num-ej">2</span><span class="num-ej">4</span><span class="num-ej">7</span>
+      <span class="num-ej">10</span><span class="num-ej">11</span><span class="num-ej">13</span>
+      <span class="num-ej">14</span><span class="num-ej">15</span><span class="num-ej">19</span>
+      <span class="num-ej">21</span><span class="num-ej">23</span><span class="num-ej">25</span>
+      <span class="num-ej">29</span><span class="num-ej">30</span><span class="num-ej">31</span>
+      <span class="num-ej">33</span><span class="num-ej">34</span><span class="num-ej">39</span>
+      <span class="num-ej">40</span>
+    </div>
+  </div>
+</section>
+
+<footer class="doc-footer">Física General II (FS0310) · Escuela de Física, UCR · Tema 5: Temperatura</footer>
+
+<script>
+// ============================================================
+// LEY CERO
+// ============================================================
+(function(){
+  const bA=document.getElementById('bloqueA'), bB=document.getElementById('bloqueB');
+  const lA=document.getElementById('lecturaA'), lB=document.getElementById('lecturaB');
+  const texto=document.getElementById('leyCeroTexto');
+  const TC=22;
+  document.getElementById('btnLeyCero').addEventListener('click', function(){
+    bA.style.background='#C69214'; bB.style.background='#C69214';
+    let start=null; const dur=1800; const a0=10, b0=38;
+    function step(ts){
+      if(!start) start=ts;
+      const p=Math.min((ts-start)/dur,1);
+      const va=Math.round(a0+(TC-a0)*p), vb=Math.round(b0+(TC-b0)*p);
+      lA.textContent=va+' °C'; lB.textContent=vb+' °C';
+      if(p<1) requestAnimationFrame(step);
+      else texto.innerHTML='A y B alcanzaron <b>22 °C</b>, igual que C. Como ambos ya están en equilibrio con C, la ley cero garantiza que A y B están en equilibrio <i>entre sí</i>, sin necesidad de ponerlos en contacto directo.';
+    }
+    requestAnimationFrame(step);
+  });
+  document.getElementById('btnLeyCeroReset').addEventListener('click', function(){
+    bA.style.background='#2E6DB4'; bB.style.background='#B4432E';
+    lA.textContent='10 °C'; lB.textContent='38 °C'; texto.textContent='';
+  });
+})();
+
+// ============================================================
+// TERMÓMETRO CELSIUS
+// ============================================================
+(function(){
+  const slider=document.getElementById('sliderTerm');
+  const col=document.getElementById('mercurioColumna');
+  const lectura=document.getElementById('lecturaTerm');
+  function actualizar(){
+    const t=parseFloat(slider.value);
+    const y=180-((t+20)/130)*160;
+    const h=190-y;
+    col.setAttribute('y', y); col.setAttribute('height', Math.max(h,2));
+    lectura.textContent=t+' °C';
+  }
+  slider.addEventListener('input', actualizar);
+  actualizar();
+})();
+
+// ============================================================
+// CERO ABSOLUTO
+// ============================================================
+(function(){
+  const btnExt = document.getElementById('btnCeroAbs');
+  const btnRes = document.getElementById('btnCeroAbsReset');
+  const rectas = document.querySelectorAll('.recta-gas');
+
+  btnExt.addEventListener('click', () => {
+    rectas.forEach(r => {
+      r.style.transition = 'x1 1.2s ease, y1 1.2s ease';
+      r.setAttribute('x1', '10');
+      r.setAttribute('y1', '200');
+    });
+  });
+
+  btnRes.addEventListener('click', () => {
+    rectas.forEach(r => {
+      r.setAttribute('x1', '120');
+      r.setAttribute('y1', '200');
+    });
+  });
+})();
+
+// ============================================================
+// ESCALAS DE TEMPERATURA
+// ============================================================
+(function(){
+  const iC = document.getElementById('inC');
+  const iF = document.getElementById('inF');
+  const iK = document.getElementById('inK');
+
+  iC.addEventListener('input', () => {
+    let c = parseFloat(iC.value) || 0;
+    iF.value = (c * 1.8 + 32).toFixed(2);
+    iK.value = (c + 273.15).toFixed(2);
+  });
+  iF.addEventListener('input', () => {
+    let f = parseFloat(iF.value) || 0;
+    let c = (f - 32) / 1.8;
+    iC.value = c.toFixed(2);
+    iK.value = (c + 273.15).toFixed(2);
+  });
+  iK.addEventListener('input', () => {
+    let k = parseFloat(iK.value) || 0;
+    let c = k - 273.15;
+    iC.value = c.toFixed(2);
+    iF.value = (c * 1.8 + 32).toFixed(2);
+  });
+})();
+
+// ============================================================
+// EXPANSIÓN TÉRMICA
+// ============================================================
+(function(){
+  const selMat = document.getElementById('selMaterial');
+  const sldExp = document.getElementById('sliderExpansion');
+  const barra = document.getElementById('barraExpansion');
+  const deltaL = document.getElementById('deltaLExpansion');
+  const lf = document.getElementById('lfExpansion');
+
+  function calcularExpansion(){
+    let alpha = parseFloat(selMat.value);
+    let dt = parseFloat(sldExp.value);
+    let dl = alpha * 1000 * dt; // L_inicial = 1000 mm
+
+    deltaL.textContent = dl.toFixed(3);
+    lf.textContent = (1 + dl/1000).toFixed(4);
+
+    // Escalar la deformación máxima (Plomo a 200°C: 29e-6*1000*200=5.8mm) a 100px extra en la UI
+    let pixelesExtra = (dl / 5.8) * 100;
+    barra.style.width = (260 + pixelesExtra) + 'px';
+  }
+
+  selMat.addEventListener('change', calcularExpansion);
+  sldExp.addEventListener('input', calcularExpansion);
+  calcularExpansion();
+})();
+
+// ============================================================
+// EXPANSIÓN DE ÁREA Y VOLUMEN
+// ============================================================
+(function(){
+  const selMat = document.getElementById('selMaterialArea');
+  const sld = document.getElementById('sliderExpansionArea');
+  const cuadrado = document.getElementById('cuadradoArea');
+  const cubo = document.getElementById('cuboVolumen');
+  const deltaA = document.getElementById('deltaAExpansion');
+  const deltaV = document.getElementById('deltaVExpansion');
+  const betaLbl = document.getElementById('betaExpansion');
+
+  const Li = 10; // cm
+  const Ai = Li*Li, Vi = Li*Li*Li;
+
+  function calcular(){
+    let alpha = parseFloat(selMat.value);
+    let dt = parseFloat(sld.value);
+    let beta = 3*alpha;
+
+    let dA = 2*alpha*Ai*dt;
+    let dV = beta*Vi*dt;
+
+    deltaA.textContent = dA.toFixed(2);
+    deltaV.textContent = dV.toFixed(1);
+    betaLbl.textContent = beta.toExponential(2);
+
+    // Escalar visualmente (máximo con plomo 29e-6 a 200°C)
+    let escalaMax = 3*0.0000290*200; // fracción relativa máxima de área/vol
+    let fracA = Math.min((2*alpha*dt)/ (2*0.0000290*200), 1);
+    let fracV = Math.min((beta*dt)/escalaMax, 1);
+
+    let nuevoLadoCuadrado = 50 * (1 + 0.4*fracA);
+    let cx = 90, cy = 90;
+    cuadrado.setAttribute('x', cx - nuevoLadoCuadrado/2);
+    cuadrado.setAttribute('y', cy - nuevoLadoCuadrado/2);
+    cuadrado.setAttribute('width', nuevoLadoCuadrado);
+    cuadrado.setAttribute('height', nuevoLadoCuadrado);
+
+    let escala = 1 + 0.35*fracV;
+    cubo.setAttribute('transform', `translate(100,85) scale(${escala}) translate(-100,-85)`);
+  }
+
+  selMat.addEventListener('change', calcular);
+  sld.addEventListener('input', calcular);
+  calcular();
+})();
+
+// ============================================================
+// COMPORTAMIENTO DEL AGUA
+// ============================================================
+(function(){
+  const btn = document.getElementById('btnAgua');
+  const max = document.getElementById('puntoMaxDensidad');
+  const texto = document.getElementById('aguaTexto');
+
+  btn.addEventListener('click', () => {
+    max.style.transition = 'r 0.5s ease';
+    max.setAttribute('r', '6');
+    texto.innerHTML = 'A <b>4 °C</b>, el agua alcanza su densidad máxima de aproximadamente <b>1.000 g/cm³</b>. Por debajo de esta temperatura, se expande. Esta es la razón por la que el hielo flota en estado sólido.';
+  });
+})();
+
+// ============================================================
+// GAS IDEAL — Boyle / Charles / Gay-Lussac
+// ============================================================
+(function(){
+  const lT = document.getElementById('gasTLabel');
+  const lV = document.getElementById('gasVLabel');
+  const lP = document.getElementById('gasPLabel');
+  const cont = document.getElementById('gasContenedor');
+  const controles = document.getElementById('gasControles');
+  const modoTexto = document.getElementById('gasModoTexto');
+  const chips = document.querySelectorAll('.chip');
+
+  const n = 0.0400;
+  const R = 0.08206;
+  let corriendo = true;
+  let particulas = [];
+  let modo = 'boyle';
+
+  // Estado compartido
+  let estado = { T: 300, V: 1.40, P: 0.700 };
+
+  // Crear partículas
+  for(let i=0; i<35; i++){
+    let p = document.createElement('div');
+    p.className = 'particula';
+    cont.appendChild(p);
+    particulas.push({
+      el: p,
+      x: Math.random()*80,
+      y: Math.random()*85,
+      vx: (Math.random()-0.5)*2.4,
+      vy: (Math.random()-0.5)*2.4
+    });
+  }
+
+  function anchoPorcentajeDesdeV(v){
+    // Mapea V (0.8L - 2.0L aprox al rango visible) a un ancho de 40%-100%
+    let pct = 40 + ((v - 0.8) / (2.0 - 0.8)) * 60;
+    return Math.max(20, Math.min(100, pct));
+  }
+
+  function renderEstado(){
+    lT.textContent = estado.T.toFixed(0);
+    lV.textContent = estado.V.toFixed(2);
+    lP.textContent = estado.P.toFixed(3);
+    cont.style.width = anchoPorcentajeDesdeV(estado.V) + '%';
+  }
+
+  function construirControles(){
+    controles.innerHTML = '';
+    if(modo === 'boyle'){
+      modoTexto.innerHTML = '<b>Ley de Boyle:</b> a T constante, P·V = cte. Mueve V y observa cómo P cambia de forma inversamente proporcional.';
+      controles.innerHTML = `
+        <label>Temperatura T (K) — fija en este modo
+          <input type="range" id="sliderGasT" min="150" max="500" value="${estado.T}" disabled>
+        </label>
+        <label>Volumen V (L)
+          <input type="range" id="sliderGasV" min="40" max="100" value="${Math.round(estado.V*50)}">
+        </label>`;
+    } else if(modo === 'charles'){
+      modoTexto.innerHTML = '<b>Ley de Charles:</b> a P constante, V/T = cte. Mueve T y observa cómo V cambia de forma directamente proporcional (el volumen del pistón se recalcula).';
+      controles.innerHTML = `
+        <label>Temperatura T (K)
+          <input type="range" id="sliderGasT" min="150" max="500" value="${estado.T}">
+        </label>
+        <label>Presión P (atm) — fija en este modo
+          <input type="range" id="sliderGasP" min="30" max="200" value="${Math.round(estado.P*100)}" disabled>
+        </label>`;
+    } else { // gaylussac
+      modoTexto.innerHTML = '<b>Ley de Gay-Lussac:</b> a V constante, P/T = cte. Mueve T y observa cómo P cambia de forma directamente proporcional (el pistón no se mueve).';
+      controles.innerHTML = `
+        <label>Temperatura T (K)
+          <input type="range" id="sliderGasT" min="150" max="500" value="${estado.T}">
+        </label>
+        <label>Volumen V (L) — fijo en este modo
+          <input type="range" id="sliderGasV" min="40" max="100" value="${Math.round(estado.V*50)}" disabled>
+        </label>`;
+    }
+    enlazarControles();
+  }
+
+  function enlazarControles(){
+    const sT = document.getElementById('sliderGasT');
+    const sV = document.getElementById('sliderGasV');
+    const sP = document.getElementById('sliderGasP');
+
+    if(sT && !sT.disabled) sT.addEventListener('input', () => {
+      estado.T = parseFloat(sT.value);
+      if(modo === 'boyle'){
+        estado.P = (n*R*estado.T)/estado.V;
+      } else if(modo === 'charles'){
+        estado.V = (n*R*estado.T)/estado.P;
+      } else if(modo === 'gaylussac'){
+        estado.P = (n*R*estado.T)/estado.V;
+      }
+      renderEstado();
+    });
+
+    if(sV && !sV.disabled) sV.addEventListener('input', () => {
+      estado.V = parseFloat(sV.value)/50;
+      estado.P = (n*R*estado.T)/estado.V;
+      renderEstado();
+    });
+
+    if(sP && !sP.disabled) sP.addEventListener('input', () => {
+      estado.P = parseFloat(sP.value)/100;
+      estado.V = (n*R*estado.T)/estado.P;
+      renderEstado();
+    });
+  }
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('activo'));
+      chip.classList.add('activo');
+      modo = chip.getAttribute('data-modo');
+      construirControles();
+    });
+  });
+
+  function loop(){
+    if(!corriendo) return;
+    let velT = estado.T / 200;
+
+    particulas.forEach(p => {
+      p.x += p.vx * velT;
+      p.y += p.vy * velT;
+      if(p.x < 0) { p.x = 0; p.vx *= -1; }
+      if(p.x > 90) { p.x = 90; p.vx *= -1; }
+      if(p.y < 0) { p.y = 0; p.vy *= -1; }
+      if(p.y > 90) { p.y = 90; p.vy *= -1; }
+      p.el.style.left = p.x + '%';
+      p.el.style.top = p.y + '%';
+    });
+    requestAnimationFrame(loop);
+  }
+
+  document.getElementById('btnGasToggle').addEventListener('click', function(){
+    corriendo = !corriendo;
+    this.textContent = corriendo ? "Pausar" : "Reanudar";
+    if(corriendo) loop();
+  });
+
+  construirControles();
+  renderEstado();
+  loop();
+})();
+
+// ============================================================
+// EJEMPLOS INTERACTIVOS (Steppers)
+// ============================================================
+(function(){
+  document.querySelectorAll('.ejemplo').forEach(ej => {
+    const steps = ej.querySelectorAll('.step');
+    const btnSig = ej.querySelector('[data-siguiente]');
+    const btnRe = ej.querySelector('[data-reiniciar]');
+    const prog = ej.querySelector('[data-progreso]');
+    let actual = 0;
+
+    function render(){
+      steps.forEach((s, i) => {
+        if(i < actual) s.classList.add('shown');
+        else s.classList.remove('shown');
+      });
+      prog.textContent = `Paso ${actual} / ${steps.length}`;
+    }
+
+    btnSig.addEventListener('click', () => {
+      if(actual < steps.length) { actual++; render(); }
+    });
+
+    btnRe.addEventListener('click', () => {
+      actual = 0; render();
+    });
+
+    ej.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter') {
+        if(actual < steps.length) { actual++; render(); }
+        e.preventDefault();
+      }
+    });
+
+    render();
+  });
+})();
+</script>
+</body>
+</html>

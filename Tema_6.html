@@ -1,0 +1,2034 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Física General II · FS0310 · Tema 6: Primera ley de la termodinámica</title>
+<style>
+:root{
+  --eth-blue-dark:#133565;
+  --eth-blue:#215CAF;
+  --celeste-ucr:#50AAD7;
+  --gold-ucr:#C69214;
+  --gris-texto:#3C3C3C;
+  --fondo-nota:#F5F7FA;
+  --fondo-gold:#FBF3E1;
+  --linea:#D8DEE8;
+  --rojo:#D6413A;
+  --azul-frio:#2E6DB4;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; padding:0;
+  font-family: Georgia, 'Cambria', 'Times New Roman', serif;
+  color:var(--gris-texto);
+  background:#fff;
+  line-height:1.55;
+}
+img{max-width:100%;}
+h1,h2,h3{color:var(--eth-blue-dark); font-weight:700; margin:0 0 .5em 0;}
+p{margin:0 0 1em 0;}
+.wrap{max-width:900px; margin:0 auto; padding:0 24px;}
+.narrow{max-width:70ch;}
+
+/* ---------- Portada ---------- */
+.portada{
+  min-height:100vh;
+  display:flex; flex-direction:column; justify-content:center;
+  border-bottom:6px solid var(--gold-ucr);
+  padding:48px 24px 64px;
+  background:
+    radial-gradient(circle at 85% 12%, rgba(80,170,215,.10), transparent 45%),
+    radial-gradient(circle at 10% 85%, rgba(198,146,20,.08), transparent 45%);
+}
+.portada-header{
+  display:flex; align-items:center; justify-content:space-between;
+  max-width:900px; width:100%; margin:0 auto 56px;
+  padding-bottom:18px; border-bottom:1.5px solid rgba(33,92,175,.35);
+}
+.portada-header img.ucr{height:56px;}
+.portada-header img.efis{height:40px;}
+.portada-titulo{max-width:900px; width:100%; margin:0 auto; text-align:left;}
+.eyebrow{color:var(--gris-texto); font-size:1.05rem; letter-spacing:.02em;}
+.curso{color:var(--eth-blue-dark); font-size:2.6rem; font-weight:700; margin:.1em 0 .3em;}
+.gold-rule{width:110px; height:3px; background:var(--gold-ucr); margin:.4em 0 .7em;}
+.tema-titulo{font-size:1.7rem; color:var(--eth-blue); font-weight:700; margin:0 0 .15em;}
+.tema-sub{font-size:1.1rem; color:var(--gris-texto);}
+.portada-footer{max-width:900px; width:100%; margin:64px auto 0; font-size:.95rem; color:var(--gris-texto);}
+.portada-footer b{color:var(--eth-blue-dark);}
+
+/* ---------- Nav ---------- */
+nav.toc{
+  position:sticky; top:0; z-index:50;
+  background:rgba(255,255,255,.94); backdrop-filter:blur(4px);
+  border-bottom:1px solid var(--linea);
+  overflow-x:auto; white-space:nowrap;
+}
+nav.toc .wrap{display:flex; gap:4px; padding:10px 24px;}
+nav.toc a{
+  flex:0 0 auto;
+  font-family: Georgia, serif; font-size:.85rem; color:var(--eth-blue-dark);
+  text-decoration:none; padding:6px 12px; border-radius:16px;
+  border:1px solid transparent;
+}
+nav.toc a:hover{border-color:var(--eth-blue); background:var(--fondo-nota);}
+
+/* ---------- Secciones ---------- */
+section{padding:56px 0; border-bottom:1px solid var(--linea);}
+section:last-of-type{border-bottom:none;}
+.kicker{
+  display:inline-block; font-size:1.15rem; font-weight:700; color:var(--eth-blue-dark);
+  border:2px solid var(--gold-ucr); border-radius:10px;
+  padding:8px 18px; margin-bottom:24px; background:#fff;
+}
+
+/* ---------- Cajas ---------- */
+.ley{
+  background:#EAF3FB; border-left:4px solid var(--eth-blue);
+  border-radius:4px; padding:16px 20px; margin:18px 0;
+}
+.ley b{color:var(--eth-blue-dark);}
+.nota{
+  background:var(--fondo-nota); border:1px solid var(--linea); border-radius:6px;
+  padding:14px 18px; margin:18px 0; font-size:.94rem;
+}
+.leyenda{
+  border:1px solid var(--linea); border-radius:6px; padding:12px 16px; margin:14px 0 0;
+  font-size:.9rem; color:var(--gris-texto); background:#fff;
+}
+.leyenda b{color:var(--eth-blue-dark);}
+
+/* ---------- Ecuaciones ---------- */
+.eq{
+  display:block; text-align:center; font-style:italic; font-size:1.25rem;
+  background:var(--fondo-nota); border-left:3px solid var(--eth-blue);
+  padding:14px 10px; margin:18px 0; border-radius:4px; overflow-x:auto;
+}
+.eq sub{font-style:normal;}
+.eq sup{font-style:normal;}
+.var{font-style:italic;}
+
+/* ---------- Tablas ---------- */
+table.datos{
+  border-collapse:collapse; width:100%; font-size:.88rem; margin:14px 0;
+}
+table.datos th, table.datos td{
+  border-bottom:1px solid var(--linea); padding:6px 10px; text-align:left;
+}
+table.datos th{color:var(--eth-blue-dark); border-bottom:2px solid var(--eth-blue-dark);}
+table.datos td.num, table.datos th.num{text-align:right;}
+.tabla-scroll{overflow-x:auto;}
+
+/* ---------- Paneles interactivos ---------- */
+.panel{
+  background:#fff; border:1px solid var(--linea); border-radius:10px;
+  padding:22px 24px; margin:20px 0;
+  box-shadow:0 1px 3px rgba(19,53,101,.06);
+}
+.panel h3{font-size:1.05rem; margin-bottom:14px;}
+.controls{display:flex; flex-wrap:wrap; gap:18px; align-items:center; margin-bottom:16px; font-size:.92rem;}
+.controls label{display:flex; flex-direction:column; gap:4px; font-size:.85rem; color:var(--gris-texto); margin-right:18px;}
+input[type=range]{accent-color:var(--eth-blue); width:180px;}
+select, button, input[type=number]{
+  font-family:inherit; font-size:.9rem; padding:6px 10px; border-radius:6px;
+  border:1px solid var(--linea); background:#fff; color:var(--gris-texto);
+}
+button{
+  background:var(--eth-blue-dark); color:#fff; border:none; cursor:pointer;
+  padding:8px 16px; font-weight:600;
+}
+button:hover{background:var(--eth-blue);}
+button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible{
+  outline:3px solid var(--celeste-ucr); outline-offset:2px;
+}
+button.secundario{background:#fff; color:var(--eth-blue-dark); border:1px solid var(--eth-blue-dark);}
+button.secundario:hover{background:var(--fondo-nota);}
+button.chip{background:#fff; color:var(--eth-blue-dark); border:1px solid var(--linea); font-weight:400;}
+button.chip.activo{background:var(--eth-blue-dark); color:#fff; border-color:var(--eth-blue-dark); font-weight:600;}
+.readout{font-size:.95rem; margin-top:8px;}
+.readout .num{font-weight:700; color:var(--eth-blue-dark);}
+.grid2{display:flex; gap:26px; flex-wrap:wrap; align-items:flex-start;}
+.grid2 > *{flex:1 1 300px; min-width:280px;}
+
+/* ---------- Joule ---------- */
+.joule-stage{background:#EFF3F8; border-radius:8px; padding:12px; overflow-x:auto;}
+
+/* ---------- Calorímetro ---------- */
+.vaso{
+  position:relative; width:180px; height:150px; border:3px solid #7a8aa0;
+  border-top:none; border-radius:0 0 12px 12px; background:#fff; overflow:hidden;
+}
+.agua-vaso{position:absolute; left:0; right:0; bottom:0; height:80%; transition:background-color .6s ease;}
+.muestra{
+  position:absolute; left:50%; transform:translateX(-50%);
+  width:52px; height:38px; border-radius:4px; transition:background-color .6s ease, top .9s ease;
+  top:14px; box-shadow:0 2px 5px rgba(0,0,0,.2);
+}
+
+/* ---------- Conducción ---------- */
+.barra-cond{
+  position:relative; height:54px; border-radius:4px; flex:1; min-width:160px;
+  background:linear-gradient(90deg, var(--rojo), var(--azul-frio));
+  border:2px solid #7a8aa0;
+}
+.deposito{
+  width:46px; height:86px; border-radius:6px; display:flex; align-items:center;
+  justify-content:center; color:#fff; font-weight:700; font-size:.9rem;
+}
+.flujo{
+  position:absolute; top:50%; width:9px; height:9px; margin-top:-4px; border-radius:50%;
+  background:#fff; opacity:.9;
+}
+.capa{
+  height:120px; display:flex; align-items:center; justify-content:center;
+  font-size:.72rem; text-align:center; color:#333; border-right:1px solid rgba(0,0,0,.25);
+  transition:width .3s ease;
+}
+
+/* ---------- Convección ---------- */
+.olla{
+  position:relative; width:100%; max-width:360px; height:190px;
+  border:3px solid #7a8aa0; border-top:none; border-radius:0 0 14px 14px;
+  background:linear-gradient(180deg,#BBD7EE,#E8917E); overflow:hidden;
+}
+.gota{position:absolute; width:9px; height:9px; border-radius:50%;}
+.quemador{
+  height:14px; border-radius:7px; margin-top:6px; max-width:360px;
+  background:repeating-linear-gradient(90deg,#D6413A,#D6413A 10px,#933 10px,#933 20px);
+}
+
+/* ---------- Radiación ---------- */
+.cuerpo-radiante{
+  width:130px; height:130px; border-radius:50%; margin:6px auto;
+  transition:background-color .3s ease, box-shadow .3s ease;
+}
+
+/* ---------- Gas / pistón ---------- */
+.gas-contenedor{
+  position:relative; background:#EFF3F8; border:2px solid var(--eth-blue-dark);
+  border-radius:6px; height:200px; margin:14px 0; overflow:hidden; transition:width .3s ease;
+}
+.particula{position:absolute; width:9px; height:9px; border-radius:50%; background:var(--gold-ucr);}
+.piston{
+  position:absolute; top:-2px; bottom:-2px; right:-6px; width:12px;
+  background:repeating-linear-gradient(45deg,#555,#555 3px,#777 3px,#777 6px);
+  border-left:3px solid #333;
+}
+
+/* ---------- Ejemplos paso a paso ---------- */
+.ejemplo{
+  border:1px solid var(--linea); border-radius:10px; margin:26px 0; overflow:hidden; outline:none;
+}
+.ejemplo:focus{box-shadow:0 0 0 3px rgba(33,92,175,.25);}
+.ejemplo-header{
+  background:var(--eth-blue-dark); color:#fff; padding:12px 20px;
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;
+}
+.ejemplo-header b{font-size:1rem;}
+.ejemplo-body{padding:20px 22px;}
+.enunciado{
+  background:var(--fondo-nota); border-left:4px solid var(--eth-blue-dark);
+  padding:14px 18px; border-radius:4px; margin-bottom:6px;
+}
+.step{
+  opacity:0; max-height:0; overflow:hidden; transform:translateY(8px);
+  transition:opacity .45s ease, transform .45s ease, max-height .45s ease; padding-top:0;
+}
+.step.shown{opacity:1; max-height:800px; transform:translateY(0); padding-top:14px;}
+.step .titulo-paso{font-weight:700; color:var(--eth-blue); margin-bottom:4px; font-size:.92rem;}
+.resultado-final{
+  background:var(--fondo-gold); border:1px solid var(--gold-ucr); border-radius:6px;
+  padding:12px 16px; font-weight:700; color:#7A5A0C;
+}
+.ejemplo-controles{
+  display:flex; gap:10px; align-items:center; padding:14px 22px 20px;
+  border-top:1px dashed var(--linea);
+}
+.hint-enter{font-size:.82rem; color:#8a8a8a;}
+.progreso{font-size:.82rem; color:var(--gris-texto);}
+
+footer.doc-footer{padding:40px 24px 60px; text-align:center; color:#8a8a8a; font-size:.85rem;}
+
+@media (max-width:640px){
+  .curso{font-size:2rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================ PORTADA -->
+<div class="portada">
+  <div class="portada-header">
+    <img class="ucr" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iNjAiPjx0ZXh0IHg9IjEwIiB5PSI0MCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEiIGZvbnQtc2l6ZT0iMzUiIGZpbGw9IiM1MEFBRDciIGZvbnQtd2VpZ2h0PSJib2xkIj5VQ1I8L3RleHQ+PC9zdmc+" alt="Universidad de Costa Rica">
+    <img class="efis" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTAiIGhlaWdodD0iNjAiPjx0ZXh0IHg9IjEwIiB5PSI0MCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMxMzM1NjUiIGZvbnQtd2VpZ2h0PSJib2xkIj5Fc2N1ZWxhIGRlIEbDrXNpY2E8L3RleHQ+PC9zdmc+" alt="Escuela de Física">
+  </div>
+  <div class="portada-titulo">
+    <div class="eyebrow">Física General II</div>
+    <div class="curso">FS0310</div>
+    <div class="gold-rule"></div>
+    <div class="tema-titulo">Tema 6 — Primera ley de la termodinámica</div>
+    <div class="tema-sub">Basado en Serway &amp; Jewett, <i>Física para ciencias e ingeniería 1</i>, 10.ª edición (cap. 19)</div>
+  </div>
+  <div class="portada-footer">
+    <div><b>Docente:</b> Keylor Arley Castro</div>
+    <div>Escuela de Física, Universidad de Costa Rica</div>
+  </div>
+</div>
+
+<nav class="toc">
+  <div class="wrap">
+    <a href="#calor-energia">Calor y energía interna</a>
+    <a href="#calor-especifico">Calor específico</a>
+    <a href="#calorimetria">Calorimetría</a>
+    <a href="#latente">Calor latente</a>
+    <a href="#trabajo">Trabajo en procesos</a>
+    <a href="#primera-ley">Primera ley</a>
+    <a href="#procesos">Procesos</a>
+    <a href="#conduccion">Conducción</a>
+    <a href="#valor-r">Valor R</a>
+    <a href="#conveccion">Convección</a>
+    <a href="#radiacion">Radiación</a>
+    <a href="#dewar">Botella Dewar</a>
+    <a href="#ejemplos">Ejemplos</a>
+    <a href="#ejercicios">Ejercicios</a>
+  </div>
+</nav>
+
+<!-- ============================================================ CALOR Y ENERGÍA INTERNA -->
+<section id="calor-energia">
+  <div class="wrap">
+    <div class="kicker">Calor y energía interna</div>
+
+    <div class="ley">
+      <b>Energía interna.</b> Es toda la energía de un sistema asociada con sus componentes
+      microscópicos —átomos y moléculas— cuando se observa desde un marco de referencia en reposo
+      respecto al centro de masa del sistema.
+    </div>
+    <div class="ley">
+      <b>Calor.</b> Es un <i>proceso</i> de transferencia de energía a través de la frontera de un
+      sistema, debido a una diferencia de temperatura entre el sistema y sus alrededores. También se
+      llama calor a la cantidad de energía <span class="var">Q</span> transferida mediante ese proceso.
+    </div>
+
+    <p class="narrow">La primera unidad usada para medir el calor fue la caloría; una vez que se
+      entendió como un proceso de transferencia de energía, se empezó a medir en joules.</p>
+    <div class="eq">1 cal = 4.186 J</div>
+
+    <div class="panel">
+      <h3>Experimento de Joule — equivalente mecánico del calor</h3>
+      <p style="font-size:.92rem;">Dos bloques de masa <span class="var">m</span> caen una altura
+        <span class="var">h</span> y hacen girar las paletas dentro de un recipiente térmicamente
+        aislado. La energía mecánica perdida se convierte íntegramente en energía interna del agua:
+        <b>2mgh = m<sub>agua</sub> c<sub>agua</sub> ΔT</b>.</p>
+      <div class="controls">
+        <label>Masa de cada bloque m (kg)
+          <input type="range" id="jMasa" min="0.5" max="20" step="0.5" value="5">
+        </label>
+        <label>Altura de caída h (m)
+          <input type="range" id="jAltura" min="0.5" max="10" step="0.1" value="3">
+        </label>
+        <label>Masa de agua (kg)
+          <input type="range" id="jAgua" min="0.05" max="1" step="0.05" value="0.20">
+        </label>
+        <button id="jSoltar">Soltar los bloques</button>
+        <button class="secundario" id="jReset">Reiniciar</button>
+      </div>
+      <div class="joule-stage">
+        <svg width="100%" height="250" viewBox="0 0 420 250" style="max-width:420px;">
+          <!-- soporte -->
+          <line x1="40" y1="20" x2="380" y2="20" stroke="#8a8a8a" stroke-width="3"/>
+          <!-- recipiente -->
+          <rect x="150" y="95" width="120" height="130" rx="6" fill="#DDEAF6" stroke="#7a8aa0" stroke-width="3"/>
+          <rect id="jAguaRect" x="153" y="120" width="114" height="102" fill="#8FC2E8"/>
+          <!-- eje y paletas -->
+          <line x1="210" y1="55" x2="210" y2="200" stroke="#7a5a0c" stroke-width="4"/>
+          <g id="jPaletas">
+            <rect x="185" y="140" width="10" height="55" fill="#B07A2A" rx="2"/>
+            <rect x="225" y="140" width="10" height="55" fill="#8A5F1E" rx="2"/>
+          </g>
+          <circle cx="210" cy="60" r="12" fill="none" stroke="#7a8aa0" stroke-width="3"/>
+          <!-- poleas -->
+          <circle cx="90" cy="60" r="10" fill="#fff" stroke="#7a8aa0" stroke-width="3"/>
+          <circle cx="330" cy="60" r="10" fill="#fff" stroke="#7a8aa0" stroke-width="3"/>
+          <line x1="90" y1="60" x2="210" y2="60" stroke="#8a8a8a" stroke-width="2"/>
+          <line x1="330" y1="60" x2="210" y2="60" stroke="#8a8a8a" stroke-width="2"/>
+          <!-- cuerdas -->
+          <line id="jCuerdaI" x1="80" y1="60" x2="80" y2="120" stroke="#8a8a8a" stroke-width="2"/>
+          <line id="jCuerdaD" x1="340" y1="60" x2="340" y2="120" stroke="#8a8a8a" stroke-width="2"/>
+          <!-- bloques -->
+          <rect id="jBloqueI" x="62" y="120" width="36" height="30" rx="3" fill="#9CC3E5" stroke="#4a6f95" stroke-width="2"/>
+          <rect id="jBloqueD" x="322" y="120" width="36" height="30" rx="3" fill="#9CC3E5" stroke="#4a6f95" stroke-width="2"/>
+          <text x="80" y="140" font-size="12" text-anchor="middle" font-family="Georgia" fill="#123">m</text>
+          <text x="340" y="140" font-size="12" text-anchor="middle" font-family="Georgia" fill="#123">m</text>
+          <text x="210" y="243" font-size="10" text-anchor="middle" font-family="Georgia" fill="#666">Aislador térmico</text>
+        </svg>
+      </div>
+      <p class="readout">Energía mecánica transferida: <span class="num" id="jEnergia">0</span> J =
+        <span class="num" id="jCal">0</span> cal &nbsp;·&nbsp;
+        Aumento de temperatura del agua: Δ<i>T</i> = <span class="num" id="jDeltaT">0</span> °C</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ CALOR ESPECÍFICO -->
+<section id="calor-especifico">
+  <div class="wrap">
+    <div class="kicker">Calor específico y calorimetría</div>
+    <p class="narrow">Cuando se agrega energía a un sistema y no cambian sus energías cinética o
+      potencial, por lo general la temperatura del sistema aumenta (si no hay cambios de fase). La
+      <b>capacidad térmica C</b> de una muestra es la energía necesaria para elevar su temperatura
+      en 1 °C. El <b>calor específico c</b> es la capacidad térmica por unidad de masa.</p>
+
+    <div class="eq">Q = C &Delta;T</div>
+    <div class="eq">c &equiv; Q / (m &Delta;T)</div>
+    <div class="eq">Q = m c &Delta;T</div>
+    <div class="leyenda"><b>Q</b>: energía transferida [J] &middot; <b>C</b>: capacidad térmica [J/°C] &middot;
+      <b>c</b>: calor específico [J/kg·°C] &middot; <b>m</b>: masa [kg] &middot; <b>&Delta;T</b>: cambio de temperatura [°C]</div>
+
+    <div class="panel">
+      <h3>Calcula Q = mcΔT y compara sustancias</h3>
+      <div class="controls">
+        <label>Sustancia
+          <select id="ceSustancia"></select>
+        </label>
+        <label>Masa m (kg)
+          <input type="range" id="ceMasa" min="0.05" max="5" step="0.05" value="1">
+        </label>
+        <label>&Delta;T (°C)
+          <input type="range" id="ceDT" min="1" max="100" step="1" value="20">
+        </label>
+      </div>
+      <svg width="100%" height="210" viewBox="0 0 560 210" style="max-width:560px;">
+        <line x1="150" y1="10" x2="150" y2="180" stroke="#999"/>
+        <line x1="150" y1="180" x2="545" y2="180" stroke="#999"/>
+        <text x="350" y="200" font-size="11" fill="#666" font-family="Georgia" text-anchor="middle">Energía Q necesaria (J) para la misma masa y el mismo ΔT</text>
+        <g id="ceBarras"></g>
+      </svg>
+      <p class="readout">c = <span class="num" id="ceC">4186</span> J/kg·°C &nbsp;·&nbsp;
+        C = mc = <span class="num" id="ceCapacidad">0</span> J/°C &nbsp;·&nbsp;
+        <b>Q = mcΔT = <span class="num" id="ceQ">0</span> J</b>
+        (<span id="ceQcal">0</span> cal)</p>
+      <p class="readout" id="ceComentario" style="font-size:.88rem; color:#666;"></p>
+    </div>
+
+    <h3 style="margin-top:34px; font-size:1rem;">Tabla 19.1 — Calores específicos a 25 °C y presión atmosférica</h3>
+    <div class="tabla-scroll">
+      <table class="datos">
+        <thead><tr><th>Sustancia</th><th class="num">c (J/kg·°C)</th><th>Sustancia</th><th class="num">c (J/kg·°C)</th></tr></thead>
+        <tbody>
+          <tr><td>Aluminio</td><td class="num">900</td><td>Latón</td><td class="num">380</td></tr>
+          <tr><td>Berilio</td><td class="num">1 830</td><td>Vidrio</td><td class="num">837</td></tr>
+          <tr><td>Cadmio</td><td class="num">230</td><td>Hielo (−5 °C)</td><td class="num">2 090</td></tr>
+          <tr><td>Cobre</td><td class="num">387</td><td>Mármol</td><td class="num">860</td></tr>
+          <tr><td>Germanio</td><td class="num">322</td><td>Madera</td><td class="num">1 700</td></tr>
+          <tr><td>Oro</td><td class="num">129</td><td>Alcohol (etílico)</td><td class="num">2 400</td></tr>
+          <tr><td>Hierro</td><td class="num">448</td><td>Mercurio</td><td class="num">140</td></tr>
+          <tr><td>Plomo</td><td class="num">128</td><td>Agua (15 °C)</td><td class="num">4 186</td></tr>
+          <tr><td>Silicio</td><td class="num">703</td><td>Vapor (100 °C)</td><td class="num">2 010</td></tr>
+          <tr><td>Plata</td><td class="num">234</td><td></td><td class="num"></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="nota">Para convertir los valores a cal/g·°C, divida entre 4 186.</div>
+  </div>
+</section>
+
+<!-- ============================================================ CALORIMETRÍA -->
+<section id="calorimetria">
+  <div class="wrap">
+    <div class="kicker">Calorimetría</div>
+    <p class="narrow">Una técnica para medir el calor específico consiste en calentar una muestra hasta
+      una temperatura conocida T<sub>x</sub>, colocarla en un recipiente con agua de masa conocida y
+      temperatura T<sub>w</sub>, y medir la temperatura del sistema después de alcanzar el equilibrio.
+      El sistema calorímetro + muestra se considera <b>aislado</b>.</p>
+
+    <div class="eq">Q<sub>frío</sub> = − Q<sub>caliente</sub></div>
+    <div class="eq">m<sub>w</sub> c<sub>w</sub> (T<sub>f</sub> − T<sub>w</sub>) = − m<sub>x</sub> c<sub>x</sub> (T<sub>f</sub> − T<sub>x</sub>)</div>
+    <div class="leyenda"><b>w</b>: agua fría &middot; <b>x</b>: muestra caliente &middot;
+      <b>T<sub>f</sub></b>: temperatura final de equilibrio</div>
+
+    <div class="panel">
+      <h3>Calorímetro: suelta la muestra y busca el equilibrio</h3>
+      <div class="controls">
+        <label>Material de la muestra
+          <select id="calMaterial"></select>
+        </label>
+        <label>Masa muestra m<sub>x</sub> (kg)
+          <input type="range" id="calMx" min="0.01" max="1" step="0.01" value="0.05">
+        </label>
+        <label>T<sub>x</sub> (°C)
+          <input type="range" id="calTx" min="30" max="300" step="1" value="200">
+        </label>
+        <label>Masa de agua m<sub>w</sub> (kg)
+          <input type="range" id="calMw" min="0.05" max="1" step="0.01" value="0.40">
+        </label>
+        <label>T<sub>w</sub> (°C)
+          <input type="range" id="calTw" min="0" max="40" step="1" value="20">
+        </label>
+        <button id="calSoltar">Soltar la muestra en el agua</button>
+        <button class="secundario" id="calReset">Reiniciar</button>
+      </div>
+      <div class="grid2">
+        <div>
+          <div class="vaso">
+            <div class="agua-vaso" id="calAgua"></div>
+            <div class="muestra" id="calMuestra"></div>
+          </div>
+          <p class="readout" style="font-size:.85rem;">Frontera del sistema aislado: nada de energía sale del vaso.</p>
+        </div>
+        <div>
+          <p class="readout">Muestra: <span class="num" id="calTxLbl">200</span> °C &nbsp;→&nbsp;
+            agua: <span class="num" id="calTwLbl">20</span> °C</p>
+          <p class="readout"><b>T<sub>f</sub> = <span class="num" id="calTf">—</span> °C</b></p>
+          <p class="readout">Q<sub>caliente</sub> = <span class="num" id="calQc">—</span> J &nbsp;·&nbsp;
+            Q<sub>frío</sub> = <span class="num" id="calQf">—</span> J</p>
+          <p class="readout" style="font-size:.88rem; color:#666;" id="calNota">
+            La energía que pierde la muestra es exactamente la que gana el agua.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ CALOR LATENTE -->
+<section id="latente">
+  <div class="wrap">
+    <div class="kicker">Calor latente</div>
+    <p class="narrow">La energía requerida para cambiar la fase de una sustancia pura es</p>
+    <div class="eq">Q = L &Delta;m</div>
+    <p class="narrow">donde &Delta;m es el cambio en masa del material de fase superior (la fase a mayor
+      temperatura) y <span class="var">L</span> es el calor latente de la sustancia.</p>
+    <div class="nota">Cuando entra energía al sistema y causa fusión o vaporización, aumenta la cantidad
+      de material de fase superior: &Delta;m es positivo y Q también. Cuando se extrae energía y ocurre
+      congelación o condensación, &Delta;m es negativo y Q también es negativo.</div>
+
+    <div class="panel">
+      <h3>De hielo a vapor: agrega energía y observa T y la fase</h3>
+      <div class="controls">
+        <label>Masa de agua (g)
+          <input type="range" id="latMasa" min="0.5" max="5" step="0.5" value="1">
+        </label>
+        <label>Energía agregada (J)
+          <input type="range" id="latEnergia" min="0" max="3114" step="1" value="0">
+        </label>
+        <button id="latPlay">Agregar energía ▶</button>
+        <button class="secundario" id="latReset">Reiniciar</button>
+      </div>
+      <svg width="100%" height="270" viewBox="0 0 580 270" style="max-width:580px;">
+        <line x1="70" y1="15" x2="70" y2="215" stroke="#999"/>
+        <line x1="70" y1="215" x2="560" y2="215" stroke="#999"/>
+        <text x="16" y="20" font-size="11" fill="#666" font-family="Georgia">T (°C)</text>
+        <text x="300" y="255" font-size="11" fill="#666" font-family="Georgia" text-anchor="middle">Energía agregada (J)</text>
+        <text x="45" y="45" font-size="10" fill="#666" font-family="Georgia">120</text>
+        <text x="52" y="82" font-size="10" fill="#666" font-family="Georgia">90</text>
+        <text x="52" y="119" font-size="10" fill="#666" font-family="Georgia">60</text>
+        <text x="52" y="156" font-size="10" fill="#666" font-family="Georgia">30</text>
+        <text x="58" y="193" font-size="10" fill="#666" font-family="Georgia">0</text>
+        <text x="42" y="212" font-size="10" fill="#666" font-family="Georgia">−30</text>
+        <polyline id="latCurva" fill="none" stroke="#D6413A" stroke-width="2.5" points=""/>
+        <g id="latEtiquetas"></g>
+        <circle id="latPunto" cx="70" cy="209" r="6" fill="#C69214"/>
+      </svg>
+      <p class="readout">Energía agregada: <span class="num" id="latQLbl">0</span> J &nbsp;·&nbsp;
+        T = <span class="num" id="latTLbl">−30.0</span> °C &nbsp;·&nbsp;
+        Fase: <span class="num" id="latFase">hielo</span></p>
+      <p class="readout" style="font-size:.88rem; color:#666;" id="latTramo"></p>
+    </div>
+
+    <h3 style="margin-top:34px; font-size:1rem;">Tabla 19.2 — Calores latentes de fusión y vaporización</h3>
+    <div class="tabla-scroll">
+      <table class="datos">
+        <thead><tr><th>Sustancia</th><th class="num">Punto de fusión (°C)</th><th class="num">L<sub>f</sub> (J/kg)</th><th class="num">Punto de ebullición (°C)</th><th class="num">L<sub>v</sub> (J/kg)</th></tr></thead>
+        <tbody>
+          <tr><td>Helio</td><td class="num">−272.2</td><td class="num">5.23×10³</td><td class="num">−268.93</td><td class="num">2.09×10⁴</td></tr>
+          <tr><td>Oxígeno</td><td class="num">−218.79</td><td class="num">1.38×10⁴</td><td class="num">−182.97</td><td class="num">2.13×10⁵</td></tr>
+          <tr><td>Nitrógeno</td><td class="num">−209.97</td><td class="num">2.55×10⁴</td><td class="num">−195.81</td><td class="num">2.01×10⁵</td></tr>
+          <tr><td>Alcohol etílico</td><td class="num">−114</td><td class="num">1.04×10⁵</td><td class="num">78</td><td class="num">8.54×10⁵</td></tr>
+          <tr><td>Agua</td><td class="num">0.00</td><td class="num">3.33×10⁵</td><td class="num">100.00</td><td class="num">2.26×10⁶</td></tr>
+          <tr><td>Azufre</td><td class="num">119</td><td class="num">3.81×10⁴</td><td class="num">444.60</td><td class="num">3.26×10⁵</td></tr>
+          <tr><td>Plomo</td><td class="num">327.3</td><td class="num">2.45×10⁴</td><td class="num">1 750</td><td class="num">8.70×10⁵</td></tr>
+          <tr><td>Aluminio</td><td class="num">660</td><td class="num">3.97×10⁵</td><td class="num">2 450</td><td class="num">1.14×10⁷</td></tr>
+          <tr><td>Plata</td><td class="num">960.80</td><td class="num">8.82×10⁴</td><td class="num">2 193</td><td class="num">2.33×10⁶</td></tr>
+          <tr><td>Oro</td><td class="num">1 063.00</td><td class="num">6.44×10⁴</td><td class="num">2 660</td><td class="num">1.58×10⁶</td></tr>
+          <tr><td>Cobre</td><td class="num">1 083</td><td class="num">1.34×10⁵</td><td class="num">1 187</td><td class="num">5.06×10⁶</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="nota">El helio no se solidifica a presión atmosférica; el punto de fusión indicado corresponde a 2.5 MPa.</div>
+  </div>
+</section>
+
+<!-- ============================================================ TRABAJO -->
+<section id="trabajo">
+  <div class="wrap">
+    <div class="kicker">Trabajo y calor en procesos termodinámicos</div>
+    <p class="narrow">El trabajo total efectuado <b>sobre</b> el gas cuando su volumen cambia de
+      V<sub>i</sub> a V<sub>f</sub> en un proceso cuasi estático es</p>
+    <div class="eq">W = − &int;<sub>V<sub>i</sub></sub><sup>V<sub>f</sub></sup> P dV</div>
+    <div class="ley"><b>Interpretación gráfica.</b> El trabajo realizado sobre un gas en un proceso
+      cuasi estático es el <i>negativo del área bajo la curva</i> en un diagrama PV, evaluada entre el
+      estado inicial y el final. Por eso el trabajo <b>depende de la trayectoria</b>, no solo de los
+      estados inicial y final.</div>
+
+    <div class="panel">
+      <h3>Diagrama PV: misma i y f, tres trayectorias distintas</h3>
+      <p style="font-size:.9rem;">Gas ideal con n = 1.00 mol a T = 273 K en los estados i y f.</p>
+      <div class="controls">
+        <label>V<sub>i</sub> (L)
+          <input type="range" id="pvVi" min="2" max="12" step="0.5" value="10">
+        </label>
+        <label>V<sub>f</sub> (L)
+          <input type="range" id="pvVf" min="2" max="12" step="0.5" value="3">
+        </label>
+        <span>
+          <button class="chip activo" data-ruta="a">a) isobárica + isovolumétrica</button>
+          <button class="chip" data-ruta="b">b) isovolumétrica + isobárica</button>
+          <button class="chip" data-ruta="c">c) isoterma</button>
+        </span>
+      </div>
+      <svg width="100%" height="280" viewBox="0 0 560 280" style="max-width:560px;">
+        <path id="pvArea" fill="#F0DCC6" stroke="none" d=""/>
+        <line x1="60" y1="15" x2="60" y2="230" stroke="#999"/>
+        <line x1="60" y1="230" x2="530" y2="230" stroke="#999"/>
+        <text x="30" y="22" font-size="12" fill="#666" font-family="Georgia">P</text>
+        <text x="524" y="252" font-size="12" fill="#666" font-family="Georgia">V</text>
+        <path id="pvIsoterma" fill="none" stroke="#50AAD7" stroke-width="1.5" stroke-dasharray="4 3" d=""/>
+        <path id="pvRuta" fill="none" stroke="#B03A2E" stroke-width="3" d=""/>
+        <circle id="pvPtI" r="5" fill="#133565"/>
+        <circle id="pvPtF" r="5" fill="#133565"/>
+        <text id="pvLblI" font-size="12" font-family="Georgia" font-style="italic" fill="#133565">i</text>
+        <text id="pvLblF" font-size="12" font-family="Georgia" font-style="italic" fill="#133565">f</text>
+      </svg>
+      <p class="readout">P<sub>i</sub> = <span class="num" id="pvPi">—</span> atm &nbsp;·&nbsp;
+        P<sub>f</sub> = <span class="num" id="pvPf">—</span> atm</p>
+      <p class="readout"><b>Trabajo sobre el gas en esta trayectoria: W = <span class="num" id="pvW">—</span> J</b></p>
+      <p class="readout" style="font-size:.88rem; color:#666;">Comparación entre las tres:
+        W<sub>a</sub> = <span class="num" id="pvWa">—</span> J &nbsp;·&nbsp;
+        W<sub>b</sub> = <span class="num" id="pvWb">—</span> J &nbsp;·&nbsp;
+        W<sub>c</sub> = <span class="num" id="pvWc">—</span> J. Los estados i y f son los mismos, pero
+        W cambia: el trabajo depende de la trayectoria.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ PRIMERA LEY -->
+<section id="primera-ley">
+  <div class="wrap">
+    <div class="kicker">Primera ley de la termodinámica</div>
+    <p class="narrow">La primera ley es un caso especial de la ley de conservación de la energía, que
+      describe procesos en los que solo cambia la energía interna del sistema.</p>
+    <div class="eq">&Delta;E<sub>int</sub> = Q + W</div>
+    <div class="leyenda"><b>&Delta;E<sub>int</sub></b>: cambio de energía interna &middot;
+      <b>Q</b>: energía transferida por calor (positiva si entra al sistema) &middot;
+      <b>W</b>: trabajo hecho <i>sobre</i> el sistema (positivo si se comprime el gas)</div>
+    <p class="narrow">Un sistema aislado no interactúa con sus alrededores y no cambia su energía
+      interna. Un <b>proceso cíclico</b> inicia y termina en el mismo estado, de modo que</p>
+    <div class="eq">&Delta;E<sub>int</sub> = 0 &nbsp;&nbsp; y &nbsp;&nbsp; Q = −W &nbsp;&nbsp;(proceso cíclico)</div>
+
+    <div class="panel">
+      <h3>Balance de energía: mueve Q y W</h3>
+      <div class="controls">
+        <label>Q (J) — calor que entra al sistema
+          <input type="range" id="plQ" min="-2000" max="2000" step="50" value="800">
+        </label>
+        <label>W (J) — trabajo hecho sobre el sistema
+          <input type="range" id="plW" min="-2000" max="2000" step="50" value="-300">
+        </label>
+      </div>
+      <svg width="100%" height="230" viewBox="0 0 520 230" style="max-width:520px;">
+        <rect x="190" y="60" width="140" height="110" rx="10" fill="#EAF3FB" stroke="var(--eth-blue-dark)" stroke-width="2.5"/>
+        <text x="260" y="105" font-size="13" text-anchor="middle" font-family="Georgia" fill="#133565">Sistema</text>
+        <text x="260" y="130" font-size="12" text-anchor="middle" font-family="Georgia" fill="#133565" id="plEintTxt">ΔEint</text>
+        <g id="plFlechaQ">
+          <line id="plQLinea" x1="60" y1="115" x2="185" y2="115" stroke="#D6413A" stroke-width="4"/>
+          <polygon id="plQPunta" points="185,108 197,115 185,122" fill="#D6413A"/>
+          <text x="110" y="100" font-size="12" font-family="Georgia" fill="#D6413A" id="plQTxt">Q</text>
+        </g>
+        <g id="plFlechaW">
+          <line id="plWLinea" x1="460" y1="115" x2="335" y2="115" stroke="#215CAF" stroke-width="4"/>
+          <polygon id="plWPunta" points="335,108 323,115 335,122" fill="#215CAF"/>
+          <text x="395" y="100" font-size="12" font-family="Georgia" fill="#215CAF" id="plWTxt">W</text>
+        </g>
+        <text x="260" y="205" font-size="12" text-anchor="middle" font-family="Georgia" fill="#666" id="plBalance"></text>
+      </svg>
+      <p class="readout"><b>&Delta;E<sub>int</sub> = Q + W = <span class="num" id="plEint">500</span> J</b>
+        &nbsp;→&nbsp; <span id="plInterp"></span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ PROCESOS -->
+<section id="procesos">
+  <div class="wrap">
+    <div class="kicker">Aplicaciones de la primera ley: los cuatro procesos</div>
+    <div class="eq">W = nRT ln(V<sub>i</sub> / V<sub>f</sub>) &nbsp;&nbsp; &Delta;E<sub>int</sub> = 0 &nbsp;&nbsp;(isotérmico)</div>
+    <div class="eq">W = −P (V<sub>f</sub> − V<sub>i</sub>) &nbsp;&nbsp;(isobárico)</div>
+    <div class="eq">&Delta;E<sub>int</sub> = Q &nbsp;&nbsp;(isovolumétrico o isocórico)</div>
+    <div class="eq">&Delta;E<sub>int</sub> = W &nbsp;&nbsp;(adiabático: Q = 0)</div>
+
+    <div class="panel">
+      <h3>Elige el proceso y observa el gas, el pistón y el diagrama PV</h3>
+      <div class="controls">
+        <span>
+          <button class="chip activo" data-proc="iso">Isotérmico</button>
+          <button class="chip" data-proc="isob">Isobárico</button>
+          <button class="chip" data-proc="isov">Isovolumétrico</button>
+          <button class="chip" data-proc="adia">Adiabático</button>
+          <button class="chip" data-proc="cicl">Cíclico</button>
+        </span>
+      </div>
+      <div class="controls">
+        <label>Avance del proceso
+          <input type="range" id="prAvance" min="0" max="100" step="1" value="0">
+        </label>
+        <button id="prAnimar">Animar proceso ▶</button>
+        <button class="secundario" id="prReset">Reiniciar</button>
+      </div>
+      <div class="grid2">
+        <div>
+          <div class="gas-contenedor" id="prContenedor" style="width:60%;">
+            <div class="piston"></div>
+          </div>
+          <p class="readout" style="font-size:.86rem;" id="prDescripcion"></p>
+        </div>
+        <div>
+          <svg width="100%" height="230" viewBox="0 0 320 230" style="max-width:320px;">
+            <line x1="45" y1="10" x2="45" y2="190" stroke="#999"/>
+            <line x1="45" y1="190" x2="305" y2="190" stroke="#999"/>
+            <text x="22" y="18" font-size="11" fill="#666" font-family="Georgia">P</text>
+            <text x="298" y="210" font-size="11" fill="#666" font-family="Georgia">V</text>
+            <path id="prIsoT1" fill="none" stroke="#50AAD7" stroke-width="1.2" stroke-dasharray="3 3" d=""/>
+            <path id="prIsoT2" fill="none" stroke="#50AAD7" stroke-width="1.2" stroke-dasharray="3 3" d=""/>
+            <path id="prRuta" fill="none" stroke="#B03A2E" stroke-width="3" d=""/>
+            <circle id="prPunto" r="5" fill="#C69214"/>
+          </svg>
+        </div>
+      </div>
+      <p class="readout">n = 1.00 mol &nbsp;·&nbsp;
+        V = <span class="num" id="prV">10.0</span> L &nbsp;·&nbsp;
+        P = <span class="num" id="prP">2.24</span> atm &nbsp;·&nbsp;
+        T = <span class="num" id="prT">273</span> K</p>
+      <p class="readout">W = <span class="num" id="prW">0</span> J &nbsp;·&nbsp;
+        Q = <span class="num" id="prQ">0</span> J &nbsp;·&nbsp;
+        &Delta;E<sub>int</sub> = <span class="num" id="prE">0</span> J</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ CONDUCCIÓN -->
+<section id="conduccion">
+  <div class="wrap">
+    <div class="kicker">Mecanismos de transferencia: conducción térmica</div>
+    <div class="eq">P = k A |dT / dx|</div>
+    <p class="narrow">Para una barra uniforme de longitud L cuyos extremos están en contacto con
+      depósitos a T<sub>h</sub> y T<sub>c</sub>, la rapidez de transferencia de energía es</p>
+    <div class="eq">P = k A (T<sub>h</sub> − T<sub>c</sub>) / L</div>
+    <div class="leyenda"><b>P</b>: potencia transferida [W] &middot; <b>k</b>: conductividad térmica [W/m·°C] &middot;
+      <b>A</b>: área de sección transversal [m²] &middot; <b>L</b>: espesor o longitud [m]</div>
+
+    <div class="panel">
+      <h3>Barra conductora: cambia k, A, L y las temperaturas</h3>
+      <div class="controls">
+        <label>Material
+          <select id="cdMaterial"></select>
+        </label>
+        <label>T<sub>h</sub> (°C)
+          <input type="range" id="cdTh" min="20" max="200" step="1" value="100">
+        </label>
+        <label>T<sub>c</sub> (°C)
+          <input type="range" id="cdTc" min="-20" max="80" step="1" value="0">
+        </label>
+        <label>Área A (cm²)
+          <input type="range" id="cdA" min="1" max="100" step="1" value="10">
+        </label>
+        <label>Longitud L (cm)
+          <input type="range" id="cdL" min="5" max="150" step="1" value="50">
+        </label>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; background:#EFF3F8; border-radius:8px; padding:16px;">
+        <div class="deposito" style="background:var(--rojo);">T<sub>h</sub></div>
+        <div class="barra-cond" id="cdBarra"></div>
+        <div class="deposito" style="background:var(--azul-frio);">T<sub>c</sub></div>
+      </div>
+      <p class="readout">k = <span class="num" id="cdK">397</span> W/m·°C &nbsp;·&nbsp;
+        ΔT = <span class="num" id="cdDT">100</span> °C &nbsp;·&nbsp;
+        <b>P = <span class="num" id="cdP">0</span> W</b> &nbsp;·&nbsp;
+        energía en 1 h = <span class="num" id="cdEnergia">0</span> J</p>
+    </div>
+
+    <p class="narrow" style="margin-top:30px;">Para una <b>placa compuesta</b> con espesores L₁, L₂, …
+      y conductividades k₁, k₂, …, la rapidez de transferencia en estado estacionario es</p>
+    <div class="eq">P = A (T<sub>h</sub> − T<sub>c</sub>) / &Sigma;<sub>i</sub> (L<sub>i</sub>/k<sub>i</sub>)</div>
+
+    <div class="panel">
+      <h3>Pared compuesta: agrega o quita capas de aislante</h3>
+      <div class="controls">
+        <label>T interior (°C)
+          <input type="range" id="pcTh" min="10" max="30" step="1" value="20">
+        </label>
+        <label>T exterior (°C)
+          <input type="range" id="pcTc" min="-20" max="15" step="1" value="-5">
+        </label>
+        <label>Área de la pared (m²)
+          <input type="range" id="pcA" min="1" max="40" step="0.5" value="17.5">
+        </label>
+        <label>Espesor de Styrofoam (cm)
+          <input type="range" id="pcEspuma" min="0" max="10" step="0.1" value="0">
+        </label>
+      </div>
+      <div id="pcCapas" style="display:flex; border:2px solid #7a8aa0; border-radius:6px; overflow:hidden;"></div>
+      <p class="readout">&Sigma;(L/k) = <span class="num" id="pcSuma">0</span> m²·°C/W &nbsp;·&nbsp;
+        <b>P = <span class="num" id="pcP">0</span> W</b> &nbsp;·&nbsp;
+        energía en 1 h = <span class="num" id="pcE">0</span> J</p>
+      <p class="readout" style="font-size:.88rem; color:#666;" id="pcReduccion"></p>
+    </div>
+
+    <h3 style="margin-top:34px; font-size:1rem;">Tabla 19.3 — Conductividades térmicas</h3>
+    <div class="tabla-scroll">
+      <table class="datos">
+        <thead><tr><th>Sustancia</th><th class="num">k (W/m·°C)</th><th>Sustancia</th><th class="num">k (W/m·°C)</th></tr></thead>
+        <tbody>
+          <tr><td>Aluminio</td><td class="num">238</td><td>Asbesto</td><td class="num">0.08</td></tr>
+          <tr><td>Cobre</td><td class="num">397</td><td>Concreto</td><td class="num">0.8</td></tr>
+          <tr><td>Oro</td><td class="num">314</td><td>Diamante</td><td class="num">2 300</td></tr>
+          <tr><td>Hierro</td><td class="num">79.5</td><td>Vidrio</td><td class="num">0.8</td></tr>
+          <tr><td>Plomo</td><td class="num">34.7</td><td>Hielo</td><td class="num">2</td></tr>
+          <tr><td>Plata</td><td class="num">427</td><td>Caucho</td><td class="num">0.2</td></tr>
+          <tr><td>Aire (20 °C)</td><td class="num">0.023 4</td><td>Agua</td><td class="num">0.6</td></tr>
+          <tr><td>Helio</td><td class="num">0.138</td><td>Madera</td><td class="num">0.08</td></tr>
+          <tr><td>Hidrógeno</td><td class="num">0.172</td><td>Nitrógeno</td><td class="num">0.023 4</td></tr>
+          <tr><td>Oxígeno</td><td class="num">0.023 8</td><td></td><td class="num"></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ VALOR R -->
+<section id="valor-r">
+  <div class="wrap">
+    <div class="kicker">Aislamiento casero: el valor R</div>
+    <p class="narrow">El término L/k para una sustancia particular se conoce como el <b>valor R</b> del
+      material. Con esa definición, la potencia conducida a través de una pared compuesta es</p>
+    <div class="eq">R = L / k &nbsp;&nbsp;&nbsp;&nbsp; P = A (T<sub>h</sub> − T<sub>c</sub>) / &Sigma;R<sub>i</sub></div>
+
+    <div class="panel">
+      <h3>Arma tu pared y suma valores R</h3>
+      <p style="font-size:.9rem;">Marca las capas que quieres incluir (valores R en ft²·°F·h/Btu, tabla 19.4).</p>
+      <div id="rCheckboxes" style="display:flex; flex-wrap:wrap; gap:10px 22px; font-size:.88rem; margin-bottom:14px;"></div>
+      <p class="readout"><b>&Sigma;R = <span class="num" id="rSuma">0.00</span> ft²·°F·h/Btu</b></p>
+      <p class="readout" style="font-size:.88rem; color:#666;" id="rComentario">Entre más grande es ΣR, menor es la pérdida de energía por conducción (P ∝ 1/ΣR).</p>
+    </div>
+
+    <h3 style="margin-top:20px; font-size:1rem;">Tabla 19.4 — Valores R de materiales de construcción comunes</h3>
+    <div class="tabla-scroll">
+      <table class="datos">
+        <thead><tr><th>Material</th><th class="num">Valor R (ft²·°F·h/Btu)</th></tr></thead>
+        <tbody>
+          <tr><td>Recubrimiento de madera dura (1 pulgada)</td><td class="num">0.91</td></tr>
+          <tr><td>Tejas de madera (traslapada)</td><td class="num">0.87</td></tr>
+          <tr><td>Ladrillo (4 pulgadas)</td><td class="num">4.00</td></tr>
+          <tr><td>Bloque de concreto (núcleo relleno)</td><td class="num">1.93</td></tr>
+          <tr><td>Aislamiento de fibra de vidrio (3.5 pulgadas)</td><td class="num">10.90</td></tr>
+          <tr><td>Aislamiento de fibra de vidrio (6 pulgadas)</td><td class="num">18.80</td></tr>
+          <tr><td>Tablero de fibra de vidrio (1 pulgada)</td><td class="num">4.35</td></tr>
+          <tr><td>Fibra de celulosa (1 pulgada)</td><td class="num">3.70</td></tr>
+          <tr><td>Vidrio plano (0.125 pulgadas)</td><td class="num">0.89</td></tr>
+          <tr><td>Vidrio aislante (0.25 pulgadas de espacio)</td><td class="num">1.54</td></tr>
+          <tr><td>Espacio de aire (3.5 pulgadas)</td><td class="num">1.01</td></tr>
+          <tr><td>Capa de aire estancado</td><td class="num">0.17</td></tr>
+          <tr><td>Muro seco (0.5 pulgadas)</td><td class="num">0.45</td></tr>
+          <tr><td>Revestimiento (0.5 pulgadas)</td><td class="num">1.32</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ CONVECCIÓN -->
+<section id="conveccion">
+  <div class="wrap">
+    <div class="kicker">Mecanismos de transferencia: convección</div>
+    <p class="narrow"><b>Convección:</b> transferencia de energía por movimiento de materia caliente.
+      Al hervir agua en una tetera, las capas inferiores se calientan primero; esa agua se expande,
+      baja su densidad y sube. Al mismo tiempo, el agua fría —más densa— de la superficie se hunde
+      hasta el fondo y se calienta, cerrando el ciclo.</p>
+
+    <div class="panel">
+      <h3>Enciende el quemador y observa las celdas de convección</h3>
+      <div class="controls">
+        <label>Potencia del quemador
+          <input type="range" id="cvPotencia" min="0" max="100" step="1" value="0">
+        </label>
+        <button class="secundario" id="cvToggle">Pausar</button>
+      </div>
+      <div class="olla" id="cvOlla"></div>
+      <div class="quemador" id="cvQuemador" style="opacity:.25;"></div>
+      <p class="readout" style="font-size:.88rem;" id="cvTexto">Con el quemador apagado no hay gradiente
+        de temperatura y el agua permanece en reposo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ RADIACIÓN -->
+<section id="radiacion">
+  <div class="wrap">
+    <div class="kicker">Mecanismos de transferencia: radiación</div>
+    <p class="narrow">Transferencia de energía mediante radiación electromagnética. La rapidez con que
+      un objeto radia energía es proporcional a la cuarta potencia de la temperatura absoluta de su
+      superficie (<b>ley de Stefan</b>):</p>
+    <div class="eq">P = &sigma; A e T<sup>4</sup></div>
+    <div class="leyenda"><b>&sigma;</b> = 5.669 6×10⁻⁸ W/m²·K⁴ &middot;
+      <b>A</b>: área superficial [m²] &middot;
+      <b>e</b>: emisividad, entre 0 y 1 según el material &middot;
+      <b>T</b>: temperatura absoluta [K]</div>
+
+    <div class="panel">
+      <h3>Ley de Stefan: duplica T y la potencia se multiplica por 16</h3>
+      <div class="controls">
+        <label>Temperatura T (K)
+          <input type="range" id="raT" min="100" max="2000" step="10" value="300">
+        </label>
+        <label>Emisividad e
+          <input type="range" id="raE" min="0" max="1" step="0.01" value="1">
+        </label>
+        <label>Área A (m²)
+          <input type="range" id="raA" min="0.01" max="5" step="0.01" value="1">
+        </label>
+      </div>
+      <div class="grid2">
+        <div>
+          <div class="cuerpo-radiante" id="raCuerpo"></div>
+          <p class="readout" style="text-align:center; font-size:.85rem;">El brillo representa la
+            potencia radiada relativa.</p>
+        </div>
+        <div>
+          <svg width="100%" height="200" viewBox="0 0 320 200" style="max-width:320px;">
+            <line x1="45" y1="10" x2="45" y2="170" stroke="#999"/>
+            <line x1="45" y1="170" x2="305" y2="170" stroke="#999"/>
+            <text x="18" y="18" font-size="10" fill="#666" font-family="Georgia">P</text>
+            <text x="295" y="190" font-size="10" fill="#666" font-family="Georgia">T (K)</text>
+            <path id="raCurva" fill="none" stroke="#215CAF" stroke-width="2.5" d=""/>
+            <circle id="raPunto" r="5" fill="#C69214"/>
+          </svg>
+        </div>
+      </div>
+      <p class="readout"><b>P = σAeT⁴ = <span class="num" id="raP">0</span> W</b></p>
+      <p class="readout" style="font-size:.88rem; color:#666;" id="raComentario"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ DEWAR -->
+<section id="dewar">
+  <div class="wrap">
+    <div class="kicker">La botella Dewar</div>
+    <p class="narrow">Un recipiente Dewar (termo) almacena sustancias calientes o frías porque
+      <b>bloquea los tres mecanismos de transferencia a la vez</b>. Activa cada barrera y observa qué
+      mecanismo desaparece.</p>
+
+    <div class="panel">
+      <h3>Activa cada barrera del termo</h3>
+      <div class="controls">
+        <span>
+          <button class="chip" data-dewar="vacio">Vacío entre paredes</button>
+          <button class="chip" data-dewar="plateado">Superficies plateadas</button>
+          <button class="chip" data-dewar="tapa">Tapa aislante</button>
+        </span>
+        <button class="secundario" id="dwReset">Quitar todo</button>
+      </div>
+      <div class="grid2">
+        <div>
+          <svg width="100%" height="270" viewBox="0 0 220 270" style="max-width:220px;">
+            <rect id="dwTapa" x="80" y="8" width="60" height="26" rx="5" fill="#B9C2CE" stroke="#7a8aa0" stroke-width="2"/>
+            <path d="M40 40 h140 v210 a10 10 0 0 1 -10 10 h-120 a10 10 0 0 1 -10 -10 z" fill="#EDEFF3" stroke="#7a8aa0" stroke-width="2.5"/>
+            <rect id="dwVacio" x="55" y="52" width="110" height="196" rx="8" fill="#fff" stroke="#9aa6b6" stroke-width="2"/>
+            <rect id="dwPlata" x="68" y="64" width="84" height="172" rx="6" fill="#C9995E" stroke="#8a8a8a" stroke-width="2"/>
+            <text x="110" y="160" font-size="10" text-anchor="middle" font-family="Georgia" fill="#4a3a1a">líquido</text>
+            <g id="dwFlechas"></g>
+          </svg>
+        </div>
+        <div>
+          <p class="readout" id="dwConduccion">🔴 <b>Conducción:</b> activa — el vidrio y el aire conducen energía hacia afuera.</p>
+          <p class="readout" id="dwConveccion">🔴 <b>Convección:</b> activa — el aire circula entre las paredes y por la boca.</p>
+          <p class="readout" id="dwRadiacion">🔴 <b>Radiación:</b> activa — la superficie emite radiación electromagnética.</p>
+          <p class="readout" style="font-size:.88rem; color:#666;" id="dwTexto"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ EJEMPLOS -->
+<section id="ejemplos">
+  <div class="wrap">
+    <div class="kicker">Ejemplos — resolvamos juntos</div>
+    <p class="narrow">Cada ejemplo comienza mostrando solo el enunciado. Haz clic dentro del recuadro y
+      presiona <b>Enter</b> (o toca "Siguiente ▶") para revelar el razonamiento paso a paso.</p>
+
+    <!-- EJEMPLO 1 -->
+    <div class="ejemplo" tabindex="0">
+      <div class="ejemplo-header">
+        <b>Ejemplo 1 — Calorimetría: calor específico de un metal</b>
+        <span class="progreso" data-progreso>Paso 0 / 5</span>
+      </div>
+      <div class="ejemplo-body">
+        <div class="enunciado">
+          Un lingote de 0.050 kg de metal se calienta a 200.0 °C y después se deja caer en un
+          calorímetro que contiene 0.400 kg de agua inicialmente a 20.0 °C. La temperatura de
+          equilibrio final del sistema mezclado es 22.4 °C. Encuentre el calor específico del metal.
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 1 — Datos</div>
+          m<sub>x</sub> = 0.050 kg &middot; T<sub>x</sub> = 200.0 °C &middot;
+          m<sub>w</sub> = 0.400 kg &middot; T<sub>w</sub> = 20.0 °C &middot;
+          T<sub>f</sub> = 22.4 °C &middot; c<sub>w</sub> = 4186 J/kg·°C
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 2 — Sistema aislado</div>
+          <div class="eq" style="font-size:1.05rem;">Q<sub>frío</sub> = −Q<sub>caliente</sub> &rArr;
+            m<sub>w</sub>c<sub>w</sub>(T<sub>f</sub>−T<sub>w</sub>) = −m<sub>x</sub>c<sub>x</sub>(T<sub>f</sub>−T<sub>x</sub>)</div>
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 3 — Despejamos c<sub>x</sub></div>
+          <div class="eq" style="font-size:1.05rem;">c<sub>x</sub> = m<sub>w</sub>c<sub>w</sub>(T<sub>f</sub>−T<sub>w</sub>) / [m<sub>x</sub>(T<sub>x</sub>−T<sub>f</sub>)]</div>
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 4 — Sustituimos</div>
+          Numerador: (0.400)(4186)(22.4 − 20.0) = 4.02×10³ J<br>
+          Denominador: (0.050)(200.0 − 22.4) = 8.88 kg·°C<br>
+          c<sub>x</sub> = 4.02×10³ / 8.88 &asymp; 453 J/kg·°C
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">c<sub>x</sub> &asymp; 4.5×10² J/kg·°C — muy cercano al hierro (448 J/kg·°C)</div>
+        </div>
+      </div>
+      <div class="ejemplo-controles">
+        <button data-siguiente>Siguiente ▶</button>
+        <button class="secundario" data-reiniciar>Reiniciar</button>
+        <span class="hint-enter">o presiona Enter</span>
+      </div>
+    </div>
+
+    <!-- EJEMPLO 2 -->
+    <div class="ejemplo" tabindex="0">
+      <div class="ejemplo-header">
+        <b>Ejemplo 2 — Calor latente: masa de vapor necesaria</b>
+        <span class="progreso" data-progreso>Paso 0 / 6</span>
+      </div>
+      <div class="ejemplo-body">
+        <div class="enunciado">
+          ¿Qué masa de vapor, inicialmente a 130 °C, se necesita para calentar 200 g de agua en un
+          contenedor de vidrio de 100 g, de 20.0 °C a 50.0 °C?
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 1 — Lo que gana el sistema frío</div>
+          Q<sub>frío</sub> = (m<sub>agua</sub>c<sub>agua</sub> + m<sub>vidrio</sub>c<sub>vidrio</sub>)&Delta;T<br>
+          = [(0.200)(4186) + (0.100)(837)](30.0) = (837.2 + 83.7)(30.0) &asymp; 2.76×10⁴ J
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 2 — El vapor pasa por tres etapas</div>
+          (i) enfriarse de 130 °C a 100 °C como vapor, (ii) condensarse a 100 °C,
+          (iii) enfriarse como agua líquida de 100 °C a 50.0 °C.
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 3 — Energía liberada por unidad de masa</div>
+          (i) c<sub>vapor</sub>&Delta;T = (2010)(30.0) = 6.03×10⁴ J/kg<br>
+          (ii) L<sub>v</sub> = 2.26×10⁶ J/kg<br>
+          (iii) c<sub>agua</sub>&Delta;T = (4186)(50.0) = 2.093×10⁵ J/kg
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 4 — Balance energético</div>
+          <div class="eq" style="font-size:1.05rem;">m<sub>v</sub>[c<sub>v</sub>(30) + L<sub>v</sub> + c<sub>a</sub>(50)] = Q<sub>frío</sub></div>
+          m<sub>v</sub>(6.03×10⁴ + 2.26×10⁶ + 2.093×10⁵) = 2.76×10⁴ J
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 5 — Despejamos</div>
+          m<sub>v</sub> = 2.76×10⁴ / 2.53×10⁶ &asymp; 1.09×10⁻² kg
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">m<sub>vapor</sub> &asymp; 1.09×10⁻² kg = 10.9 g</div>
+        </div>
+      </div>
+      <div class="ejemplo-controles">
+        <button data-siguiente>Siguiente ▶</button>
+        <button class="secundario" data-reiniciar>Reiniciar</button>
+        <span class="hint-enter">o presiona Enter</span>
+      </div>
+    </div>
+
+    <!-- EJEMPLO 3 -->
+    <div class="ejemplo" tabindex="0">
+      <div class="ejemplo-header">
+        <b>Ejemplo 3 — Expansión isotérmica y regreso isobárico</b>
+        <span class="progreso" data-progreso>Paso 0 / 6</span>
+      </div>
+      <div class="ejemplo-body">
+        <div class="enunciado">
+          Una muestra de 1.0 mol de un gas ideal se mantiene a 0.0 °C durante una expansión de 3.0 L a
+          10.0 L. (A) ¿Cuánto trabajo se realiza sobre el gas durante la expansión? (B) ¿Cuánta
+          transferencia de energía por calor ocurre entre el gas y sus alrededores? (C) Si el gas
+          regresa a su volumen original por un proceso isobárico, ¿cuánto trabajo se realiza sobre el gas?
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 1 — (A) Trabajo isotérmico</div>
+          <div class="eq" style="font-size:1.05rem;">W = nRT ln(V<sub>i</sub>/V<sub>f</sub>)</div>
+          n = 1.0 mol &middot; R = 8.314 J/mol·K &middot; T = 273 K &middot; V<sub>i</sub>/V<sub>f</sub> = 3.0/10.0
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 2 — Sustituimos</div>
+          W = (1.0)(8.314)(273) ln(0.300) = (2.27×10³)(−1.204) &asymp; −2.7×10³ J<br>
+          Negativo: el gas se expande, así que es el gas el que hace trabajo sobre los alrededores.
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 3 — (B) Primera ley en un proceso isotérmico</div>
+          <div class="eq" style="font-size:1.05rem;">&Delta;E<sub>int</sub> = 0 &rArr; Q = −W</div>
+          Q &asymp; +2.7×10³ J: entra energía por calor al gas.
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 4 — (C) Presión al final de la expansión</div>
+          P = nRT/V = (1.0)(8.314)(273) / (10.0×10⁻³ m³) &asymp; 2.27×10⁵ Pa
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 5 — Trabajo isobárico de regreso</div>
+          <div class="eq" style="font-size:1.05rem;">W = −P(V<sub>f</sub> − V<sub>i</sub>)</div>
+          W = −(2.27×10⁵)(3.0×10⁻³ − 10.0×10⁻³) &asymp; +1.6×10³ J<br>
+          Positivo: ahora se comprime el gas, se hace trabajo sobre él.
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">(A) W &asymp; −2.7×10³ J &nbsp; (B) Q &asymp; +2.7×10³ J &nbsp; (C) W &asymp; +1.6×10³ J</div>
+        </div>
+      </div>
+      <div class="ejemplo-controles">
+        <button data-siguiente>Siguiente ▶</button>
+        <button class="secundario" data-reiniciar>Reiniciar</button>
+        <span class="hint-enter">o presiona Enter</span>
+      </div>
+    </div>
+
+    <!-- EJEMPLO 4 -->
+    <div class="ejemplo" tabindex="0">
+      <div class="ejemplo-header">
+        <b>Ejemplo 4 — Conducción a través de una pared compuesta</b>
+        <span class="progreso" data-progreso>Paso 0 / 6</span>
+      </div>
+      <div class="ejemplo-body">
+        <div class="enunciado">
+          La pared de una casa está compuesta de un bloque sólido de concreto (15 cm, k = 1.3 J/m·s·°C)
+          con enchapado exterior de ladrillo (7 cm, k = 0.71 J/m·s·°C) y cubierta en el interior con
+          cartón de fibra (2 cm, k = 0.059 J/m·s·°C). Si afuera hay −5.0 °C y adentro 20 °C:
+          (a) ¿cuánta energía se conduce a través de una pared de 3.5 m × 5.0 m en una hora?
+          (b) Para reducir la pérdida a la mitad, ¿qué espesor de Styrofoam
+          (k<sub>espuma</sub> = 0.042 J/m·s·°C) se debe colocar entre el cartón y el concreto?
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 1 — Suma de resistencias L/k</div>
+          0.02/0.059 = 0.339 &nbsp;·&nbsp; 0.15/1.3 = 0.115 &nbsp;·&nbsp; 0.07/0.71 = 0.0986<br>
+          &Sigma;(L<sub>i</sub>/k<sub>i</sub>) &asymp; 0.553 m²·°C/W
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 2 — (a) Potencia conducida</div>
+          <div class="eq" style="font-size:1.05rem;">P = A(T<sub>h</sub> − T<sub>c</sub>) / &Sigma;(L<sub>i</sub>/k<sub>i</sub>)</div>
+          A = (3.5)(5.0) = 17.5 m² &middot; &Delta;T = 20 − (−5.0) = 25 °C
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 3 — Sustituimos</div>
+          P = (17.5)(25)/0.553 &asymp; 791 W
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 4 — Energía en una hora</div>
+          Q = P·t = (791)(3600 s) &asymp; 2.85×10⁶ J
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 5 — (b) Reducir P a la mitad</div>
+          Si P se reduce 50 %, la suma &Sigma;(L/k) debe duplicarse:<br>
+          &Sigma;<sub>nueva</sub> = 2(0.553) = 1.106 &rArr; L<sub>espuma</sub>/0.042 = 0.553<br>
+          L<sub>espuma</sub> = (0.553)(0.042) &asymp; 0.0232 m
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">(a) Q &asymp; 2.9×10⁶ J en una hora &nbsp;&nbsp; (b) L<sub>espuma</sub> &asymp; 2.3 cm</div>
+        </div>
+      </div>
+      <div class="ejemplo-controles">
+        <button data-siguiente>Siguiente ▶</button>
+        <button class="secundario" data-reiniciar>Reiniciar</button>
+        <span class="hint-enter">o presiona Enter</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ EJERCICIOS -->
+<section id="ejercicios">
+  <div class="wrap">
+    <div class="kicker">Ejercicios recomendados</div>
+    <div class="nota"><b>Capítulo 19:</b> 2, 3, 7, 9, 11, 12, 13, 15, 16, 17, 19, 20, 21, 22, 24, 37,
+      39, 42, 43, 45, 46</div>
+  </div>
+</section>
+
+<footer class="doc-footer">Física General II (FS0310) · Escuela de Física, UCR · Tema 6: Primera ley de la termodinámica</footer>
+
+<script>
+// ============================================================
+// UTILIDADES
+// ============================================================
+function fmt(x, d){ 
+  if(!isFinite(x)) return '—';
+  if(Math.abs(x) >= 1e5 || (Math.abs(x) > 0 && Math.abs(x) < 1e-3)) return x.toExponential(2);
+  return x.toFixed(d === undefined ? 2 : d);
+}
+function lerpColor(c1, c2, t){
+  const r = Math.round(c1[0] + (c2[0]-c1[0])*t);
+  const g = Math.round(c1[1] + (c2[1]-c1[1])*t);
+  const b = Math.round(c1[2] + (c2[2]-c1[2])*t);
+  return 'rgb(' + r + ',' + g + ',' + b + ')';
+}
+const C_AGUA = 4186, L_FUSION = 3.33e5, L_VAPOR = 2.26e6, C_HIELO = 2090, C_VAPOR = 2010;
+
+// ============================================================
+// EXPERIMENTO DE JOULE
+// ============================================================
+(function(){
+  const sM = document.getElementById('jMasa'), sH = document.getElementById('jAltura'),
+        sW = document.getElementById('jAgua');
+  const outE = document.getElementById('jEnergia'), outC = document.getElementById('jCal'),
+        outT = document.getElementById('jDeltaT');
+  const bI = document.getElementById('jBloqueI'), bD = document.getElementById('jBloqueD');
+  const cI = document.getElementById('jCuerdaI'), cD = document.getElementById('jCuerdaD');
+  const paletas = document.getElementById('jPaletas'), aguaR = document.getElementById('jAguaRect');
+  let animando = false;
+
+  function calcular(){
+    const m = parseFloat(sM.value), h = parseFloat(sH.value), mw = parseFloat(sW.value);
+    const E = 2 * m * 9.8 * h;
+    const dT = E / (mw * C_AGUA);
+    outE.textContent = fmt(E, 1);
+    outC.textContent = fmt(E / 4.186, 1);
+    outT.textContent = fmt(dT, 2);
+    return dT;
+  }
+  function soltar(){
+    if(animando) return;
+    animando = true;
+    const dT = calcular();
+    let t0 = null;
+    const dur = 1600;
+    function paso(ts){
+      if(!t0) t0 = ts;
+      const p = Math.min((ts - t0)/dur, 1);
+      const y = 120 + p * 70;
+      bI.setAttribute('y', y); bD.setAttribute('y', y);
+      cI.setAttribute('y2', y); cD.setAttribute('y2', y);
+      paletas.setAttribute('transform', 'rotate(' + (p*1440) + ' 210 168)');
+      const calor = Math.min(dT/40, 1) * p;
+      aguaR.setAttribute('fill', lerpColor([143,194,232],[214,65,58], calor));
+      if(p < 1) requestAnimationFrame(paso);
+      else animando = false;
+    }
+    requestAnimationFrame(paso);
+  }
+  function reset(){
+    bI.setAttribute('y', 120); bD.setAttribute('y', 120);
+    cI.setAttribute('y2', 120); cD.setAttribute('y2', 120);
+    paletas.setAttribute('transform', '');
+    aguaR.setAttribute('fill', '#8FC2E8');
+    animando = false;
+    calcular();
+  }
+  [sM, sH, sW].forEach(s => s.addEventListener('input', calcular));
+  document.getElementById('jSoltar').addEventListener('click', soltar);
+  document.getElementById('jReset').addEventListener('click', reset);
+  calcular();
+})();
+
+// ============================================================
+// CALOR ESPECÍFICO
+// ============================================================
+const SUSTANCIAS = [
+  {n:'Agua (15 °C)', c:4186}, {n:'Hielo (−5 °C)', c:2090}, {n:'Vapor (100 °C)', c:2010},
+  {n:'Alcohol etílico', c:2400}, {n:'Berilio', c:1830}, {n:'Madera', c:1700},
+  {n:'Aluminio', c:900}, {n:'Mármol', c:860}, {n:'Vidrio', c:837}, {n:'Silicio', c:703},
+  {n:'Hierro', c:448}, {n:'Cobre', c:387}, {n:'Latón', c:380}, {n:'Germanio', c:322},
+  {n:'Cadmio', c:230}, {n:'Plata', c:234}, {n:'Mercurio', c:140}, {n:'Oro', c:129}, {n:'Plomo', c:128}
+];
+(function(){
+  const sel = document.getElementById('ceSustancia');
+  SUSTANCIAS.forEach((s, i) => {
+    const o = document.createElement('option');
+    o.value = i; o.textContent = s.n + ' — ' + s.c + ' J/kg·°C';
+    sel.appendChild(o);
+  });
+  const sM = document.getElementById('ceMasa'), sT = document.getElementById('ceDT');
+  const grupo = document.getElementById('ceBarras');
+  const comparar = ['Agua (15 °C)', 'Aluminio', 'Vidrio', 'Hierro', 'Cobre', 'Plomo'];
+
+  function actualizar(){
+    const s = SUSTANCIAS[parseInt(sel.value)];
+    const m = parseFloat(sM.value), dT = parseFloat(sT.value);
+    const Q = m * s.c * dT;
+    document.getElementById('ceC').textContent = s.c;
+    document.getElementById('ceCapacidad').textContent = fmt(m * s.c, 1);
+    document.getElementById('ceQ').textContent = fmt(Q, 0);
+    document.getElementById('ceQcal').textContent = fmt(Q/4.186, 0) + ' cal';
+    document.getElementById('ceComentario').textContent =
+      'Con la misma masa y el mismo ΔT, el agua necesita ' + fmt(4186/s.c, 1) +
+      ' veces la energía que ' + s.n.replace(/ \(.*\)/, '') + '.';
+
+    // barras comparativas
+    let html = '';
+    const lista = comparar.map(n => SUSTANCIAS.find(x => x.n === n));
+    if(!lista.some(x => x.n === s.n)) lista.push(s);
+    const maxQ = Math.max.apply(null, lista.map(x => m * x.c * dT));
+    lista.forEach((x, i) => {
+      const q = m * x.c * dT;
+      const w = (q / maxQ) * 380;
+      const y = 22 + i * 25;
+      const color = (x.n === s.n) ? '#C69214' : '#215CAF';
+      html += '<rect x="150" y="' + y + '" width="' + w + '" height="16" fill="' + color + '" rx="2"/>';
+      html += '<text x="144" y="' + (y+13) + '" font-size="10" text-anchor="end" font-family="Georgia" fill="#444">' + x.n.replace(/ \(.*\)/, '') + '</text>';
+      html += '<text x="' + (155 + w) + '" y="' + (y+13) + '" font-size="9" font-family="Georgia" fill="#666">' + fmt(q, 0) + ' J</text>';
+    });
+    grupo.innerHTML = html;
+  }
+  sel.addEventListener('change', actualizar);
+  sM.addEventListener('input', actualizar);
+  sT.addEventListener('input', actualizar);
+  actualizar();
+})();
+
+// ============================================================
+// CALORIMETRÍA
+// ============================================================
+(function(){
+  const sel = document.getElementById('calMaterial');
+  SUSTANCIAS.filter(s => s.c < 2000).forEach((s, i) => {
+    const o = document.createElement('option');
+    o.value = s.c; o.textContent = s.n + ' — ' + s.c;
+    sel.appendChild(o);
+  });
+  sel.value = 448;
+  const sMx = document.getElementById('calMx'), sTx = document.getElementById('calTx'),
+        sMw = document.getElementById('calMw'), sTw = document.getElementById('calTw');
+  const agua = document.getElementById('calAgua'), muestra = document.getElementById('calMuestra');
+
+  function colorT(T){
+    const t = Math.max(0, Math.min(1, (T + 10) / 220));
+    return lerpColor([46,109,180], [214,65,58], t);
+  }
+  function estadoInicial(){
+    const Tx = parseFloat(sTx.value), Tw = parseFloat(sTw.value);
+    document.getElementById('calTxLbl').textContent = Tx;
+    document.getElementById('calTwLbl').textContent = Tw;
+    muestra.style.background = colorT(Tx);
+    muestra.style.top = '14px';
+    agua.style.background = colorT(Tw);
+    document.getElementById('calTf').textContent = '—';
+    document.getElementById('calQc').textContent = '—';
+    document.getElementById('calQf').textContent = '—';
+  }
+  function soltar(){
+    const cx = parseFloat(sel.value), mx = parseFloat(sMx.value), Tx = parseFloat(sTx.value),
+          mw = parseFloat(sMw.value), Tw = parseFloat(sTw.value);
+    const Tf = (mx*cx*Tx + mw*C_AGUA*Tw) / (mx*cx + mw*C_AGUA);
+    const Qc = mx * cx * (Tf - Tx);      // negativo
+    const Qf = mw * C_AGUA * (Tf - Tw);  // positivo
+    muestra.style.top = '95px';
+    setTimeout(() => {
+      muestra.style.background = colorT(Tf);
+      agua.style.background = colorT(Tf);
+    }, 400);
+    document.getElementById('calTf').textContent = fmt(Tf, 2);
+    document.getElementById('calQc').textContent = fmt(Qc, 0);
+    document.getElementById('calQf').textContent = fmt(Qf, 0);
+    document.getElementById('calNota').textContent =
+      'Q_frío = ' + fmt(Qf,0) + ' J y Q_caliente = ' + fmt(Qc,0) +
+      ' J: son iguales en magnitud y opuestos en signo, tal como exige Q_frío = −Q_caliente.';
+  }
+  [sel, sMx, sTx, sMw, sTw].forEach(e => e.addEventListener('input', estadoInicial));
+  sel.addEventListener('change', estadoInicial);
+  document.getElementById('calSoltar').addEventListener('click', soltar);
+  document.getElementById('calReset').addEventListener('click', estadoInicial);
+  estadoInicial();
+})();
+
+// ============================================================
+// CALOR LATENTE
+// ============================================================
+(function(){
+  const sMasa = document.getElementById('latMasa'), sE = document.getElementById('latEnergia');
+  const curva = document.getElementById('latCurva'), punto = document.getElementById('latPunto');
+  const etiquetas = document.getElementById('latEtiquetas');
+  let animando = false;
+
+  function tramos(mkg){
+    const q1 = mkg * C_HIELO * 30;     // hielo -30 -> 0
+    const q2 = mkg * L_FUSION;         // fusión
+    const q3 = mkg * C_AGUA * 100;     // agua 0 -> 100
+    const q4 = mkg * L_VAPOR;          // vaporización
+    const q5 = mkg * C_VAPOR * 20;     // vapor 100 -> 120
+    return [q1, q2, q3, q4, q5];
+  }
+  function estado(Q, mkg){
+    const t = tramos(mkg);
+    let acc = 0;
+    if(Q <= t[0]) return {T: -30 + Q/(mkg*C_HIELO), fase:'hielo', tramo:'Calentando hielo: Q = mc(hielo)ΔT'};
+    acc = t[0];
+    if(Q <= acc + t[1]) return {T: 0, fase:'hielo + agua', tramo:'Fusión a 0 °C: Q = L_f Δm — la temperatura NO cambia'};
+    acc += t[1];
+    if(Q <= acc + t[2]) return {T: (Q-acc)/(mkg*C_AGUA), fase:'agua', tramo:'Calentando agua líquida: Q = mc(agua)ΔT'};
+    acc += t[2];
+    if(Q <= acc + t[3]) return {T: 100, fase:'agua + vapor', tramo:'Vaporización a 100 °C: Q = L_v Δm — la temperatura NO cambia'};
+    acc += t[3];
+    return {T: 100 + (Q-acc)/(mkg*C_VAPOR), fase:'vapor', tramo:'Calentando vapor: Q = mc(vapor)ΔT'};
+  }
+  function xDe(Q, total){ return 70 + (Q/total) * 470; }
+  function yDe(T){ return 209 - ((T + 30) / 150) * 164; }
+
+  function dibujar(){
+    const mkg = parseFloat(sMasa.value) / 1000;
+    const t = tramos(mkg);
+    const total = t.reduce((a,b) => a+b, 0);
+    sE.max = Math.round(total);
+    const acumulado = [0];
+    t.forEach(q => acumulado.push(acumulado[acumulado.length-1] + q));
+    const temps = [-30, 0, 0, 100, 100, 120];
+    let pts = [];
+    for(let i = 0; i < acumulado.length; i++){
+      pts.push(xDe(acumulado[i], total).toFixed(1) + ',' + yDe(temps[i]).toFixed(1));
+    }
+    curva.setAttribute('points', pts.join(' '));
+
+    // etiquetas de fase
+    const nombres = ['hielo', 'hielo+agua', 'agua', 'agua+vapor', 'vapor'];
+    let html = '';
+    for(let i = 0; i < 5; i++){
+      const xm = (xDe(acumulado[i], total) + xDe(acumulado[i+1], total)) / 2;
+      html += '<line x1="' + xDe(acumulado[i+1], total).toFixed(1) + '" y1="20" x2="' +
+              xDe(acumulado[i+1], total).toFixed(1) + '" y2="215" stroke="#ccc" stroke-dasharray="3 3"/>';
+      html += '<text x="' + xm.toFixed(1) + '" y="232" font-size="9" text-anchor="middle" font-family="Georgia" fill="#777">' + nombres[i] + '</text>';
+    }
+    etiquetas.innerHTML = html;
+    actualizarPunto();
+  }
+  function actualizarPunto(){
+    const mkg = parseFloat(sMasa.value) / 1000;
+    const t = tramos(mkg);
+    const total = t.reduce((a,b) => a+b, 0);
+    const Q = Math.min(parseFloat(sE.value), total);
+    const e = estado(Q, mkg);
+    punto.setAttribute('cx', xDe(Q, total));
+    punto.setAttribute('cy', yDe(e.T));
+    document.getElementById('latQLbl').textContent = fmt(Q, 1);
+    document.getElementById('latTLbl').textContent = fmt(e.T, 1);
+    document.getElementById('latFase').textContent = e.fase;
+    document.getElementById('latTramo').textContent = e.tramo;
+  }
+  function animar(){
+    if(animando) return;
+    animando = true;
+    const max = parseFloat(sE.max);
+    let t0 = null;
+    function paso(ts){
+      if(!t0) t0 = ts;
+      const p = Math.min((ts - t0)/6000, 1);
+      sE.value = p * max;
+      actualizarPunto();
+      if(p < 1) requestAnimationFrame(paso); else animando = false;
+    }
+    requestAnimationFrame(paso);
+  }
+  sMasa.addEventListener('input', dibujar);
+  sE.addEventListener('input', actualizarPunto);
+  document.getElementById('latPlay').addEventListener('click', animar);
+  document.getElementById('latReset').addEventListener('click', () => { sE.value = 0; animando = false; actualizarPunto(); });
+  dibujar();
+})();
+
+// ============================================================
+// DIAGRAMA PV — TRABAJO Y TRAYECTORIAS
+// ============================================================
+(function(){
+  const R = 8.314, n = 1.0, T = 273;
+  const sVi = document.getElementById('pvVi'), sVf = document.getElementById('pvVf');
+  const ruta = document.getElementById('pvRuta'), area = document.getElementById('pvArea'),
+        iso = document.getElementById('pvIsoterma');
+  let rutaActual = 'a';
+
+  // P en atm a partir de V en L:  P = nRT/V ; en atm: (0.08206*273)/V
+  function Patm(VL){ return (0.08206 * T) / VL; }
+  const Vmin = 1, Vmax = 14, Pmax = 14;
+  function X(VL){ return 60 + (VL / Vmax) * 465; }
+  function Y(P){ return 230 - (P / Pmax) * 210; }
+
+  function calcularW(tipo, Vi, Vf){
+    const Pi = Patm(Vi) * 101325, Pf = Patm(Vf) * 101325;
+    const dV = (Vf - Vi) / 1000; // m³
+    if(tipo === 'a') return -Pi * dV;
+    if(tipo === 'b') return -Pf * dV;
+    return n * R * T * Math.log(Vi / Vf);
+  }
+  function dibujar(){
+    const Vi = parseFloat(sVi.value), Vf = parseFloat(sVf.value);
+    const Pi = Patm(Vi), Pf = Patm(Vf);
+    const xi = X(Vi), yi = Y(Pi), xf = X(Vf), yf = Y(Pf);
+
+    // isoterma de referencia
+    let d = '';
+    for(let v = Vmin; v <= Vmax; v += 0.25){
+      d += (d === '' ? 'M ' : ' L ') + X(v).toFixed(1) + ' ' + Y(Patm(v)).toFixed(1);
+    }
+    iso.setAttribute('d', d);
+
+    let dr = '', da = '';
+    if(rutaActual === 'a'){
+      dr = 'M ' + xi + ' ' + yi + ' L ' + xf + ' ' + yi + ' L ' + xf + ' ' + yf;
+      da = 'M ' + xi + ' ' + yi + ' L ' + xf + ' ' + yi + ' L ' + xf + ' 230 L ' + xi + ' 230 Z';
+    } else if(rutaActual === 'b'){
+      dr = 'M ' + xi + ' ' + yi + ' L ' + xi + ' ' + yf + ' L ' + xf + ' ' + yf;
+      da = 'M ' + xi + ' ' + yf + ' L ' + xf + ' ' + yf + ' L ' + xf + ' 230 L ' + xi + ' 230 Z';
+    } else {
+      const paso = (Vf > Vi) ? 0.1 : -0.1;
+      dr = 'M ' + xi + ' ' + yi;
+      let v = Vi;
+      while((paso > 0 && v < Vf) || (paso < 0 && v > Vf)){
+        v += paso;
+        dr += ' L ' + X(v).toFixed(1) + ' ' + Y(Patm(v)).toFixed(1);
+      }
+      dr += ' L ' + xf + ' ' + yf;
+      da = dr + ' L ' + xf + ' 230 L ' + xi + ' 230 Z';
+    }
+    ruta.setAttribute('d', dr);
+    area.setAttribute('d', da);
+
+    document.getElementById('pvPtI').setAttribute('cx', xi);
+    document.getElementById('pvPtI').setAttribute('cy', yi);
+    document.getElementById('pvPtF').setAttribute('cx', xf);
+    document.getElementById('pvPtF').setAttribute('cy', yf);
+    document.getElementById('pvLblI').setAttribute('x', xi + 8);
+    document.getElementById('pvLblI').setAttribute('y', yi - 8);
+    document.getElementById('pvLblF').setAttribute('x', xf + 8);
+    document.getElementById('pvLblF').setAttribute('y', yf - 8);
+
+    document.getElementById('pvPi').textContent = fmt(Pi, 2);
+    document.getElementById('pvPf').textContent = fmt(Pf, 2);
+    document.getElementById('pvW').textContent = fmt(calcularW(rutaActual, Vi, Vf), 0);
+    document.getElementById('pvWa').textContent = fmt(calcularW('a', Vi, Vf), 0);
+    document.getElementById('pvWb').textContent = fmt(calcularW('b', Vi, Vf), 0);
+    document.getElementById('pvWc').textContent = fmt(calcularW('c', Vi, Vf), 0);
+  }
+  document.querySelectorAll('[data-ruta]').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('[data-ruta]').forEach(x => x.classList.remove('activo'));
+      b.classList.add('activo');
+      rutaActual = b.getAttribute('data-ruta');
+      dibujar();
+    });
+  });
+  sVi.addEventListener('input', dibujar);
+  sVf.addEventListener('input', dibujar);
+  dibujar();
+})();
+
+// ============================================================
+// PRIMERA LEY — BALANCE
+// ============================================================
+(function(){
+  const sQ = document.getElementById('plQ'), sW = document.getElementById('plW');
+  function actualizar(){
+    const Q = parseFloat(sQ.value), W = parseFloat(sW.value);
+    const dE = Q + W;
+    document.getElementById('plEint').textContent = fmt(dE, 0);
+    document.getElementById('plEintTxt').textContent = 'ΔEint = ' + fmt(dE, 0) + ' J';
+    document.getElementById('plQTxt').textContent = 'Q = ' + fmt(Q, 0) + ' J';
+    document.getElementById('plWTxt').textContent = 'W = ' + fmt(W, 0) + ' J';
+
+    // Q: flecha hacia adentro si Q>0, hacia afuera si Q<0
+    const qL = document.getElementById('plQLinea'), qP = document.getElementById('plQPunta');
+    if(Q >= 0){ qL.setAttribute('x1', 60); qL.setAttribute('x2', 185); qP.setAttribute('points', '185,108 197,115 185,122'); }
+    else { qL.setAttribute('x1', 185); qL.setAttribute('x2', 60); qP.setAttribute('points', '60,108 48,115 60,122'); }
+    const wL = document.getElementById('plWLinea'), wP = document.getElementById('plWPunta');
+    if(W >= 0){ wL.setAttribute('x1', 460); wL.setAttribute('x2', 335); wP.setAttribute('points', '335,108 323,115 335,122'); }
+    else { wL.setAttribute('x1', 335); wL.setAttribute('x2', 460); wP.setAttribute('points', '460,108 472,115 460,122'); }
+
+    document.getElementById('plBalance').textContent = fmt(Q,0) + ' J + (' + fmt(W,0) + ' J) = ' + fmt(dE,0) + ' J';
+    let txt;
+    if(Math.abs(dE) < 1e-9) txt = 'la energía interna no cambia: es el caso de un proceso cíclico o isotérmico (Q = −W).';
+    else if(dE > 0) txt = 'la energía interna aumenta (el sistema normalmente se calienta).';
+    else txt = 'la energía interna disminuye (el sistema normalmente se enfría).';
+    document.getElementById('plInterp').textContent = txt;
+  }
+  sQ.addEventListener('input', actualizar);
+  sW.addEventListener('input', actualizar);
+  actualizar();
+})();
+
+// ============================================================
+// PROCESOS TERMODINÁMICOS
+// ============================================================
+(function(){
+  const R = 8.314, n = 1.0;
+  const V0 = 10.0, T0 = 273; // litros, kelvin
+  let proceso = 'iso', avance = 0, animando = false;
+  const cont = document.getElementById('prContenedor');
+  const sAv = document.getElementById('prAvance');
+  let particulas = [];
+
+  for(let i = 0; i < 32; i++){
+    const p = document.createElement('div');
+    p.className = 'particula';
+    cont.appendChild(p);
+    particulas.push({el:p, x:Math.random()*85, y:Math.random()*88,
+                     vx:(Math.random()-0.5)*2.2, vy:(Math.random()-0.5)*2.2});
+  }
+
+  function Patm(VL, TK){ return (0.08206 * TK) / VL; }
+
+  // devuelve {V,T,P,W,Q,dE,desc}
+  function estado(p){
+    const f = p / 100;
+    let V = V0, T = T0, W = 0, Q = 0, dE = 0, desc = '';
+    if(proceso === 'iso'){
+      V = V0 * (1 + 0.8*f);            // expansión isotérmica
+      W = n*R*T0*Math.log(V0 / V);
+      dE = 0; Q = -W;
+      desc = 'Isotérmico: T constante, ΔEint = 0 y Q = −W. El gas se expande absorbiendo calor.';
+    } else if(proceso === 'isob'){
+      V = V0 * (1 + 0.8*f);
+      T = T0 * (V / V0);               // P constante
+      const P = Patm(V0, T0) * 101325;
+      W = -P * ((V - V0)/1000);
+      dE = 1.5 * n * R * (T - T0);     // gas monoatómico ideal
+      Q = dE - W;
+      desc = 'Isobárico: P constante, W = −P(Vf − Vi). Al expandirse el gas también sube su temperatura.';
+    } else if(proceso === 'isov'){
+      V = V0;
+      T = T0 * (1 + 0.8*f);
+      W = 0;
+      dE = 1.5 * n * R * (T - T0);
+      Q = dE;
+      desc = 'Isovolumétrico: V constante, W = 0 y ΔEint = Q. Toda la energía que entra sube la temperatura.';
+    } else if(proceso === 'adia'){
+      V = V0 * (1 + 0.8*f);
+      const gamma = 5/3;
+      T = T0 * Math.pow(V0 / V, gamma - 1);
+      dE = 1.5 * n * R * (T - T0);
+      W = dE; Q = 0;
+      desc = 'Adiabático: Q = 0 y ΔEint = W. El gas se expande a costa de su energía interna y se enfría.';
+    } else { // cíclico
+      const fase = f * 4;
+      if(fase < 1){ V = V0*(1 + 0.8*fase); T = T0; }
+      else if(fase < 2){ V = V0*1.8; T = T0*(1 + 0.5*(fase-1)); }
+      else if(fase < 3){ V = V0*(1.8 - 0.8*(fase-2)); T = T0*1.5; }
+      else { V = V0; T = T0*(1.5 - 0.5*(fase-3)); }
+      dE = 1.5 * n * R * (T - T0);
+      W = 0; Q = 0;
+      desc = 'Cíclico: el sistema vuelve al estado inicial, de modo que ΔEint = 0 en el ciclo completo y Q = −W.';
+    }
+    return {V:V, T:T, P:Patm(V, T), W:W, Q:Q, dE:dE, desc:desc};
+  }
+
+  const X = VL => 45 + (VL / 20) * 250;
+  const Y = P  => 190 - (P / 4) * 175;
+
+  function curvaIso(TK){
+    let d = '';
+    for(let v = 4; v <= 20; v += 0.4){
+      d += (d === '' ? 'M ' : ' L ') + X(v).toFixed(1) + ' ' + Y(Patm(v, TK)).toFixed(1);
+    }
+    return d;
+  }
+  function dibujarRuta(){
+    let d = '';
+    for(let p = 0; p <= 100; p += 2){
+      const e = estado(p);
+      d += (d === '' ? 'M ' : ' L ') + X(e.V).toFixed(1) + ' ' + Y(e.P).toFixed(1);
+    }
+    document.getElementById('prRuta').setAttribute('d', d);
+    document.getElementById('prIsoT1').setAttribute('d', curvaIso(T0));
+    document.getElementById('prIsoT2').setAttribute('d', curvaIso(T0 * 1.5));
+  }
+  function render(){
+    const e = estado(avance);
+    document.getElementById('prV').textContent = fmt(e.V, 1);
+    document.getElementById('prP').textContent = fmt(e.P, 2);
+    document.getElementById('prT').textContent = fmt(e.T, 0);
+    document.getElementById('prW').textContent = fmt(e.W, 0);
+    document.getElementById('prQ').textContent = fmt(e.Q, 0);
+    document.getElementById('prE').textContent = fmt(e.dE, 0);
+    document.getElementById('prDescripcion').textContent = e.desc;
+    document.getElementById('prPunto').setAttribute('cx', X(e.V));
+    document.getElementById('prPunto').setAttribute('cy', Y(e.P));
+    cont.style.width = (35 + (e.V / 20) * 60) + '%';
+    const calor = Math.max(0, Math.min(1, (e.T - 200) / 250));
+    cont.style.background = lerpColor([223,235,246], [246,208,190], calor);
+  }
+  function loop(){
+    const e = estado(avance);
+    const vel = e.T / 400;
+    particulas.forEach(p => {
+      p.x += p.vx * vel; p.y += p.vy * vel;
+      if(p.x < 0){ p.x = 0; p.vx *= -1; }
+      if(p.x > 88){ p.x = 88; p.vx *= -1; }
+      if(p.y < 0){ p.y = 0; p.vy *= -1; }
+      if(p.y > 90){ p.y = 90; p.vy *= -1; }
+      p.el.style.left = p.x + '%';
+      p.el.style.top = p.y + '%';
+    });
+    requestAnimationFrame(loop);
+  }
+  function animar(){
+    if(animando) return;
+    animando = true;
+    let t0 = null;
+    function paso(ts){
+      if(!t0) t0 = ts;
+      const p = Math.min((ts - t0)/3500, 1);
+      avance = p * 100;
+      sAv.value = avance;
+      render();
+      if(p < 1) requestAnimationFrame(paso); else animando = false;
+    }
+    requestAnimationFrame(paso);
+  }
+  document.querySelectorAll('[data-proc]').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('[data-proc]').forEach(x => x.classList.remove('activo'));
+      b.classList.add('activo');
+      proceso = b.getAttribute('data-proc');
+      avance = 0; sAv.value = 0;
+      dibujarRuta(); render();
+    });
+  });
+  sAv.addEventListener('input', () => { avance = parseFloat(sAv.value); render(); });
+  document.getElementById('prAnimar').addEventListener('click', animar);
+  document.getElementById('prReset').addEventListener('click', () => {
+    avance = 0; sAv.value = 0; animando = false; render();
+  });
+  dibujarRuta(); render(); loop();
+})();
+
+// ============================================================
+// CONDUCCIÓN — BARRA
+// ============================================================
+const CONDUCTORES = [
+  {n:'Plata', k:427}, {n:'Cobre', k:397}, {n:'Oro', k:314}, {n:'Aluminio', k:238},
+  {n:'Hierro', k:79.5}, {n:'Plomo', k:34.7}, {n:'Hielo', k:2}, {n:'Concreto', k:0.8},
+  {n:'Vidrio', k:0.8}, {n:'Agua', k:0.6}, {n:'Caucho', k:0.2}, {n:'Asbesto', k:0.08},
+  {n:'Madera', k:0.08}, {n:'Aire (20 °C)', k:0.0234}
+];
+(function(){
+  const sel = document.getElementById('cdMaterial');
+  CONDUCTORES.forEach(c => {
+    const o = document.createElement('option');
+    o.value = c.k; o.textContent = c.n + ' — k = ' + c.k;
+    sel.appendChild(o);
+  });
+  sel.value = 397;
+  const sTh = document.getElementById('cdTh'), sTc = document.getElementById('cdTc'),
+        sA = document.getElementById('cdA'), sL = document.getElementById('cdL');
+  const barra = document.getElementById('cdBarra');
+  let flujos = [];
+  for(let i = 0; i < 8; i++){
+    const f = document.createElement('div');
+    f.className = 'flujo';
+    barra.appendChild(f);
+    flujos.push({el:f, x: i * 12.5});
+  }
+
+  function actualizar(){
+    const k = parseFloat(sel.value), Th = parseFloat(sTh.value), Tc = parseFloat(sTc.value),
+          A = parseFloat(sA.value) / 10000, L = parseFloat(sL.value) / 100;
+    const dT = Th - Tc;
+    const P = k * A * dT / L;
+    document.getElementById('cdK').textContent = k;
+    document.getElementById('cdDT').textContent = fmt(dT, 0);
+    document.getElementById('cdP').textContent = fmt(P, 2);
+    document.getElementById('cdEnergia').textContent = fmt(P * 3600, 0);
+    barra.style.height = (24 + (parseFloat(sA.value)/100)*44) + 'px';
+    barra.style.flexBasis = (60 + parseFloat(sL.value)) + 'px';
+    return P;
+  }
+  function loop(){
+    const P = actualizarSilencioso();
+    const vel = Math.min(1.6, 0.05 + Math.log10(1 + Math.abs(P)) * 0.25) * Math.sign(P || 1);
+    flujos.forEach(f => {
+      f.x += vel * 0.5;
+      if(f.x > 100) f.x = 0;
+      if(f.x < 0) f.x = 100;
+      f.el.style.left = f.x + '%';
+    });
+    requestAnimationFrame(loop);
+  }
+  function actualizarSilencioso(){
+    const k = parseFloat(sel.value), Th = parseFloat(sTh.value), Tc = parseFloat(sTc.value),
+          A = parseFloat(sA.value) / 10000, L = parseFloat(sL.value) / 100;
+    return k * A * (Th - Tc) / L;
+  }
+  [sel, sTh, sTc, sA, sL].forEach(e => e.addEventListener('input', actualizar));
+  sel.addEventListener('change', actualizar);
+  actualizar(); loop();
+})();
+
+// ============================================================
+// PARED COMPUESTA
+// ============================================================
+(function(){
+  const base = [
+    {n:'Cartón de fibra', L:0.02, k:0.059, color:'#E0D2B4'},
+    {n:'Concreto', L:0.15, k:1.3, color:'#C4C4BE'},
+    {n:'Ladrillo', L:0.07, k:0.71, color:'#B5654A'}
+  ];
+  const sTh = document.getElementById('pcTh'), sTc = document.getElementById('pcTc'),
+        sA = document.getElementById('pcA'), sEsp = document.getElementById('pcEspuma');
+  const cont = document.getElementById('pcCapas');
+
+  function actualizar(){
+    const esp = parseFloat(sEsp.value) / 100;
+    let capas = base.slice();
+    if(esp > 0) capas.splice(1, 0, {n:'Styrofoam', L:esp, k:0.042, color:'#EDF3F8'});
+    const suma = capas.reduce((a, c) => a + c.L / c.k, 0);
+    const sumaBase = base.reduce((a, c) => a + c.L / c.k, 0);
+    const A = parseFloat(sA.value), dT = parseFloat(sTh.value) - parseFloat(sTc.value);
+    const P = A * dT / suma;
+    const P0 = A * dT / sumaBase;
+
+    const total = capas.reduce((a, c) => a + c.L, 0);
+    cont.innerHTML = capas.map(c =>
+      '<div class="capa" style="width:' + ((c.L/total)*100) + '%; background:' + c.color + ';">' +
+      c.n + '<br>' + (c.L*100).toFixed(1) + ' cm<br>k=' + c.k + '</div>').join('');
+
+    document.getElementById('pcSuma').textContent = fmt(suma, 3);
+    document.getElementById('pcP').textContent = fmt(P, 1);
+    document.getElementById('pcE').textContent = fmt(P * 3600, 0);
+    document.getElementById('pcReduccion').textContent = (esp > 0)
+      ? 'Con ' + (esp*100).toFixed(1) + ' cm de Styrofoam la pérdida baja a ' + fmt(100*P/P0, 1) +
+        ' % de la pared sin aislante. Para llegar al 50 % se necesitan unos 2.3 cm.'
+      : 'Sin aislante: ΣL/k = ' + fmt(sumaBase, 3) + ' m²·°C/W. Agrega Styrofoam para ver la reducción.';
+  }
+  [sTh, sTc, sA, sEsp].forEach(e => e.addEventListener('input', actualizar));
+  actualizar();
+})();
+
+// ============================================================
+// VALOR R
+// ============================================================
+(function(){
+  const materiales = [
+    {n:'Madera dura 1"', r:0.91}, {n:'Tejas de madera', r:0.87}, {n:'Ladrillo 4"', r:4.00},
+    {n:'Bloque de concreto', r:1.93}, {n:'Fibra de vidrio 3.5"', r:10.90},
+    {n:'Fibra de vidrio 6"', r:18.80}, {n:'Tablero fibra vidrio 1"', r:4.35},
+    {n:'Fibra de celulosa 1"', r:3.70}, {n:'Vidrio plano 0.125"', r:0.89},
+    {n:'Vidrio aislante 0.25"', r:1.54}, {n:'Espacio de aire 3.5"', r:1.01},
+    {n:'Capa de aire estancado', r:0.17}, {n:'Muro seco 0.5"', r:0.45},
+    {n:'Revestimiento 0.5"', r:1.32}
+  ];
+  const cont = document.getElementById('rCheckboxes');
+  materiales.forEach((m, i) => {
+    const lbl = document.createElement('label');
+    lbl.style.flexDirection = 'row';
+    lbl.style.alignItems = 'center';
+    lbl.style.gap = '6px';
+    lbl.innerHTML = '<input type="checkbox" data-r="' + m.r + '"> ' + m.n + ' (' + m.r.toFixed(2) + ')';
+    cont.appendChild(lbl);
+  });
+  function actualizar(){
+    let suma = 0;
+    cont.querySelectorAll('input[type=checkbox]').forEach(c => {
+      if(c.checked) suma += parseFloat(c.getAttribute('data-r'));
+    });
+    document.getElementById('rSuma').textContent = suma.toFixed(2);
+    document.getElementById('rComentario').textContent = (suma > 0)
+      ? 'Con ΣR = ' + suma.toFixed(2) + ', la conducción es ' + (suma/0.17).toFixed(1) +
+        ' veces menor que con solo una capa de aire estancado (R = 0.17), porque P ∝ 1/ΣR.'
+      : 'Entre más grande es ΣR, menor es la pérdida de energía por conducción (P ∝ 1/ΣR).';
+  }
+  cont.addEventListener('change', actualizar);
+  actualizar();
+})();
+
+// ============================================================
+// CONVECCIÓN
+// ============================================================
+(function(){
+  const olla = document.getElementById('cvOlla');
+  const sP = document.getElementById('cvPotencia');
+  const quemador = document.getElementById('cvQuemador');
+  let corriendo = true;
+  let gotas = [];
+  const W = 360, H = 190;
+
+  for(let i = 0; i < 28; i++){
+    const g = document.createElement('div');
+    g.className = 'gota';
+    olla.appendChild(g);
+    gotas.push({el:g, t: Math.random(), celda: i % 2, jitter: Math.random()*0.4 + 0.8});
+  }
+  // trayectoria elíptica: sube por el centro de la celda, baja por el borde
+  function posicion(celda, t){
+    const cx = celda === 0 ? 0.28 : 0.72;
+    const ang = t * Math.PI * 2;
+    const x = cx + 0.17 * Math.sin(ang);
+    const y = 0.5 - 0.36 * Math.cos(ang);
+    return {x:x*100, y:y*100, subiendo: Math.sin(ang + Math.PI/2) > 0};
+  }
+  function loop(){
+    if(!corriendo) return;
+    const pot = parseFloat(sP.value) / 100;
+    gotas.forEach(g => {
+      g.t += 0.0016 * (0.1 + pot * 1.9) * g.jitter;
+      if(g.t > 1) g.t -= 1;
+      const p = posicion(g.celda, g.t);
+      g.el.style.left = p.x + '%';
+      g.el.style.top = p.y + '%';
+      const calor = Math.max(0, Math.min(1, (1 - p.y/100) < 0.5 ? 1 - p.y/100 + 0.2 : 0.2));
+      g.el.style.background = lerpColor([46,109,180], [214,65,58], (1 - p.y/100) < 0.5 ? 0.85 : 0.15);
+    });
+    requestAnimationFrame(loop);
+  }
+  function actualizar(){
+    const pot = parseFloat(sP.value) / 100;
+    quemador.style.opacity = 0.25 + pot * 0.75;
+    olla.style.background = 'linear-gradient(180deg,#BBD7EE,' +
+      lerpColor([187,215,238],[214,65,58], pot) + ')';
+    document.getElementById('cvTexto').textContent = (pot === 0)
+      ? 'Con el quemador apagado no hay gradiente de temperatura y el agua permanece en reposo.'
+      : 'El agua del fondo se calienta, se expande, baja su densidad y sube; el agua fría más densa de la superficie se hunde. Ese movimiento de materia caliente es la convección.';
+  }
+  sP.addEventListener('input', actualizar);
+  document.getElementById('cvToggle').addEventListener('click', function(){
+    corriendo = !corriendo;
+    this.textContent = corriendo ? 'Pausar' : 'Reanudar';
+    if(corriendo) loop();
+  });
+  actualizar(); loop();
+})();
+
+// ============================================================
+// RADIACIÓN
+// ============================================================
+(function(){
+  const SIGMA = 5.6696e-8;
+  const sT = document.getElementById('raT'), sE = document.getElementById('raE'),
+        sA = document.getElementById('raA');
+  const cuerpo = document.getElementById('raCuerpo'), curva = document.getElementById('raCurva'),
+        punto = document.getElementById('raPunto');
+
+  function P(T, e, A){ return SIGMA * A * e * Math.pow(T, 4); }
+  const X = T => 45 + (T / 2000) * 255;
+  const Y = p => 170 - Math.min(1, p) * 155;
+
+  function actualizar(){
+    const T = parseFloat(sT.value), e = parseFloat(sE.value), A = parseFloat(sA.value);
+    const pot = P(T, e, A);
+    const Pmax = P(2000, 1, A) || 1;
+
+    let d = '';
+    for(let t = 100; t <= 2000; t += 20){
+      d += (d === '' ? 'M ' : ' L ') + X(t).toFixed(1) + ' ' + Y(P(t, e, A)/Pmax).toFixed(1);
+    }
+    curva.setAttribute('d', d);
+    punto.setAttribute('cx', X(T));
+    punto.setAttribute('cy', Y(pot/Pmax));
+
+    const t = Math.min(1, (T - 100) / 1900);
+    cuerpo.style.background = lerpColor([60,60,80], [255,220,120], t);
+    cuerpo.style.boxShadow = '0 0 ' + (10 + t*70) + 'px ' + (5 + t*30) + 'px rgba(255,160,60,' + (0.15 + e*t*0.7) + ')';
+
+    document.getElementById('raP').textContent = fmt(pot, 2);
+    document.getElementById('raComentario').textContent =
+      'Si la temperatura pasara de ' + T + ' K a ' + (2*T) + ' K, la potencia radiada se multiplicaría por 2⁴ = 16: pasaría a ' +
+      fmt(P(2*T, e, A), 2) + ' W. Con e = 0 el cuerpo no radia nada (reflector perfecto); con e = 1 es un cuerpo negro.';
+  }
+  [sT, sE, sA].forEach(x => x.addEventListener('input', actualizar));
+  actualizar();
+})();
+
+// ============================================================
+// BOTELLA DEWAR
+// ============================================================
+(function(){
+  const estado = {vacio:false, plateado:false, tapa:false};
+  const flechas = document.getElementById('dwFlechas');
+
+  function actualizar(){
+    document.getElementById('dwVacio').setAttribute('fill', estado.vacio ? '#FFFFFF' : '#DDE6F0');
+    document.getElementById('dwVacio').setAttribute('stroke-dasharray', estado.vacio ? '4 3' : '');
+    document.getElementById('dwPlata').setAttribute('stroke', estado.plateado ? '#C0C0C0' : '#8a8a8a');
+    document.getElementById('dwPlata').setAttribute('stroke-width', estado.plateado ? '5' : '2');
+    document.getElementById('dwTapa').setAttribute('fill', estado.tapa ? '#7a5a3a' : '#B9C2CE');
+
+    let f = '';
+    if(!estado.vacio) f += '<line x1="152" y1="150" x2="182" y2="150" stroke="#D6413A" stroke-width="3"/><polygon points="182,144 194,150 182,156" fill="#D6413A"/>';
+    if(!estado.tapa) f += '<line x1="110" y1="48" x2="110" y2="20" stroke="#E08A2E" stroke-width="3"/><polygon points="104,20 110,8 116,20" fill="#E08A2E"/>';
+    if(!estado.plateado) f += '<path d="M58 200 q -10 -8 -20 0" stroke="#C69214" stroke-width="2.5" fill="none"/><path d="M58 210 q -10 -8 -20 0" stroke="#C69214" stroke-width="2.5" fill="none"/>';
+    flechas.innerHTML = f;
+
+    document.getElementById('dwConduccion').innerHTML = estado.vacio
+      ? '🟢 <b>Conducción:</b> bloqueada — sin materia entre las paredes no hay medio que conduzca.'
+      : '🔴 <b>Conducción:</b> activa — el vidrio y el aire conducen energía hacia afuera.';
+    document.getElementById('dwConveccion').innerHTML = (estado.vacio && estado.tapa)
+      ? '🟢 <b>Convección:</b> bloqueada — no hay aire que circule ni boca abierta por donde escape.'
+      : '🔴 <b>Convección:</b> activa — el aire circula entre las paredes o por la boca.';
+    document.getElementById('dwRadiacion').innerHTML = estado.plateado
+      ? '🟢 <b>Radiación:</b> muy reducida — las superficies plateadas tienen emisividad e ≈ 0 y reflejan la radiación.'
+      : '🔴 <b>Radiación:</b> activa — la superficie emite según P = σAeT⁴.';
+
+    const n = (estado.vacio?1:0) + (estado.plateado?1:0) + (estado.tapa?1:0);
+    document.getElementById('dwTexto').textContent = (n === 3)
+      ? 'Con las tres barreras activas, el termo bloquea los tres mecanismos a la vez y el líquido conserva su temperatura durante horas.'
+      : 'Activa las tres barreras para bloquear conducción, convección y radiación simultáneamente.';
+  }
+  document.querySelectorAll('[data-dewar]').forEach(b => {
+    b.addEventListener('click', () => {
+      const k = b.getAttribute('data-dewar');
+      estado[k] = !estado[k];
+      b.classList.toggle('activo', estado[k]);
+      actualizar();
+    });
+  });
+  document.getElementById('dwReset').addEventListener('click', () => {
+    estado.vacio = estado.plateado = estado.tapa = false;
+    document.querySelectorAll('[data-dewar]').forEach(b => b.classList.remove('activo'));
+    actualizar();
+  });
+  actualizar();
+})();
+
+// ============================================================
+// EJEMPLOS INTERACTIVOS (Steppers)
+// ============================================================
+(function(){
+  document.querySelectorAll('.ejemplo').forEach(ej => {
+    const steps = ej.querySelectorAll('.step');
+    const btnSig = ej.querySelector('[data-siguiente]');
+    const btnRe = ej.querySelector('[data-reiniciar]');
+    const prog = ej.querySelector('[data-progreso]');
+    let actual = 0;
+
+    function render(){
+      steps.forEach((s, i) => {
+        if(i < actual) s.classList.add('shown');
+        else s.classList.remove('shown');
+      });
+      prog.textContent = 'Paso ' + actual + ' / ' + steps.length;
+    }
+    btnSig.addEventListener('click', () => { if(actual < steps.length){ actual++; render(); } });
+    btnRe.addEventListener('click', () => { actual = 0; render(); });
+    ej.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter'){
+        if(actual < steps.length){ actual++; render(); }
+        e.preventDefault();
+      }
+    });
+    render();
+  });
+})();
+</script>
+</body>
+</html>
