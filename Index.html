@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Física General II · FS0310 · Presentaciones del curso</title>
+<style>
+:root{
+  --eth-blue-dark:#133565;
+  --eth-blue:#215CAF;
+  --celeste-ucr:#50AAD7;
+  --gold-ucr:#C69214;
+  --gris-texto:#3C3C3C;
+  --fondo-nota:#F5F7FA;
+  --fondo-gold:#FBF3E1;
+  --linea:#D8DEE8;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; padding:0;
+  font-family: Georgia, 'Cambria', 'Times New Roman', serif;
+  color:var(--gris-texto);
+  background:#fff;
+  line-height:1.55;
+}
+h1,h2,h3{color:var(--eth-blue-dark); font-weight:700; margin:0 0 .5em 0;}
+p{margin:0 0 1em 0;}
+.wrap{max-width:900px; margin:0 auto; padding:0 24px;}
+
+/* ---------- Encabezado ---------- */
+.portada{
+  border-bottom:6px solid var(--gold-ucr);
+  padding:40px 24px 52px;
+  background:
+    radial-gradient(circle at 85% 12%, rgba(80,170,215,.10), transparent 45%),
+    radial-gradient(circle at 10% 85%, rgba(198,146,20,.08), transparent 45%);
+}
+.portada-header{
+  display:flex; align-items:center; justify-content:space-between;
+  max-width:900px; width:100%; margin:0 auto 44px;
+  padding-bottom:18px; border-bottom:1.5px solid rgba(33,92,175,.35);
+}
+.portada-header img.ucr{height:56px;}
+.portada-header img.efis{height:40px;}
+.portada-titulo{max-width:900px; width:100%; margin:0 auto;}
+.eyebrow{color:var(--gris-texto); font-size:1.05rem; letter-spacing:.02em;}
+.curso{color:var(--eth-blue-dark); font-size:2.6rem; font-weight:700; margin:.1em 0 .3em;}
+.gold-rule{width:110px; height:3px; background:var(--gold-ucr); margin:.4em 0 .7em;}
+.tema-titulo{font-size:1.5rem; color:var(--eth-blue); font-weight:700; margin:0 0 .15em;}
+.tema-sub{font-size:1.05rem; color:var(--gris-texto);}
+.portada-footer{max-width:900px; width:100%; margin:40px auto 0; font-size:.95rem;}
+.portada-footer b{color:var(--eth-blue-dark);}
+
+/* ---------- Secciones ---------- */
+section{padding:48px 0; border-bottom:1px solid var(--linea);}
+section:last-of-type{border-bottom:none;}
+.kicker{
+  display:inline-block; font-size:1.15rem; font-weight:700; color:var(--eth-blue-dark);
+  border:2px solid var(--gold-ucr); border-radius:10px;
+  padding:8px 18px; margin-bottom:24px; background:#fff;
+}
+.narrow{max-width:70ch;}
+
+/* ---------- Tarjetas de temas ---------- */
+.temas{
+  display:grid; gap:18px;
+  grid-template-columns:repeat(auto-fill, minmax(270px, 1fr));
+  margin-top:8px;
+}
+a.tema-card{
+  display:block; text-decoration:none; color:inherit;
+  border:1px solid var(--linea); border-left:5px solid var(--eth-blue);
+  border-radius:10px; padding:18px 20px; background:#fff;
+  box-shadow:0 1px 3px rgba(19,53,101,.06);
+  transition:transform .18s ease, box-shadow .18s ease, border-left-color .18s ease;
+}
+a.tema-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 6px 18px rgba(19,53,101,.13);
+  border-left-color:var(--gold-ucr);
+}
+a.tema-card:focus-visible{outline:3px solid var(--celeste-ucr); outline-offset:3px;}
+.tema-num{
+  font-size:.78rem; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--gold-ucr); font-weight:700;
+}
+.tema-nombre{font-size:1.15rem; color:var(--eth-blue-dark); font-weight:700; margin:.15em 0 .35em;}
+.tema-desc{font-size:.9rem; color:var(--gris-texto); margin:0 0 .8em;}
+.tema-abrir{font-size:.85rem; color:var(--eth-blue); font-weight:700;}
+
+/* Tarjeta de tema aún no publicado */
+.tema-card.pendiente{
+  border-left-color:var(--linea); background:var(--fondo-nota);
+  cursor:default; opacity:.7; pointer-events:none;
+}
+.tema-card.pendiente .tema-nombre{color:#7b8698;}
+.tema-card.pendiente .tema-abrir{color:#9aa4b2;}
+
+.nota{
+  background:var(--fondo-nota); border:1px solid var(--linea); border-radius:6px;
+  padding:14px 18px; margin:18px 0; font-size:.94rem;
+}
+.nota b{color:var(--eth-blue-dark);}
+ul.limpia{margin:0 0 1em 1.1em; padding:0;}
+ul.limpia li{margin-bottom:.4em;}
+
+footer.doc-footer{padding:36px 24px 60px; text-align:center; color:#8a8a8a; font-size:.85rem;}
+
+@media (max-width:640px){
+  .curso{font-size:2rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================ ENCABEZADO -->
+<div class="portada">
+  <div class="portada-header">
+    <img class="ucr" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iNjAiPjx0ZXh0IHg9IjEwIiB5PSI0MCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEiIGZvbnQtc2l6ZT0iMzUiIGZpbGw9IiM1MEFBRDciIGZvbnQtd2VpZ2h0PSJib2xkIj5VQ1I8L3RleHQ+PC9zdmc+" alt="Universidad de Costa Rica">
+    <img class="efis" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTAiIGhlaWdodD0iNjAiPjx0ZXh0IHg9IjEwIiB5PSI0MCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMxMzM1NjUiIGZvbnQtd2VpZ2h0PSJib2xkIj5Fc2N1ZWxhIGRlIEbDrXNpY2E8L3RleHQ+PC9zdmc+" alt="Escuela de Física">
+  </div>
+  <div class="portada-titulo">
+    <div class="eyebrow">Física General II</div>
+    <div class="curso">FS0310</div>
+    <div class="gold-rule"></div>
+    <div class="tema-titulo">Presentaciones interactivas del curso</div>
+    <div class="tema-sub">Basadas en Serway &amp; Jewett, <i>Física para ciencias e ingeniería 1</i>, 10.ª edición</div>
+  </div>
+  <div class="portada-footer">
+    <div><b>Docente:</b> Keylor Arley Castro</div>
+    <div>Escuela de Física, Universidad de Costa Rica</div>
+  </div>
+</div>
+
+<!-- ============================================================ TEMAS -->
+<section>
+  <div class="wrap">
+    <div class="kicker">Temas del curso</div>
+    <p class="narrow">Cada tema abre directamente en el navegador, en la computadora o en el teléfono.
+      No hay que descargar ni instalar nada: las simulaciones funcionan dentro de la misma página.</p>
+
+    <div class="temas">
+
+      <a class="tema-card" href="tema5.html">
+        <div class="tema-num">Tema 5</div>
+        <div class="tema-nombre">Temperatura</div>
+        <p class="tema-desc">Ley cero, escalas Celsius–Fahrenheit–Kelvin, cero absoluto, expansión
+          térmica, comportamiento del agua y gas ideal.</p>
+        <div class="tema-abrir">Abrir presentación →</div>
+      </a>
+
+      <a class="tema-card" href="tema6.html">
+        <div class="tema-num">Tema 6</div>
+        <div class="tema-nombre">Primera ley de la termodinámica</div>
+        <p class="tema-desc">Calor y energía interna, calor específico, calorimetría, calor latente,
+          trabajo en procesos, conducción, convección y radiación.</p>
+        <div class="tema-abrir">Abrir presentación →</div>
+      </a>
+
+      <!-- ===== PLANTILLA: copiá este bloque para cada tema nuevo =====
+      <a class="tema-card" href="tema7.html">
+        <div class="tema-num">Tema 7</div>
+        <div class="tema-nombre">Título del tema</div>
+        <p class="tema-desc">Descripción breve de los contenidos.</p>
+        <div class="tema-abrir">Abrir presentación →</div>
+      </a>
+      ============================================================ -->
+
+      <!-- Tarjeta de un tema todavía no publicado: quitá la clase "pendiente"
+           y ponéle el href cuando subás el archivo. -->
+      <span class="tema-card pendiente">
+        <div class="tema-num">Próximamente</div>
+        <div class="tema-nombre">Tema 7</div>
+        <p class="tema-desc">Esta presentación estará disponible más adelante en el semestre.</p>
+        <div class="tema-abrir">Aún no publicada</div>
+      </span>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ CÓMO USARLAS -->
+<section>
+  <div class="wrap">
+    <div class="kicker">Cómo usar las presentaciones</div>
+    <ul class="limpia narrow">
+      <li>La barra superior de cada tema permite saltar directamente a cualquier sección.</li>
+      <li>Los paneles con deslizadores y botones son simulaciones: mové los controles y observá cómo
+        cambian las cantidades físicas en tiempo real.</li>
+      <li>En los ejemplos resueltos, hacé clic dentro del recuadro y presioná <b>Enter</b> (o el botón
+        "Siguiente") para ir revelando el razonamiento paso a paso.</li>
+      <li>Funcionan en celular, aunque las gráficas se aprecian mejor en pantalla grande.</li>
+    </ul>
+    <div class="nota"><b>Libro de texto:</b> Raymond A. Serway y John W. Jewett, Jr.,
+      <i>Física para ciencias e ingeniería 1</i>, 10.ª edición. Las figuras y tablas citadas en cada
+      tema corresponden a esa edición.</div>
+  </div>
+</section>
+
+<footer class="doc-footer">Física General II (FS0310) · Escuela de Física, Universidad de Costa Rica</footer>
+
+</body>
+</html>
