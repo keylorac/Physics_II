@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Física General II · FS0310 · Teoría cinética de los gases</title>
+
+<!-- KaTeX CSS y JS vía CDN para renderizado LaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+<style>
+:root{
+  --eth-blue-dark:#133565;
+  --eth-blue:#215CAF;
+  --celeste-ucr:#50AAD7;
+  --gold-ucr:#C69214;
+  --gris-texto:#3C3C3C;
+  --fondo-nota:#F5F7FA;
+  --fondo-gold:#FBF3E1;
+  --linea:#D8DEE8;
+  --rojo:#D6413A;
+  --azul-frio:#2E6DB4;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; padding:0;
+  font-family: Georgia, 'Cambria', 'Times New Roman', serif;
+  color:var(--gris-texto);
+  background:#fff;
+  line-height:1.55;
+}
+img{max-width:100%;}
+h1,h2,h3{color:var(--eth-blue-dark); font-weight:700; margin:0 0 .5em 0;}
+p{margin:0 0 1em 0;}
+.wrap{max-width:900px; margin:0 auto; padding:0 24px;}
+.narrow{max-width:70ch;}
+
+/* ---------- Portada ---------- */
+.portada{
+  min-height:100vh;
+  display:flex; flex-direction:column; justify-content:center;
+  border-bottom:6px solid var(--gold-ucr);
+  padding:48px 24px 64px;
+  background:
+    radial-gradient(circle at 85% 12%, rgba(80,170,215,.10), transparent 45%),
+    radial-gradient(circle at 10% 85%, rgba(198,146,20,.08), transparent 45%);
+}
+.portada-header{
+  display:flex; align-items:center; justify-content:space-between;
+  max-width:900px; width:100%; margin:0 auto 56px;
+  padding-bottom:18px; border-bottom:1.5px solid rgba(33,92,175,.35);
+}
+.portada-header img.ucr{height:56px;}
+.portada-header img.efis{height:40px;}
+.portada-titulo{max-width:900px; width:100%; margin:0 auto; text-align:left;}
+.eyebrow{color:var(--gris-texto); font-size:1.05rem; letter-spacing:.02em;}
+.curso{color:var(--eth-blue-dark); font-size:2.6rem; font-weight:700; margin:.1em 0 .3em;}
+.gold-rule{width:110px; height:3px; background:var(--gold-ucr); margin:.4em 0 .7em;}
+.tema-titulo{font-size:1.7rem; color:var(--eth-blue); font-weight:700; margin:0 0 .15em;}
+.tema-sub{font-size:1.1rem; color:var(--gris-texto);}
+.portada-footer{max-width:900px; width:100%; margin:64px auto 0; font-size:.95rem; color:var(--gris-texto);}
+.portada-footer b{color:var(--eth-blue-dark);}
+
+/* ---------- Nav ---------- */
+nav.toc{
+  position:sticky; top:0; z-index:50;
+  background:rgba(255,255,255,.94); backdrop-filter:blur(4px);
+  border-bottom:1px solid var(--linea);
+  overflow-x:auto; white-space:nowrap;
+}
+nav.toc .wrap{display:flex; gap:4px; padding:10px 24px;}
+nav.toc a{
+  flex:0 0 auto;
+  font-family: Georgia, serif; font-size:.85rem; color:var(--eth-blue-dark);
+  text-decoration:none; padding:6px 12px; border-radius:16px;
+  border:1px solid transparent;
+}
+nav.toc a:hover{border-color:var(--eth-blue); background:var(--fondo-nota);}
+
+/* ---------- Secciones ---------- */
+section{padding:56px 0; border-bottom:1px solid var(--linea);}
+section:last-of-type{border-bottom:none;}
+.kicker{
+  display:inline-block; font-size:1.15rem; font-weight:700; color:var(--eth-blue-dark);
+  border:2px solid var(--gold-ucr); border-radius:10px;
+  padding:8px 18px; margin-bottom:24px; background:#fff;
+}
+
+/* ---------- Cajas ---------- */
+.ley{
+  background:#EAF3FB; border-left:4px solid var(--eth-blue);
+  border-radius:4px; padding:16px 20px; margin:18px 0;
+}
+.ley b{color:var(--eth-blue-dark);}
+.nota{
+  background:var(--fondo-nota); border:1px solid var(--linea); border-radius:6px;
+  padding:14px 18px; margin:18px 0; font-size:.94rem;
+}
+.leyenda{
+  border:1px solid var(--linea); border-radius:6px; padding:12px 16px; margin:14px 0 0;
+  font-size:.9rem; color:var(--gris-texto); background:#fff;
+}
+.leyenda b{color:var(--eth-blue-dark);}
+
+/* ---------- Ecuaciones (LaTeX / KaTeX) ---------- */
+.eq{
+  display:flex; align-items:center; justify-content:center; gap:14px;
+  font-size:1.05rem;
+  background:var(--fondo-nota); border-left:3px solid var(--eth-blue);
+  padding:12px 14px; margin:18px 0; border-radius:4px;
+}
+.eq .eq-sp{flex:1 1 0; min-width:0;}
+.eq .eq-body{flex:0 1 auto; max-width:100%; overflow-x:auto; overflow-y:hidden; padding:3px 2px;}
+.eq .eq-num{flex:1 1 0; min-width:3.4em; text-align:right; color:#6b7686; font-size:.92rem; font-family:Georgia, serif;}
+.eq .katex-display{margin:0;}
+.eq .katex{font-size:1.15em;}
+.calc{overflow-x:auto; overflow-y:hidden; margin:6px 0; text-align:center;}
+.calc .katex-display{margin:.4em 0;}
+.calc .katex{font-size:1.08em;}
+.var{font-style:italic;}
+
+/* ---------- Tablas ---------- */
+table.datos{ border-collapse:collapse; width:100%; font-size:.86rem; margin:14px 0; }
+table.datos th, table.datos td{ border-bottom:1px solid var(--linea); padding:6px 10px; text-align:left; }
+table.datos th{color:var(--eth-blue-dark); border-bottom:2px solid var(--eth-blue-dark);}
+table.datos td.num, table.datos th.num{text-align:right;}
+.tabla-scroll{overflow-x:auto;}
+
+/* ---------- Paneles interactivos ---------- */
+.panel{
+  background:#fff; border:1px solid var(--linea); border-radius:10px;
+  padding:22px 24px; margin:20px 0;
+  box-shadow:0 1px 3px rgba(19,53,101,.06);
+}
+.panel h3{font-size:1.05rem; margin-bottom:14px;}
+.controls{display:flex; flex-wrap:wrap; gap:18px; align-items:center; margin-bottom:16px; font-size:.92rem;}
+.controls label{display:flex; flex-direction:column; gap:4px; font-size:.85rem; color:var(--gris-texto); margin-right:18px;}
+input[type=range]{accent-color:var(--eth-blue); width:180px;}
+select, button, input[type=number]{
+  font-family:inherit; font-size:.9rem; padding:6px 10px; border-radius:6px;
+  border:1px solid var(--linea); background:#fff; color:var(--gris-texto);
+}
+button{
+  background:var(--eth-blue-dark); color:#fff; border:none; cursor:pointer;
+  padding:8px 16px; font-weight:600;
+}
+button:hover{background:var(--eth-blue);}
+button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible{
+  outline:3px solid var(--celeste-ucr); outline-offset:2px;
+}
+button.secundario{background:#fff; color:var(--eth-blue-dark); border:1px solid var(--eth-blue-dark);}
+button.secundario:hover{background:var(--fondo-nota);}
+button.chip{background:#fff; color:var(--eth-blue-dark); border:1px solid var(--linea); font-weight:400;}
+button.chip.activo{background:var(--eth-blue-dark); color:#fff; border-color:var(--eth-blue-dark); font-weight:600;}
+.readout{font-size:.95rem; margin-top:8px;}
+.readout .num{font-weight:700; color:var(--eth-blue-dark);}
+.grid2{display:flex; gap:26px; flex-wrap:wrap; align-items:flex-start;}
+.grid2 > *{flex:1 1 300px; min-width:280px;}
+
+.caja-stage{background:#EFF3F8; border-radius:8px; padding:10px; overflow-x:auto;}
+.mol-stage{background:#EFF3F8; border-radius:8px; padding:14px; text-align:center;}
+
+.gas-contenedor{
+  position:relative; background:#EFF3F8; border:2px solid var(--eth-blue-dark);
+  border-radius:6px; height:200px; margin:14px 0; overflow:hidden; transition:width .3s ease;
+}
+.particula{position:absolute; width:9px; height:9px; border-radius:50%; background:var(--gold-ucr);}
+.piston{
+  position:absolute; top:-2px; bottom:-2px; right:-6px; width:12px;
+  background:repeating-linear-gradient(45deg,#555,#555 3px,#777 3px,#777 6px);
+  border-left:3px solid #333;
+}
+
+/* ---------- Ejemplos paso a paso ---------- */
+.ejemplo{ border:1px solid var(--linea); border-radius:10px; margin:26px 0; overflow:hidden; outline:none; }
+.ejemplo:focus{box-shadow:0 0 0 3px rgba(33,92,175,.25);}
+.ejemplo-header{
+  background:var(--eth-blue-dark); color:#fff; padding:12px 20px;
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;
+}
+.ejemplo-header b{font-size:1rem;}
+.ejemplo-body{padding:20px 22px;}
+.enunciado{
+  background:var(--fondo-nota); border-left:4px solid var(--eth-blue-dark);
+  padding:14px 18px; border-radius:4px; margin-bottom:6px;
+}
+.step{
+  opacity:0; max-height:0; overflow:hidden; transform:translateY(8px);
+  transition:opacity .45s ease, transform .45s ease, max-height .45s ease; padding-top:0;
+}
+.step.shown{opacity:1; max-height:800px; transform:translateY(0); padding-top:14px;}
+.step .titulo-paso{font-weight:700; color:var(--eth-blue); margin-bottom:4px; font-size:.92rem;}
+.resultado-final{
+  background:var(--fondo-gold); border:1px solid var(--gold-ucr); border-radius:6px;
+  padding:12px 16px; font-weight:700; color:#7A5A0C;
+}
+.ejemplo-controles{
+  display:flex; gap:10px; align-items:center; padding:14px 22px 20px;
+  border-top:1px dashed var(--linea);
+}
+.hint-enter{font-size:.82rem; color:#8a8a8a;}
+.progreso{font-size:.82rem; color:var(--gris-texto);}
+
+footer.doc-footer{padding:40px 24px 60px; text-align:center; color:#8a8a8a; font-size:.85rem;}
+
+@media (max-width:640px){
+  .curso{font-size:2rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================ PORTADA -->
+<div class="portada">
+  <div class="portada-header">
+    <img class="ucr" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iNjAiPjx0ZXh0IHg9IjEwIiB5PSI0MCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEiIGZvbnQtc2l6ZT0iMzUiIGZpbGw9IiM1MEFBRDciIGZvbnQtd2VpZ2h0PSJib2xkIj5VQ1I8L3RleHQ+PC9zdmc+" alt="Universidad de Costa Rica">
+    <img class="efis" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTAiIGhlaWdodD0iNjAiPjx0ZXh0IHg9IjEwIiB5PSI0MCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMxMzM1NjUiIGZvbnQtd2VpZ2h0PSJib2xkIj5Fc2N1ZWxhIGRlIEbDrXNpY2E8L3RleHQ+PC9zdmc+" alt="Escuela de Física">
+  </div>
+  <div class="portada-titulo">
+    <div class="eyebrow">Física General II</div>
+    <div class="curso">FS0310</div>
+    <div class="gold-rule"></div>
+    <div class="tema-titulo">Teoría cinética de los gases</div>
+    <div class="tema-sub">Basado en Serway &amp; Jewett, <i>Física para ciencias e ingeniería 1</i>, 10.ª edición (cap. 20)</div>
+  </div>
+  <div class="portada-footer">
+    <div><b>Docente:</b> Keylor Arley Castro</div>
+    <div>Escuela de Física, Universidad de Costa Rica</div>
+  </div>
+</div>
+
+<nav class="toc">
+  <div class="wrap">
+    <a href="#modelo">Modelo molecular</a>
+    <a href="#presion">Presión y temperatura</a>
+    <a href="#calor-especifico">Calor específico molar</a>
+    <a href="#equiparticion">Equipartición</a>
+    <a href="#adiabaticos">Procesos adiabáticos</a>
+    <a href="#boltzmann">Distribución de Boltzmann</a>
+    <a href="#maxwell">Rapideces de Maxwell-Boltzmann</a>
+    <a href="#ejemplos">Ejemplos</a>
+  </div>
+</nav>
+
+<!-- ============================================================ 20.1 MODELO MOLECULAR -->
+<section id="modelo">
+  <div class="wrap">
+    <div class="kicker">20.1 · Modelo molecular de un gas ideal</div>
+    <p class="narrow">La <b>teoría cinética</b> trata un gas ideal como un conjunto de moléculas
+      puntuales, en número muy grande, dentro de un recipiente cúbico de lado \(d\).
+      Las moléculas obedecen las leyes de Newton, se mueven isotrópicamente, interactúan solo mediante
+      colisiones elásticas de corto alcance y chocan elásticamente con las paredes.</p>
+
+    <div class="panel">
+      <h3>Una molécula golpea la pared: impulso, \(\Delta t\) y fuerza promedio</h3>
+      <p style="font-size:.9rem;">Al chocar elásticamente con la pared, la componente <i>x</i> de la
+        velocidad de la molécula se invierte. El cambio en cantidad de movimiento es
+        \(\Delta p_{xi}=-2m_0 v_{xi}\), y debe recorrer una distancia \(2d\) para volver a
+        chocar con la misma pared: \(\Delta t=\frac{2d}{v_{xi}}\).</p>
+      <div class="controls">
+        <label>Lado de la caja \(d\) (cm)
+          <input type="range" id="mdD" min="10" max="50" step="1" value="25">
+        </label>
+        <label>Rapidez \(v_{xi}\) (m/s)
+          <input type="range" id="mdV" min="100" max="1000" step="10" value="400">
+        </label>
+        <label>Molécula
+          <select id="mdGas"></select>
+        </label>
+        <button id="mdPlay">Lanzar molécula ▶</button>
+      </div>
+      <div class="caja-stage">
+        <svg width="100%" height="230" viewBox="0 0 380 230" style="max-width:380px;">
+          <polygon points="60,190 260,190 300,150 100,150" fill="#DDEAF6" stroke="#7a8aa0" stroke-width="2"/>
+          <polygon points="260,190 300,150 300,50 260,90" fill="#C9DCEE" stroke="#7a8aa0" stroke-width="2"/>
+          <polygon points="60,190 100,150 100,10 60,50" fill="#EAF1F9" stroke="#7a8aa0" stroke-width="2"/>
+          <polygon points="100,150 300,150 300,50 100,10" fill="none" stroke="#7a8aa0" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="60" y1="190" x2="60" y2="50" stroke="#7a8aa0" stroke-width="2"/>
+          <line x1="260" y1="190" x2="260" y2="90" stroke="#7a8aa0" stroke-width="1" stroke-dasharray="3 3"/>
+          <circle id="mdBola" cx="160" cy="120" r="7" fill="#C69214"/>
+          <line id="mdTraza" x1="160" y1="120" x2="160" y2="120" stroke="#C69214" stroke-width="1.5" stroke-dasharray="2 3" opacity=".7"/>
+          <text x="70" y="205" font-size="11" font-family="Georgia" font-style="italic" fill="#666">d</text>
+        </svg>
+      </div>
+      <p class="readout">\(\Delta p_{xi}=\) <span class="num" id="mdDp">—</span> kg·m/s &nbsp;·&nbsp;
+        \(\Delta t=\) <span class="num" id="mdDt">—</span> ms &nbsp;·&nbsp;
+        \(\overline{F}_i=\frac{m_0v_{xi}^{2}}{d}=\) <span class="num" id="mdF">—</span> N</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 20.1 PRESIÓN Y TEMPERATURA -->
+<section id="presion">
+  <div class="wrap">
+    <div class="kicker">De la mecánica de una molécula a la presión del gas</div>
+    <p class="narrow">Al sumar la fuerza de las \(N\) moléculas sobre la pared, usar que el movimiento es
+      isotrópico (\(\overline{v^{2}}=3\,\overline{v_x^{2}}\)) y dividir entre el área \(d^{2}\), se llega a la relación central del modelo:</p>
+    
+    <div class="eq">
+      <span class="eq-sp"></span>
+      <span class="eq-body">\[P=\frac{2}{3}\,\frac{N}{V}\left(\frac{1}{2}m_0\overline{v^{2}}\right)\]</span>
+      <span class="eq-num">(20.15)</span>
+    </div>
+
+    <p class="narrow">Comparando \(PV=\frac{2}{3}N\left(\frac{1}{2}m_0\overline{v^{2}}\right)\) con la ecuación de estado \(PV=Nk_{\mathrm{B}}T\), se obtiene el
+      significado microscópico de la temperatura:</p>
+
+    <div class="eq">
+      <span class="eq-sp"></span>
+      <span class="eq-body">\[\frac{1}{2}m_0\overline{v^{2}}=\frac{3}{2}k_{\mathrm{B}}T\]</span>
+      <span class="eq-num">(20.19)</span>
+    </div>
+
+    <div class="leyenda">La temperatura es una medida directa de la energía cinética traslacional
+      molecular promedio. Cada grado de libertad de traslación (\(x\), \(y\), \(z\)) aporta \(\frac{1}{2}k_{\mathrm{B}}T\)
+      (<b>teorema de equipartición de la energía</b>).</div>
+
+    <div class="eq">
+      <span class="eq-sp"></span>
+      <span class="eq-body">\[K_{\mathrm{tot}}=N\left(\frac{1}{2}m_0\overline{v^{2}}\right)=\frac{3}{2}Nk_{\mathrm{B}}T=\frac{3}{2}nRT\]</span>
+      <span class="eq-num">(20.21)</span>
+    </div>
+
+    <div class="eq">
+      <span class="eq-sp"></span>
+      <span class="eq-body">\[v_{\mathrm{rms}}=\sqrt{\overline{v^{2}}}=\sqrt{\frac{3k_{\mathrm{B}}T}{m_0}}=\sqrt{\frac{3RT}{M}}\]</span>
+      <span class="eq-num">(20.22)</span>
+    </div>
+
+    <div class="panel">
+      <h3>Presión de un gas a partir de \(N\), \(V\) y \(T\)</h3>
+      <div class="controls">
+        <label>\(N\) (\(\times10^{23}\) moléculas)
+          <input type="range" id="prN" min="1" max="30" step="0.5" value="6">
+        </label>
+        <label>\(V\) (L)
+          <input type="range" id="prV" min="1" max="50" step="0.1" value="22.4">
+        </label>
+        <label>\(T\) (K)
+          <input type="range" id="prT" min="100" max="800" step="10" value="293">
+        </label>
+      </div>
+      <p class="readout">\(\frac{1}{2}m_0\overline{v^{2}}=\frac{3}{2}k_{\mathrm{B}}T=\) <span class="num" id="prKavg">—</span> J
+        &nbsp;(energía cinética traslacional promedio por molécula)</p>
+      <p class="readout"><b>\(P=\frac{2}{3}\frac{N}{V}\left(\frac{1}{2}m_0\overline{v^{2}}\right)=\)</b> <span class="num" id="prP">—</span> atm
+        &nbsp;·&nbsp; verificación con \(PV=Nk_{\mathrm{B}}T\): <span class="num" id="prPcheck">—</span> atm</p>
+    </div>
+
+    <h3 style="margin-top:30px; font-size:1rem;">Tabla 20.1 — Rapidez media cuadrática a 20 °C</h3>
+    <div class="panel">
+      <h3>Calculadora de \(v_{\mathrm{rms}}=\sqrt{3RT/M}\)</h3>
+      <div class="controls">
+        <label>Gas
+          <select id="rmsGas"></select>
+        </label>
+        <label>\(T\) (°C)
+          <input type="range" id="rmsT" min="-50" max="200" step="1" value="20">
+        </label>
+      </div>
+      <p class="readout"><b>\(v_{\mathrm{rms}}=\)</b> <span class="num" id="rmsV">—</span> m/s
+        &nbsp;(a 20 °C reproduce el valor de la tabla 20.1)</p>
+      <div class="tabla-scroll">
+        <table class="datos">
+          <thead><tr><th>Gas</th><th class="num">\(M\) (g/mol)</th><th class="num">\(v_{\mathrm{rms}}\) a 20 °C (m/s)</th><th>Gas</th><th class="num">\(M\) (g/mol)</th><th class="num">\(v_{\mathrm{rms}}\) a 20 °C (m/s)</th></tr></thead>
+          <tbody>
+            <tr><td>\(\mathrm{H_2}\)</td><td class="num">2.02</td><td class="num">1902</td><td>\(\mathrm{NO}\)</td><td class="num">30.0</td><td class="num">494</td></tr>
+            <tr><td>\(\mathrm{He}\)</td><td class="num">4.00</td><td class="num">1352</td><td>\(\mathrm{O_2}\)</td><td class="num">32.0</td><td class="num">478</td></tr>
+            <tr><td>\(\mathrm{H_2O}\)</td><td class="num">18.0</td><td class="num">637</td><td>\(\mathrm{CO_2}\)</td><td class="num">44.0</td><td class="num">408</td></tr>
+            <tr><td>\(\mathrm{Ne}\)</td><td class="num">20.2</td><td class="num">602</td><td>\(\mathrm{SO_2}\)</td><td class="num">64.1</td><td class="num">338</td></tr>
+            <tr><td>\(\mathrm{N_2}\) o \(\mathrm{CO}\)</td><td class="num">28.0</td><td class="num">511</td><td></td><td class="num"></td><td class="num"></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 20.2 CALOR ESPECÍFICO MOLAR -->
+<section id="calor-especifico">
+  <div class="wrap">
+    <div class="kicker">20.2 · Calor específico molar de un gas ideal</div>
+    <p class="narrow">El calor \(Q\) para un cambio dado de temperatura no tiene un valor
+      único: depende del proceso. Por eso se definen calores específicos molares para dos procesos
+      especiales:</p>
+
+    <div class="eq">
+      <span class="eq-sp"></span>
+      <span class="eq-body">\[Q=nC_V\,\Delta T\qquad\text{(volumen constante)}\]</span>
+      <span class="eq-num">(20.23)</span>
+    </div>
+
+    <div class="eq">
+      <span class="eq-sp"></span>
+      <span class="eq-body">\[Q=nC_P\,\Delta T\qquad\text{(presión constante)}\]</span>
+      <span class="eq-num">(20.24)</span>
+    </div>
+
+    <p class="narrow">A volumen constante no se realiza trabajo, así que el calor transferido se convierte por
+      completo en energía interna: \(\Delta E_{\mathrm{int}}=nC_V\,\Delta T\). Como \(E_{\mathrm{int}}\) de un gas ideal solo depende de \(T\),
+      esta relación vale para <b>cualquier proceso</b> entre las mismas dos temperaturas.</p>
+
+    <div class="eq">
+      <span class="eq-sp"></span>
+      <span class="eq-body">\[\Delta E_{\mathrm{int}}=nC_V\,\Delta T\]</span>
+      <span class="eq-num">(20.26)</span>
+    </div>
+
+    <p class="narrow">Para un gas monoatómico ideal (un átomo por molécula), toda la energía agregada se
+      destina a energía cinética traslacional:</p>
+
+    <div class="eq">
+      <span class="eq-sp"></span>
+      <span class="eq-body">\[E_{\mathrm{int}}=\frac{3}{2}Nk_{\mathrm{B}}T=\frac{3}{2}nRT\]</span>
+      <span class="eq-num">(20.28)</span>
+    </div>
+
+    <div class="eq">
+      <span class="eq-sp"></span>
+      <span class="eq-body">\[C_V=\frac{3}{2}R=12.5\ \mathrm{J/mol\cdot K}\]</span>
+      <span class="eq-num">(20.29)</span>
+    </div>
+
+    <p class="narrow">Combinando la primera ley con \(P\,\Delta V=nR\,\Delta T\) a presión constante, se obtiene una
+      relación válida para <b>cualquier</b> gas ideal:</p>
+
+    <div class="eq">
+      <span class="eq-sp"></span>
+      <span class="eq-body">\[C_P-C_V=R\]</span>
+      <span class="eq-num">(20.31)</span>
+    </div>
+
+    <div class="eq">
+      <span class="eq-sp"></span>
+      <span class="eq-body">\[C_P=\frac{5}{2}R=20.8\ \mathrm{J/mol\cdot K}\qquad\gamma=\frac{C_P}{C_V}=\frac{5}{3}=1.67\quad\text{(monoatómico)}\]</span>
+      <span class="eq-num">(20.32)</span>
+    </div>
+
+    <div class="panel">
+      <h3>Calculadora: \(Q\), \(\Delta E_{\mathrm{int}}\) y \(W\) para un gas monoatómico</h3>
+      <div class="controls">
+        <label>\(n\) (mol)
+          <input type="range" id="ceN" min="0.5" max="10" step="0.5" value="3">
+        </label>
+        <label>\(T\) inicial (K)
+          <input type="range" id="ceTi" min="100" max="600" step="10" value="300">
+        </label>
+        <label>\(T\) final (K)
+          <input type="range" id="ceTf" min="100" max="800" step="10" value="500">
+        </label>
+        <span>
+          <button class="chip activo" data-proc-ce="v">Volumen constante</button>
+          <button class="chip" data-proc-ce="p">Presión constante</button>
+        </span>
+      </div>
+      <p class="readout">\(C_V=12.5\ \mathrm{J/mol\cdot K}\) &nbsp;·&nbsp; \(C_P=20.8\ \mathrm{J/mol\cdot K}\) &nbsp;·&nbsp;
+        \(\Delta T=\) <span class="num" id="ceDT">—</span> K</p>
+      <p class="readout"><b>\(Q=\)</b> <span class="num" id="ceQ">—</span> J &nbsp;·&nbsp;
+        \(\Delta E_{\mathrm{int}}=nC_V\Delta T=\) <span class="num" id="ceE">—</span> J &nbsp;·&nbsp;
+        \(W=\) <span class="num" id="ceW">—</span> J</p>
+      <p class="readout" style="font-size:.88rem; color:#666;" id="ceComentario"></p>
+    </div>
+
+    <h3 style="margin-top:30px; font-size:1rem;">Tabla 20.2 — Calores específicos molares de varios gases (300 K)</h3>
+    <div class="tabla-scroll">
+      <table class="datos">
+        <thead><tr><th>Gas</th><th class="num">\(C_P\) (J/mol·K)</th><th class="num">\(C_V\) (J/mol·K)</th><th class="num">\(C_P-C_V\)</th><th class="num">\(\gamma=C_P/C_V\)</th></tr></thead>
+        <tbody>
+          <tr><td colspan="5"><i>Gases monoatómicos</i></td></tr>
+          <tr><td>\(\mathrm{He}\)</td><td class="num">20.8</td><td class="num">12.5</td><td class="num">8.33</td><td class="num">1.67</td></tr>
+          <tr><td>\(\mathrm{Ar}\)</td><td class="num">20.8</td><td class="num">12.5</td><td class="num">8.33</td><td class="num">1.67</td></tr>
+          <tr><td>\(\mathrm{Ne}\)</td><td class="num">20.8</td><td class="num">12.7</td><td class="num">8.12</td><td class="num">1.64</td></tr>
+          <tr><td>\(\mathrm{Kr}\)</td><td class="num">20.8</td><td class="num">12.3</td><td class="num">8.49</td><td class="num">1.69</td></tr>
+          <tr><td colspan="5"><i>Gases diatómicos</i></td></tr>
+          <tr><td>\(\mathrm{H_2}\)</td><td class="num">28.8</td><td class="num">20.4</td><td class="num">8.33</td><td class="num">1.41</td></tr>
+          <tr><td>\(\mathrm{N_2}\)</td><td class="num">29.1</td><td class="num">20.8</td><td class="num">8.33</td><td class="num">1.40</td></tr>
+          <tr><td>\(\mathrm{O_2}\)</td><td class="num">29.4</td><td class="num">21.1</td><td class="num">8.33</td><td class="num">1.40</td></tr>
+          <tr><td>\(\mathrm{CO}\)</td><td class="num">29.3</td><td class="num">21.0</td><td class="num">8.33</td><td class="num">1.40</td></tr>
+          <tr><td>\(\mathrm{Cl_2}\)</td><td class="num">34.7</td><td class="num">25.7</td><td class="num">8.96</td><td class="num">1.35</td></tr>
+          <tr><td colspan="5"><i>Gases poliatómicos</i></td></tr>
+          <tr><td>\(\mathrm{CO_2}\)</td><td class="num">37.0</td><td class="num">28.5</td><td class="num">8.50</td><td class="num">1.30</td></tr>
+          <tr><td>\(\mathrm{SO_2}\)</td><td class="num">40.4</td><td class="num">31.4</td><td class="num">9.00</td><td class="num">1.29</td></tr>
+          <tr><td>\(\mathrm{H_2O}\)</td><td class="num">35.4</td><td class="num">27.0</td><td class="num">8.37</td><td class="num">1.30</td></tr>
+          <tr><td>\(\mathrm{CH_4}\)</td><td class="num">35.5</td><td class="num">27.1</td><td class="num">8.41</td><td class="num">1.31</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="nota">Todos los valores, excepto el del agua, se obtuvieron a 300 K.</div>
+  </div>
+</section>
+
+<!-- ============================================================ 20.3 EQUIPARTICIÓN -->
+<section id="equiparticion">
+  <div class="wrap">
+    <div class="kicker">20.3 · Equipartición de la energía</div>
+    <div class="ley"><b>Teorema de equipartición de la energía.</b> Cada grado de libertad aporta
+      \(\frac{1}{2}k_{\mathrm{B}}T\) a la energía de un sistema. Los posibles grados de libertad son los asociados con la
+      traslación, la rotación y la vibración de las moléculas.</div>
+
+    <div class="panel">
+      <h3>Elige el tipo de molécula y observa sus grados de libertad</h3>
+      <div class="controls">
+        <span>
+          <button class="chip activo" data-mol="mono">Monoatómico (3 trasl.)</button>
+          <button class="chip" data-mol="di-sr">Diatómico sin vibración (3 trasl. + 2 rot.)</button>
+          <button class="chip" data-mol="di-cr">Diatómico con vibración (+2 vib.)</button>
+        </span>
+      </div>
+      <div class="grid2">
+        <div>
+          <div class="mol-stage">
+            <svg width="220" height="180" viewBox="0 0 220 180" id="molSvg"></svg>
+          </div>
+        </div>
+        <div>
+          <p class="readout">Grados de libertad \(f=\) <span class="num" id="molF">3</span></p>
+          <div class="eq">\[E_{\mathrm{int}}=\frac{f}{2}Nk_{\mathrm{B}}T=\frac{f}{2}nRT\]</div>
+          <p class="readout">\(E_{\mathrm{int}}\) (para \(n=1\) mol, \(T=300\) K) \(=\) <span class="num" id="molE">—</span> J</p>
+          <p class="readout"><b>\(C_V=\frac{f}{2}R=\)</b> <span class="num" id="molCv">—</span> J/mol·K &nbsp;·&nbsp;
+            \(C_P=C_V+R=\) <span class="num" id="molCp">—</span> J/mol·K &nbsp;·&nbsp;
+            \(\gamma=\) <span class="num" id="molGamma">—</span></p>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:32px; font-size:1rem;">Figura 20.6 — Calor específico molar del hidrógeno según la temperatura</h3>
+    <p class="narrow">A bajas temperaturas solo la traslación está activa (el gas se comporta como
+      monoatómico); al subir la temperatura se activa la rotación, y a temperaturas muy altas también
+      la vibración. La física clásica no explica por qué; se requiere cuantización de la energía
+      (figura 20.7): los estados rotacionales y vibratorios solo contribuyen cuando hay suficiente
+      energía térmica para excitarlos.</p>
+
+    <div class="panel">
+      <h3>Mueve la temperatura sobre la curva \(C_V(T)\) del \(\mathrm{H_2}\) (escala logarítmica)</h3>
+      <div class="controls">
+        <label>\(T\) (K, escala log)
+          <input type="range" id="cvtT" min="1" max="4" step="0.01" value="2.3">
+        </label>
+      </div>
+      <svg width="100%" height="260" viewBox="0 0 600 260" style="max-width:600px;">
+        <line x1="60" y1="15" x2="60" y2="210" stroke="#999"/>
+        <line x1="60" y1="210" x2="540" y2="210" stroke="#999"/>
+        <text x="16" y="22" font-size="11" fill="#666" font-family="Georgia"><tspan font-style="italic">C</tspan><tspan font-size="8" dy="3" font-style="italic">V</tspan><tspan dy="-3"> (J/mol·K)</tspan></text>
+        <text x="300" y="250" text-anchor="middle" font-size="10" fill="#666" font-family="Georgia"><tspan font-style="italic">T</tspan> (K, escala logarítmica)</text>
+        <line x1="60" y1="188.1" x2="540" y2="188.1" stroke="#ddd" stroke-dasharray="2 3"/>
+        <text x="546" y="192" font-size="10" fill="#666" font-family="Georgia">3/2 <tspan font-style="italic">R</tspan></text>
+        <line x1="60" y1="114.4" x2="540" y2="114.4" stroke="#ddd" stroke-dasharray="2 3"/>
+        <text x="546" y="118" font-size="10" fill="#666" font-family="Georgia">5/2 <tspan font-style="italic">R</tspan></text>
+        <line x1="60" y1="40.7" x2="540" y2="40.7" stroke="#ddd" stroke-dasharray="2 3"/>
+        <text x="546" y="44" font-size="10" fill="#666" font-family="Georgia">7/2 <tspan font-style="italic">R</tspan></text>
+        <path id="cvtCurva" fill="none" stroke="#D6413A" stroke-width="2.5" d=""/>
+        <circle id="cvtPunto" r="6" fill="#C69214"/>
+        <g stroke="#999"><line x1="60" y1="210" x2="60" y2="215"/><line x1="220" y1="210" x2="220" y2="215"/><line x1="380" y1="210" x2="380" y2="215"/><line x1="540" y1="210" x2="540" y2="215"/></g>
+        <g font-size="10" fill="#666" font-family="Georgia" text-anchor="middle">
+          <text x="60" y="228">10</text><text x="220" y="228">100</text><text x="380" y="228">1 000</text><text x="540" y="228">10 000</text>
+        </g>
+      </svg>
+      <p class="readout">\(T=\) <span class="num" id="cvtT2">—</span> K &nbsp;·&nbsp;
+        \(C_V\approx\) <span class="num" id="cvtCv">—</span> J/mol·K</p>
+      <p class="readout" style="font-size:.88rem; color:#666;" id="cvtTexto"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 20.4 PROCESOS ADIABÁTICOS -->
+<section id="adiabaticos">
+  <div class="wrap">
+    <div class="kicker">20.4 · Procesos adiabáticos para un gas ideal</div>
+    <p class="narrow">En un proceso adiabático (\(Q=0\)) de un gas ideal, \(\mathrm{d}E_{\mathrm{int}}=nC_V\,\mathrm{d}T=-P\,\mathrm{d}V\).
+      Combinando esto con la diferencial de \(PV=nRT\) y usando \(C_P-C_V=R\), se llega, tras integrar, a</p>
+
+    <div class="eq">
+      <span class="eq-sp"></span>
+      <span class="eq-body">\[PV^{\gamma}=\text{constante}\]</span>
+      <span class="eq-num">(20.38)</span>
+    </div>
+
+    <div class="eq">
+      <span class="eq-sp"></span>
+      <span class="eq-body">\[P_iV_i^{\gamma}=P_fV_f^{\gamma}\]</span>
+      <span class="eq-num">(20.39)</span>
+    </div>
+
+    <div class="eq">
+      <span class="eq-sp"></span>
+      <span class="eq-body">\[TV^{\gamma-1}=\text{constante}\]</span>
+      <span class="eq-num">(20.40)</span>
+    </div>
+
+    <div class="nota">Como \(\gamma&gt;1\), la curva \(PV\) de un proceso adiabático es más pronunciada que la de
+      una isoterma. En una expansión adiabática el gas se enfría (\(T_f&lt;T_i\)); en
+      una compresión adiabática, se calienta.</div>
+
+    <div class="panel">
+      <h3>Comprime o expande el cilindro adiabáticamente</h3>
+      <div class="controls">
+        <label>\(P_i\) (atm)
+          <input type="range" id="adPi" min="0.5" max="3" step="0.1" value="1.0">
+        </label>
+        <label>\(V_i\) (cm³)
+          <input type="range" id="adVi" min="200" max="900" step="10" value="800">
+        </label>
+        <label>\(V_f\) (cm³)
+          <input type="range" id="adVf" min="30" max="900" step="10" value="60">
+        </label>
+        <label>\(T_i\) (°C)
+          <input type="range" id="adTi" min="0" max="60" step="1" value="20">
+        </label>
+        <label>\(\gamma\)
+          <input type="range" id="adGamma" min="1.1" max="1.7" step="0.01" value="1.40">
+        </label>
+      </div>
+      <div class="grid2">
+        <div>
+          <div class="gas-contenedor" id="adContenedor" style="width:70%;">
+            <div class="piston"></div>
+          </div>
+        </div>
+        <div>
+          <svg width="100%" height="200" viewBox="0 0 300 200" style="max-width:300px;">
+            <line x1="45" y1="10" x2="45" y2="170" stroke="#999"/>
+            <line x1="45" y1="170" x2="285" y2="170" stroke="#999"/>
+            <text x="18" y="18" font-size="11" fill="#666" font-family="Georgia" font-style="italic">P</text>
+            <text x="278" y="188" font-size="11" fill="#666" font-family="Georgia" font-style="italic">V</text>
+            <path id="adIso" fill="none" stroke="#50AAD7" stroke-width="1.3" stroke-dasharray="3 3" d=""/>
+            <path id="adRuta" fill="none" stroke="#B03A2E" stroke-width="3" d=""/>
+            <circle id="adPtI" r="5" fill="#133565"/>
+            <circle id="adPtF" r="5" fill="#133565"/>
+          </svg>
+        </div>
+      </div>
+      <p class="readout"><b>\(P_f=P_i\left(\frac{V_i}{V_f}\right)^{\gamma}=\)</b> <span class="num" id="adPf">—</span> atm</p>
+      <p class="readout"><b>\(T_f=\frac{P_fV_f}{P_iV_i}\,T_i=\)</b> <span class="num" id="adTf">—</span> K \(=\) <span class="num" id="adTfC">—</span> °C</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 20.5 DISTRIBUCIÓN DE BOLTZMANN -->
+<section id="boltzmann">
+  <div class="wrap">
+    <div class="kicker">20.5 · Ley de distribución de Boltzmann</div>
+    <p class="narrow">La <b>densidad de número</b> \(n_V(E)\) se define de modo que
+      \(n_V(E)\,\mathrm{d}E\) es el número de moléculas por unidad de volumen con energía entre \(E\) y \(E+\mathrm{d}E\).
+      La mecánica estadística muestra que</p>
+
+    <div class="eq">
+      <span class="eq-sp"></span>
+      <span class="eq-body">\[n_V(E)=n_0\,e^{-E/k_{\mathrm{B}}T}\]</span>
+      <span class="eq-num">(20.41)</span>
+    </div>
+
+    <div class="nota">La probabilidad de encontrar moléculas en un estado energético particular decae
+      exponencialmente con la energía dividida entre \(k_{\mathrm{B}}T\). En equilibrio, siempre hay más átomos en el
+      nivel inferior que en el superior.</div>
+
+    <div class="panel">
+      <h3>Razón de poblaciones entre dos niveles de energía</h3>
+      <div class="controls">
+        <label>\(\Delta E=E_2-E_1\) (eV)
+          <input type="range" id="bzDE" min="0.1" max="4" step="0.05" value="1.50">
+        </label>
+        <label>\(T\) (K)
+          <input type="range" id="bzT" min="300" max="8000" step="10" value="2500">
+        </label>
+      </div>
+      <svg width="100%" height="230" viewBox="0 0 380 230" style="max-width:380px;">
+        <line x1="80" y1="200" x2="300" y2="200" stroke="#7a8aa0" stroke-width="3"/>
+        <line x1="80" y1="60" x2="300" y2="60" stroke="#7a8aa0" stroke-width="3"/>
+        <line x1="180" y1="200" x2="180" y2="60" stroke="#C69214" stroke-width="2" marker-end="url(#arrowBz)"/>
+        <defs><marker id="arrowBz" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#C69214"/></marker></defs>
+        <text x="305" y="65" font-size="13" font-family="Georgia" fill="#133565"><tspan font-style="italic">E</tspan><tspan font-size="9" dy="3">2</tspan></text>
+        <text x="305" y="205" font-size="13" font-family="Georgia" fill="#133565"><tspan font-style="italic">E</tspan><tspan font-size="9" dy="3">1</tspan></text>
+        <g id="bzPuntosE1"></g>
+        <g id="bzPuntosE2"></g>
+      </svg>
+      <p class="readout">\(k_{\mathrm{B}}T=\) <span class="num" id="bzKT">—</span> eV</p>
+      <p class="readout"><b>\(\frac{n_V(E_2)}{n_V(E_1)}=e^{-\Delta E/k_{\mathrm{B}}T}=\)</b> <span class="num" id="bzRatio">—</span></p>
+      <p class="readout" style="font-size:.88rem; color:#666;" id="bzTexto"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 20.5 MAXWELL-BOLTZMANN -->
+<section id="maxwell">
+  <div class="wrap">
+    <div class="kicker">Función de distribución de rapidez de Maxwell-Boltzmann</div>
+    <p class="narrow">La cantidad \(N_v\) describe cómo se distribuyen las magnitudes de velocidad
+      de \(N\) moléculas de gas: \(N_v\,\mathrm{d}v\) es el número de moléculas con rapidez entre \(v\) y \(v+\mathrm{d}v\).</p>
+
+    <div class="eq">
+      <span class="eq-sp"></span>
+      <span class="eq-body">\[N_v=4\pi N\left(\frac{m_0}{2\pi k_{\mathrm{B}}T}\right)^{3/2}v^{2}\,e^{-m_0v^{2}/2k_{\mathrm{B}}T}\]</span>
+      <span class="eq-num">(20.42)</span>
+    </div>
+
+    <p class="narrow">De esta función se obtienen tres rapideces características:</p>
+
+    <div class="eq">
+      <span class="eq-sp"></span>
+      <span class="eq-body">\[v_{\mathrm{rms}}=\sqrt{\frac{3k_{\mathrm{B}}T}{m_0}}=1.73\sqrt{\frac{k_{\mathrm{B}}T}{m_0}}\]</span>
+      <span class="eq-num">(20.43)</span>
+    </div>
+
+    <div class="eq">
+      <span class="eq-sp"></span>
+      <span class="eq-body">\[v_{\mathrm{prom}}=\sqrt{\frac{8k_{\mathrm{B}}T}{\pi m_0}}=1.60\sqrt{\frac{k_{\mathrm{B}}T}{m_0}}\]</span>
+      <span class="eq-num">(20.44)</span>
+    </div>
+
+    <div class="eq">
+      <span class="eq-sp"></span>
+      <span class="eq-body">\[v_{\mathrm{mp}}=\sqrt{\frac{2k_{\mathrm{B}}T}{m_0}}=1.41\sqrt{\frac{k_{\mathrm{B}}T}{m_0}}\]</span>
+      <span class="eq-num">(20.45)</span>
+    </div>
+
+    <div class="leyenda">\(v_{\mathrm{rms}}&gt;v_{\mathrm{prom}}&gt;v_{\mathrm{mp}}\). Las curvas son asimétricas
+      porque la rapidez más baja posible es cero, pero el límite superior clásico es infinito.</div>
+
+    <div class="panel">
+      <h3>Curva de distribución: elige el gas y la temperatura</h3>
+      <div class="controls">
+        <label>Gas
+          <select id="mbGas"></select>
+        </label>
+        <label>\(T\) (K)
+          <input type="range" id="mbT" min="50" max="1500" step="10" value="300">
+        </label>
+        <label><input type="checkbox" id="mbComparar" style="width:auto;"> comparar con \(T=900\) K</label>
+      </div>
+      <svg width="100%" height="270" viewBox="0 0 560 270" style="max-width:560px;">
+        <line x1="55" y1="15" x2="55" y2="220" stroke="#999"/>
+        <line x1="55" y1="220" x2="540" y2="220" stroke="#999"/>
+        <text x="18" y="22" font-size="11" fill="#666" font-family="Georgia"><tspan font-style="italic">N</tspan><tspan font-size="8" dy="3" font-style="italic">v</tspan></text>
+        <text x="496" y="242" font-size="11" fill="#666" font-family="Georgia"><tspan font-style="italic">v</tspan> (m/s)</text>
+        <path id="mbCurva2" fill="none" stroke="#B0CFE6" stroke-width="2" d="" opacity="0"/>
+        <path id="mbCurva" fill="none" stroke="#D6413A" stroke-width="2.5" d=""/>
+        <line id="mbLineaMp" x1="0" y1="0" x2="0" y2="220" stroke="#3D9140" stroke-width="1.3" stroke-dasharray="3 3"/>
+        <line id="mbLineaProm" x1="0" y1="0" x2="0" y2="220" stroke="#C69214" stroke-width="1.3" stroke-dasharray="3 3"/>
+        <line id="mbLineaRms" x1="0" y1="0" x2="0" y2="220" stroke="#215CAF" stroke-width="1.3" stroke-dasharray="3 3"/>
+        <text id="mbLblMp" font-size="10" font-family="Georgia" fill="#3D9140"><tspan font-style="italic">v</tspan><tspan font-size="7.5" dy="2">mp</tspan></text>
+        <text id="mbLblProm" font-size="10" font-family="Georgia" fill="#C69214"><tspan font-style="italic">v</tspan><tspan font-size="7.5" dy="2">prom</tspan></text>
+        <text id="mbLblRms" font-size="10" font-family="Georgia" fill="#215CAF"><tspan font-style="italic">v</tspan><tspan font-size="7.5" dy="2">rms</tspan></text>
+      </svg>
+      <p class="readout">\(v_{\mathrm{mp}}=\) <span class="num" id="mbVmp">—</span> &nbsp;·&nbsp;
+        \(v_{\mathrm{prom}}=\) <span class="num" id="mbVprom">—</span> &nbsp;·&nbsp;
+        \(v_{\mathrm{rms}}=\) <span class="num" id="mbVrms">—</span></p>
+      <p class="readout" style="font-size:.88rem; color:#666;">A mayor temperatura y menor masa
+        molecular, la curva se ensancha y su máximo se desplaza hacia rapideces mayores — así escapan
+        más fácilmente al espacio las moléculas ligeras (\(\mathrm{H_2}\), \(\mathrm{He}\)) que las pesadas (\(\mathrm{N_2}\), \(\mathrm{O_2}\)).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ EJEMPLOS -->
+<section id="ejemplos">
+  <div class="wrap">
+    <div class="kicker">Ejemplos — resolvamos juntos</div>
+    <p class="narrow">Cada ejemplo comienza mostrando solo el enunciado. Haz clic dentro del recuadro y
+      presiona <b>Enter</b> (o toca "Siguiente ▶") para revelar el razonamiento paso a paso.</p>
+
+    <!-- EJEMPLO 20.1 -->
+    <div class="ejemplo" tabindex="0">
+      <div class="ejemplo-header">
+        <b>Ejemplo 20.1 — Un tanque de helio</b>
+        <span class="progreso" data-progreso>Paso 0 / 4</span>
+      </div>
+      <div class="ejemplo-body">
+        <div class="enunciado">
+          Un tanque que se emplea para llenar globos de helio tiene un volumen de \(0.300\ \mathrm{m^3}\) y contiene
+          \(2.00\ \mathrm{moles}\) de gas helio a \(20.0\ ^\circ\mathrm{C}\). Suponga que el helio se comporta como un gas ideal.
+          (A) ¿Cuál es la energía cinética traslacional total de las moléculas de gas?
+          (B) ¿Cuál es la energía cinética promedio por molécula?
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 1 — Datos</div>
+          \(n=2.00\ \mathrm{mol}\) &middot; \(T=20.0\ ^\circ\mathrm{C}=293\ \mathrm{K}\) &middot; gas monoatómico, así que toda la energía
+          cinética traslacional es la energía interna.
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 2 — (A) Energía cinética traslacional total</div>
+          <div class="calc">\[K_{\mathrm{tot}}=\frac{3}{2}nRT\]</div>
+          <div class="calc">\[K_{\mathrm{tot}}=\frac{3}{2}(2.00\ \mathrm{mol})(8.31\ \mathrm{J/mol\cdot K})(293\ \mathrm{K})\approx7.30\times10^{3}\ \mathrm{J}\]</div>
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 3 — (B) Energía cinética promedio por molécula</div>
+          <div class="calc">\[K_{\mathrm{avg}}=\frac{3}{2}k_{\mathrm{B}}T\]</div>
+          <div class="calc">\[K_{\mathrm{avg}}=\frac{3}{2}(1.38\times10^{-23}\ \mathrm{J/K})(293\ \mathrm{K})\approx6.07\times10^{-21}\ \mathrm{J}\]</div>
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">\(K_{\mathrm{tot}}\approx7.30\times10^{3}\ \mathrm{J}\) &nbsp;&nbsp;&nbsp; \(K_{\mathrm{avg}}\approx6.07\times10^{-21}\ \mathrm{J}\) por molécula</div>
+        </div>
+      </div>
+      <div class="ejemplo-controles">
+        <button data-siguiente>Siguiente ▶</button>
+        <button class="secundario" data-reiniciar>Reiniciar</button>
+        <span class="hint-enter">o presiona Enter</span>
+      </div>
+    </div>
+
+    <!-- EJEMPLO 20.2 -->
+    <div class="ejemplo" tabindex="0">
+      <div class="ejemplo-header">
+        <b>Ejemplo 20.2 — Calentamiento de un cilindro de helio</b>
+        <span class="progreso" data-progreso>Paso 0 / 4</span>
+      </div>
+      <div class="ejemplo-body">
+        <div class="enunciado">
+          Un cilindro contiene \(3.00\ \mathrm{moles}\) de gas helio a una temperatura de \(300\ \mathrm{K}\).
+          (A) Si el gas se calienta a volumen constante, ¿cuánta energía por calor se debe transferir al
+          gas para que su temperatura aumente a \(500\ \mathrm{K}\)? (B) ¿Cuánta energía se debe transferir al gas por
+          calor a presión constante para elevar la temperatura a \(500\ \mathrm{K}\)?
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 1 — Datos</div>
+          \(n=3.00\ \mathrm{mol}\) &middot; \(T_i=300\ \mathrm{K}\) &middot; \(T_f=500\ \mathrm{K}\) &middot;
+          \(C_V=12.5\ \mathrm{J/mol\cdot K}\) &middot; \(C_P=20.8\ \mathrm{J/mol\cdot K}\) (helio, monoatómico)
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 2 — (A) Volumen constante</div>
+          <div class="calc">\[Q_1=nC_V\,\Delta T=(3.00)(12.5)(500-300)\approx7.50\times10^{3}\ \mathrm{J}\]</div>
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 3 — (B) Presión constante</div>
+          <div class="calc">\[Q_2=nC_P\,\Delta T=(3.00)(20.8)(500-300)\approx1.25\times10^{4}\ \mathrm{J}\]</div>
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">\(Q_1\approx7.50\times10^{3}\ \mathrm{J}\) &nbsp;&nbsp;&nbsp; \(Q_2\approx1.25\times10^{4}\ \mathrm{J}\) — \(Q_2\) es mayor porque a presión constante parte de la energía se destina al trabajo sobre los alrededores.</div>
+        </div>
+      </div>
+      <div class="ejemplo-controles">
+        <button data-siguiente>Siguiente ▶</button>
+        <button class="secundario" data-reiniciar>Reiniciar</button>
+        <span class="hint-enter">o presiona Enter</span>
+      </div>
+    </div>
+
+    <!-- EJEMPLO 20.3 -->
+    <div class="ejemplo" tabindex="0">
+      <div class="ejemplo-header">
+        <b>Ejemplo 20.3 — Un cilindro de motor diésel</b>
+        <span class="progreso" data-progreso>Paso 0 / 4</span>
+      </div>
+      <div class="ejemplo-body">
+        <div class="enunciado">
+          Aire a \(20.0\ ^\circ\mathrm{C}\) en el cilindro de un motor diésel se comprime desde una presión inicial de
+          \(1.00\ \mathrm{atm}\) y volumen \(800.0\ \mathrm{cm^3}\) hasta un volumen de \(60.0\ \mathrm{cm^3}\). Suponga que el aire se comporta
+          como un gas ideal con \(\gamma=1.40\) y la compresión es adiabática. Encuentre la presión y temperatura finales del aire.
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 1 — Presión final</div>
+          <div class="calc">\[P_f=P_i\left(\frac{V_i}{V_f}\right)^{\gamma}\]</div>
+          <div class="calc">\[P_f=(1.00\ \mathrm{atm})\left(\frac{800.0}{60.0}\right)^{1.40}\approx37.6\ \mathrm{atm}\]</div>
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 2 — Temperatura final con la ley de gas ideal</div>
+          <div class="calc">\[\frac{P_iV_i}{T_i}=\frac{P_fV_f}{T_f}\]</div>
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 3 — Sustituimos</div>
+          <div class="calc">\[T_f=\frac{P_fV_f}{P_iV_i}\,T_i=\frac{(37.6)(60.0)}{(1.00)(800.0)}(293\ \mathrm{K})\approx826\ \mathrm{K}\]</div>
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">\(P_f\approx37.6\ \mathrm{atm}\) &nbsp;&nbsp;&nbsp; \(T_f\approx826\ \mathrm{K}=553\ ^\circ\mathrm{C}\) — la alta compresión eleva la temperatura lo suficiente para encender el combustible sin bujías.</div>
+        </div>
+      </div>
+      <div class="ejemplo-controles">
+        <button data-siguiente>Siguiente ▶</button>
+        <button class="secundario" data-reiniciar>Reiniciar</button>
+        <span class="hint-enter">o presiona Enter</span>
+      </div>
+    </div>
+
+    <!-- EJEMPLO 20.4 -->
+    <div class="ejemplo" tabindex="0">
+      <div class="ejemplo-header">
+        <b>Ejemplo 20.4 — Población de estados térmicos excitados</b>
+        <span class="progreso" data-progreso>Paso 0 / 4</span>
+      </div>
+      <div class="ejemplo-body">
+        <div class="enunciado">
+          Un sistema de átomos está en equilibrio térmico a una temperatura de \(2500\ \mathrm{K}\). Determine la razón del número de átomos en un estado de energía excitado de \(1.50\ \mathrm{eV}\) respecto al número de átomos en el estado fundamental. (Recuerde que \(1\ \mathrm{eV}=1.60\times10^{-19}\ \mathrm{J}\)).
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 1 — Razón según la ley de distribución de Boltzmann</div>
+          <div class="calc">\[\frac{n_V(E_2)}{n_V(E_1)}=e^{-(E_2-E_1)/k_{\mathrm{B}}T}\]</div>
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 2 — Evaluamos \(k_{\mathrm{B}}T\) en el exponente</div>
+          <div class="calc">\[k_{\mathrm{B}}T=(1.38\times10^{-23}\ \mathrm{J/K})(2500\ \mathrm{K})\left(\frac{1\ \mathrm{eV}}{1.60\times10^{-19}\ \mathrm{J}}\right)\approx0.216\ \mathrm{eV}\]</div>
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 3 — Sustituimos</div>
+          <div class="calc">\[\frac{n_V(E_2)}{n_V(E_1)}=e^{-1.50\ \mathrm{eV}/0.216\ \mathrm{eV}}=e^{-6.96}\approx9.52\times10^{-4}\]</div>
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">\(\dfrac{n_V(E_2)}{n_V(E_1)}\approx9.52\times10^{-4}\) — por cada átomo en el nivel superior hay aproximadamente 1 000 en el nivel inferior, a 2 500 K.</div>
+        </div>
+      </div>
+      <div class="ejemplo-controles">
+        <button data-siguiente>Siguiente ▶</button>
+        <button class="secundario" data-reiniciar>Reiniciar</button>
+        <span class="hint-enter">o presiona Enter</span>
+      </div>
+    </div>
+
+    <!-- EJEMPLO 20.5 -->
+    <div class="ejemplo" tabindex="0">
+      <div class="ejemplo-header">
+        <b>Ejemplo 20.5 — Rapideces en el hidrógeno</b>
+        <span class="progreso" data-progreso>Paso 0 / 5</span>
+      </div>
+      <div class="ejemplo-body">
+        <div class="enunciado">
+          Para \(1.00\ \mathrm{mol}\) de gas hidrógeno (\(\mathrm{H_2}\)) a \(300\ \mathrm{K}\): (A) Calcule la rapidez más probable \(v_{\mathrm{mp}}\), la rapidez promedio \(v_{\mathrm{prom}}\) y la rapidez media cuadrática \(v_{\mathrm{rms}}\). (B) Calcule el número de moléculas que tienen rapidez entre \(400\ \mathrm{m/s}\) y \(401\ \mathrm{m/s}\).
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 1 — (A) Datos y las tres rapideces</div>
+          \(m_0=2(1.67\times10^{-27}\ \mathrm{kg})=3.34\times10^{-27}\ \mathrm{kg}\) (masa de la molécula \(\mathrm{H_2}\)) &middot; \(T=300\ \mathrm{K}\)
+          <div class="calc">\[\begin{aligned}
+v_{\mathrm{prom}}&=1.60\sqrt{\frac{k_{\mathrm{B}}T}{m_0}}\approx1.78\times10^{3}\ \mathrm{m/s}\\[4pt]
+v_{\mathrm{rms}}&=1.73\sqrt{\frac{k_{\mathrm{B}}T}{m_0}}\approx1.93\times10^{3}\ \mathrm{m/s}\\[4pt]
+v_{\mathrm{mp}}&=1.41\sqrt{\frac{k_{\mathrm{B}}T}{m_0}}\approx1.57\times10^{3}\ \mathrm{m/s}
+\end{aligned}\]</div>
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 2 — (B) Constante que multiplica \(v^{2}\) en \(N_v\)</div>
+          <div class="calc">\[4\pi N\left(\frac{m_0}{2\pi k_{\mathrm{B}}T}\right)^{3/2}=4\pi nN_{\mathrm{A}}\left(\frac{m_0}{2\pi k_{\mathrm{B}}T}\right)^{3/2}\approx1.74\times10^{14}\ \mathrm{s^{3}/m^{3}}\]</div>
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 3 — Evaluamos el exponente en \(v=400\ \mathrm{m/s}\)</div>
+          <div class="calc">\[-\frac{m_0v^{2}}{2k_{\mathrm{B}}T}=-\frac{(3.34\times10^{-27})(400)^{2}}{2(1.38\times10^{-23})(300)}\approx-0.0645\]</div>
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Paso 4 — \(N_v\,\mathrm{d}v\) con \(\mathrm{d}v=1\ \mathrm{m/s}\)</div>
+          <div class="calc">\[N_v\,\mathrm{d}v=(1.74\times10^{14}\ \mathrm{s^{3}/m^{3}})(400\ \mathrm{m/s})^{2}\,e^{-0.0645}(1\ \mathrm{m/s})\approx2.61\times10^{19}\ \text{moléculas}\]</div>
+        </div>
+        <div class="step">
+          <div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">\(v_{\mathrm{prom}}\approx1.78\times10^{3}\ \mathrm{m/s}\) &nbsp; \(v_{\mathrm{rms}}\approx1.93\times10^{3}\ \mathrm{m/s}\) &nbsp;
+            \(v_{\mathrm{mp}}\approx1.57\times10^{3}\ \mathrm{m/s}\) &nbsp;&nbsp;&nbsp; \(N_v\,\mathrm{d}v\approx2.61\times10^{19}\) moléculas entre 400 y 401 m/s</div>
+        </div>
+      </div>
+      <div class="ejemplo-controles">
+        <button data-siguiente>Siguiente ▶</button>
+        <button class="secundario" data-reiniciar>Reiniciar</button>
+        <span class="hint-enter">o presiona Enter</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="doc-footer">
+  Escuela de Física · Universidad de Costa Rica · FS0310 Física General II
+</footer>
+
+<!-- ============================================================ SCRIPT INTERACTIVO Y LÓGICA DE SIMULACIÓN -->
+<script>
+const GASES = [
+  { nombre: 'Hidrógeno (H₂)', m: 2.016, m0: 3.34e-27 },
+  { nombre: 'Helio (He)', m: 4.003, m0: 6.64e-27 },
+  { nombre: 'Agua (H₂O)', m: 18.015, m0: 2.99e-26 },
+  { nombre: 'Neón (Ne)', m: 20.18, m0: 3.35e-26 },
+  { nombre: 'Nitrógeno (N₂)', m: 28.013, m0: 4.65e-26 },
+  { nombre: 'Monóxido de C. (CO)', m: 28.01, m0: 4.65e-26 },
+  { nombre: 'Óxido Nítrico (NO)', m: 30.01, m0: 4.98e-26 },
+  { nombre: 'Oxígeno (O₂)', m: 31.999, m0: 5.31e-26 },
+  { nombre: 'Dióxido de C. (CO₂)', m: 44.01, m0: 7.31e-26 },
+  { nombre: 'Dióxido de A. (SO₂)', m: 64.06, m0: 1.06e-25 }
+];
+const kB = 1.380649e-23;
+const R = 8.3144626;
+const NA = 6.02214076e23;
+
+function fmt(n, dec=2) {
+  if (Math.abs(n) >= 1e5 || (Math.abs(n) < 1e-3 && n !== 0)) {
+    return n.toExponential(dec).replace('e', '×10^{') + '}';
+  }
+  return n.toLocaleString('es-CR', { maximumFractionDigits: dec, minimumFractionDigits: dec });
+}
+
+// 1. Modelo Molecular
+function initModelo() {
+  const selGas = document.getElementById('mdGas');
+  GASES.forEach((g, i) => {
+    const opt = document.createElement('option');
+    opt.value = i; opt.textContent = g.nombre;
+    if (g.nombre.includes('Helio')) opt.selected = true;
+    selGas.appendChild(opt);
+  });
+
+  const inD = document.getElementById('mdD');
+  const inV = document.getElementById('mdV');
+  const btnPlay = document.getElementById('mdPlay');
+
+  function update() {
+    const d_cm = parseFloat(inD.value);
+    const d = d_cm / 100;
+    const v = parseFloat(inV.value);
+    const g = GASES[selGas.value];
+    
+    const dp = 2 * g.m0 * v;
+    const dt = (2 * d / v) * 1000; // ms
+    const f = (g.m0 * v * v) / d;
+
+    document.getElementById('mdDp').textContent = dp.toExponential(2);
+    document.getElementById('mdDt').textContent = dt.toFixed(2);
+    document.getElementById('mdF').textContent = f.toExponential(2);
+  }
+
+  inD.addEventListener('input', update);
+  inV.addEventListener('input', update);
+  selGas.addEventListener('change', update);
+  update();
+
+  let animId = null;
+  btnPlay.addEventListener('click', () => {
+    if (animId) cancelAnimationFrame(animId);
+    const bola = document.getElementById('mdBola');
+    const traza = document.getElementById('mdTraza');
+    let x = 100, dir = 1;
+    const startX = 100, endX = 260;
+    function step() {
+      x += dir * 4;
+      if (x >= endX) { x = endX; dir = -1; }
+      if (x <= startX) { x = startX; dir = 1; }
+      bola.setAttribute('cx', x);
+      traza.setAttribute('x2', x);
+      if (x !== startX || dir !== 1) {
+        animId = requestAnimationFrame(step);
+      }
+    }
+    step();
+  });
+}
+
+// 2. Presión y Temperatura
+function initPresion() {
+  const inN = document.getElementById('prN');
+  const inV = document.getElementById('prV');
+  const inT = document.getElementById('prT');
+
+  function update() {
+    const N = parseFloat(inN.value) * 1e23;
+    const V_L = parseFloat(inV.value);
+    const V = V_L * 1e-3;
+    const T = parseFloat(inT.value);
+
+    const kavg = 1.5 * kB * T;
+    const P_pa = (2/3) * (N / V) * kavg;
+    const P_atm = P_pa / 101325;
+
+    const n_mol = N / NA;
+    const P_check = (n_mol * R * T / V) / 101325;
+
+    document.getElementById('prKavg').textContent = kavg.toExponential(3);
+    document.getElementById('prP').textContent = P_atm.toFixed(2);
+    document.getElementById('prPcheck').textContent = P_check.toFixed(2);
+  }
+
+  inN.addEventListener('input', update);
+  inV.addEventListener('input', update);
+  inT.addEventListener('input', update);
+  update();
+
+  // Calculadora Vrms
+  const selGasRms = document.getElementById('rmsGas');
+  GASES.forEach((g, i) => {
+    const opt = document.createElement('option');
+    opt.value = i; opt.textContent = g.nombre;
+    if (g.nombre.includes('Hidrógeno')) opt.selected = true;
+    selGasRms.appendChild(opt);
+  });
+  const inRmsT = document.getElementById('rmsT');
+
+  function updateRms() {
+    const g = GASES[selGasRms.value];
+    const T_c = parseFloat(inRmsT.value);
+    const T = T_c + 273.15;
+    const M = g.m / 1000;
+    const vrms = Math.sqrt((3 * R * T) / M);
+    document.getElementById('rmsV').textContent = Math.round(vrms);
+  }
+
+  selGasRms.addEventListener('change', updateRms);
+  inRmsT.addEventListener('input', updateRms);
+  updateRms();
+}
+
+// 3. Calor Específico Molar
+function initCalorEspecifico() {
+  const inN = document.getElementById('ceN');
+  const inTi = document.getElementById('ceTi');
+  const inTf = document.getElementById('ceTf');
+  let proc = 'v';
+
+  document.querySelectorAll('[data-proc-ce]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      document.querySelectorAll('[data-proc-ce]').forEach(b => b.classList.remove('activo'));
+      btn.classList.add('activo');
+      proc = btn.getAttribute('data-proc-ce');
+      update();
+    });
+  });
+
+  function update() {
+    const n = parseFloat(inN.value);
+    const Ti = parseFloat(inTi.value);
+    const Tf = parseFloat(inTf.value);
+    const DT = Tf - Ti;
+
+    const Cv = 1.5 * R;
+    const Cp = 2.5 * R;
+    const dE = n * Cv * DT;
+    let Q = 0, W = 0;
+
+    if (proc === 'v') {
+      Q = dE;
+      W = 0;
+      document.getElementById('ceComentario').textContent = "A volumen constante no hay expansión (W = 0), todo el calor fluye hacia la energía interna.";
+    } else {
+      Q = n * Cp * DT;
+      W = Q - dE;
+      document.getElementById('ceComentario').textContent = "A presión constante el gas se expande realizando trabajo W = nRΔT sobre los alrededores.";
+    }
+
+    document.getElementById('ceDT').textContent = DT.toFixed(0);
+    document.getElementById('ceQ').textContent = (Q / 1000).toFixed(2) + " kJ";
+    document.getElementById('ceE').textContent = (dE / 1000).toFixed(2) + " kJ";
+    document.getElementById('ceW').textContent = (W / 1000).toFixed(2) + " kJ";
+  }
+
+  inN.addEventListener('input', update);
+  inTi.addEventListener('input', update);
+  inTf.addEventListener('input', update);
+  update();
+}
+
+// 4. Equipartición
+function initEquiparticion() {
+  let modo = 'mono';
+  const svg = document.getElementById('molSvg');
+
+  document.querySelectorAll('[data-mol]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-mol]').forEach(b => b.classList.remove('activo'));
+      btn.classList.add('activo');
+      modo = btn.getAttribute('data-mol');
+      update();
+    });
+  });
+
+  function update() {
+    let f = 3;
+    if (modo === 'di-sr') f = 5;
+    if (modo === 'di-cr') f = 7;
+
+    const Cv = (f / 2) * R;
+    const Cp = Cv + R;
+    const gamma = Cp / Cv;
+    const Eint = (f / 2) * 1 * R * 300;
+
+    document.getElementById('molF').textContent = f;
+    document.getElementById('molE').textContent = Math.round(Eint);
+    document.getElementById('molCv').textContent = Cv.toFixed(2);
+    document.getElementById('molCp').textContent = Cp.toFixed(2);
+    document.getElementById('molGamma').textContent = gamma.toFixed(2);
+
+    // Dibujar molécula SVG
+    svg.innerHTML = '';
+    if (modo === 'mono') {
+      svg.innerHTML = `<circle cx="110" cy="90" r="28" fill="#C69214"/><text x="110" y="95" text-anchor="middle" fill="#fff" font-weight="bold">He</text>`;
+    } else if (modo === 'di-sr') {
+      svg.innerHTML = `
+        <line x1="60" y1="90" x2="160" y2="90" stroke="#133565" stroke-width="6"/>
+        <circle cx="60" cy="90" r="22" fill="#215CAF"/><circle cx="160" cy="90" r="22" fill="#215CAF"/>
+        <path d="M110,40 A40,40 0 0,1 110,140" fill="none" stroke="#C69214" stroke-width="2" stroke-dasharray="3 3"/>
+      `;
+    } else {
+      svg.innerHTML = `
+        <path d="M 60 90 Q 75 75, 90 90 T 120 90 T 150 90" fill="none" stroke="#D6413A" stroke-width="4"/>
+        <circle cx="50" cy="90" r="22" fill="#215CAF"/><circle cx="160" cy="90" r="22" fill="#215CAF"/>
+      `;
+    }
+  }
+  update();
+
+  // Curva Cv(T) de H2
+  const inT = document.getElementById('cvtT');
+  const pathCv = document.getElementById('cvtCurva');
+  const ptCv = document.getElementById('cvtPunto');
+
+  function getCvH2(T) {
+    if (T <= 60) return 1.5 * R;
+    if (T <= 250) {
+      const frac = (Math.log10(T) - Math.log10(60)) / (Math.log10(250) - Math.log10(60));
+      return (1.5 + frac * 1.0) * R;
+    }
+    if (T <= 700) return 2.5 * R;
+    if (T <= 3200) {
+      const frac = (Math.log10(T) - Math.log10(700)) / (Math.log10(3200) - Math.log10(700));
+      return (2.5 + frac * 1.0) * R;
+    }
+    return 3.5 * R;
+  }
+
+  function updateCvCurve() {
+    const logT = parseFloat(inT.value);
+    const T = Math.pow(10, logT);
+    const Cv = getCvH2(T);
+
+    // Dibujar curva completa
+    let d = "";
+    for (let x = 60; x <= 540; x += 2) {
+      const lT = 1 + (x - 60) / (540 - 60) * 3; // 10^1 a 10^4
+      const tVal = Math.pow(10, lT);
+      const cvVal = getCvH2(tVal);
+      // y_map: 3/2R -> y=188.1, 7/2R -> y=40.7
+      const y = 188.1 - ((cvVal - 1.5 * R) / (2.0 * R)) * (188.1 - 40.7);
+      d += (x === 60 ? "M " : "L ") + x + " " + y + " ";
+    }
+    pathCv.setAttribute('d', d);
+
+    // Punto actual
+    const xPt = 60 + ((logT - 1) / 3) * (540 - 60);
+    const yPt = 188.1 - ((Cv - 1.5 * R) / (2.0 * R)) * (188.1 - 40.7);
+    ptCv.setAttribute('cx', xPt);
+    ptCv.setAttribute('cy', yPt);
+
+    document.getElementById('cvtT2').textContent = Math.round(T);
+    document.getElementById('cvtCv').textContent = Cv.toFixed(2);
+
+    let txt = "";
+    if (T < 100) txt = "A bajas temperaturas, las colisiones carecen de energía suficiente para excitar la rotación; el H₂ se comporta como gas monoatómico (f = 3).";
+    else if (T < 1000) txt = "A temperatura ambiente la rotación está totalmente activa (f = 5, Cv = 5/2 R).";
+    else txt = "A altas temperaturas se activan las vibraciones moleculares, elevando el calor específico hacia 7/2 R (f = 7).";
+    document.getElementById('cvtTexto').textContent = txt;
+  }
+
+  inT.addEventListener('input', updateCvCurve);
+  updateCvCurve();
+}
+
+// 5. Adiabáticos
+function initAdiabaticos() {
+  const inPi = document.getElementById('adPi');
+  const inVi = document.getElementById('adVi');
+  const inVf = document.getElementById('adVf');
+  const inTi = document.getElementById('adTi');
+  const inG = document.getElementById('adGamma');
+
+  function update() {
+    const Pi = parseFloat(inPi.value);
+    const Vi = parseFloat(inVi.value);
+    const Vf = parseFloat(inVf.value);
+    const Ti_C = parseFloat(inTi.value);
+    const Ti = Ti_C + 273.15;
+    const gamma = parseFloat(inG.value);
+
+    const Pf = Pi * Math.pow(Vi / Vf, gamma);
+    const Tf = Ti * Math.pow(Vi / Vf, gamma - 1);
+    const Tf_C = Tf - 273.15;
+
+    document.getElementById('adPf').textContent = Pf.toFixed(2);
+    document.getElementById('adTf').textContent = Math.round(Tf);
+    document.getElementById('adTfC').textContent = Math.round(Tf_C);
+
+    // Actualizar contenedor
+    const cont = document.getElementById('adContenedor');
+    const wPct = Math.max(15, Math.min(100, (Vf / 900) * 100));
+    cont.style.width = wPct + '%';
+
+    // Gráfico PV
+    const pathRuta = document.getElementById('adRuta');
+    const ptI = document.getElementById('adPtI');
+    const ptF = document.getElementById('adPtF');
+
+    let d = "";
+    const minV = Math.min(Vi, Vf), maxV = Math.max(Vi, Vf);
+    for (let i = 0; i <= 30; i++) {
+      const v = minV + (i / 30) * (maxV - minV);
+      const p = Pi * Math.pow(Vi / v, gamma);
+      const x = 45 + ((v - 30) / (900 - 30)) * (285 - 45);
+      const y = 170 - (p / 40) * (170 - 10);
+      d += (i === 0 ? "M " : "L ") + x + " " + Math.max(10, y) + " ";
+    }
+    pathRuta.setAttribute('d', d);
+
+    const xI = 45 + ((Vi - 30) / (900 - 30)) * (285 - 45);
+    const yI = 170 - (Pi / 40) * (170 - 10);
+    ptI.setAttribute('cx', xI); ptI.setAttribute('cy', yI);
+
+    const xF = 45 + ((Vf - 30) / (900 - 30)) * (285 - 45);
+    const yF = 170 - (Pf / 40) * (170 - 10);
+    ptF.setAttribute('cx', xF); ptF.setAttribute('cy', Math.max(10, yF));
+  }
+
+  inPi.addEventListener('input', update);
+  inVi.addEventListener('input', update);
+  inVf.addEventListener('input', update);
+  inTi.addEventListener('input', update);
+  inG.addEventListener('input', update);
+  update();
+}
+
+// 6. Boltzmann
+function initBoltzmann() {
+  const inDE = document.getElementById('bzDE');
+  const inT = document.getElementById('bzT');
+
+  function update() {
+    const dE = parseFloat(inDE.value);
+    const T = parseFloat(inT.value);
+
+    const kBT_eV = (kB * T) / 1.602176634e-19;
+    const ratio = Math.exp(-dE / kBT_eV);
+
+    document.getElementById('bzKT').textContent = kBT_eV.toFixed(3);
+    document.getElementById('bzRatio').textContent = ratio.toExponential(3);
+
+    let txt = `A ${T} K, la energía térmica es ${kBT_eV.toFixed(2)} eV. `;
+    if (ratio < 1e-3) txt += "La mayoría abrumadora de los átomos permanece en el nivel fundamental.";
+    else txt += "A esta alta temperatura hay suficiente energía cinética para excitar una fracción apreciable de átomos.";
+    document.getElementById('bzTexto').textContent = txt;
+
+    // Puntos en niveles
+    const gE1 = document.getElementById('bzPuntosE1');
+    const gE2 = document.getElementById('bzPuntosE2');
+    gE1.innerHTML = ''; gE2.innerHTML = '';
+
+    for (let i = 0; i < 20; i++) {
+      const cx = 90 + i * 10;
+      gE1.innerHTML += `<circle cx="${cx}" cy="190" r="3.5" fill="#215CAF"/>`;
+    }
+    const nE2 = Math.min(20, Math.round(20 * ratio * 10));
+    for (let i = 0; i < nE2; i++) {
+      const cx = 90 + i * 10;
+      gE2.innerHTML += `<circle cx="${cx}" cy="50" r="3.5" fill="#D6413A"/>`;
+    }
+  }
+
+  inDE.addEventListener('input', update);
+  inT.addEventListener('input', update);
+  update();
+}
+
+// 7. Maxwell-Boltzmann
+function initMaxwell() {
+  const selGas = document.getElementById('mbGas');
+  GASES.forEach((g, i) => {
+    const opt = document.createElement('option');
+    opt.value = i; opt.textContent = g.nombre;
+    if (g.nombre.includes('Hidrógeno')) opt.selected = true;
+    selGas.appendChild(opt);
+  });
+
+  const inT = document.getElementById('mbT');
+  const chkComp = document.getElementById('mbComparar');
+
+  function getPath(g, T) {
+    const m0 = g.m0;
+    const C = 4 * Math.PI * Math.pow(m0 / (2 * Math.PI * kB * T), 1.5);
+    let d = "";
+    const vMax = 3500;
+    for (let x = 55; x <= 540; x += 3) {
+      const v = ((x - 55) / (540 - 55)) * vMax;
+      const f = C * v * v * Math.exp((-m0 * v * v) / (2 * kB * T));
+      const y = 220 - f * 8e7;
+      d += (x === 55 ? "M " : "L ") + x + " " + Math.max(20, y) + " ";
+    }
+    return d;
+  }
+
+  function update() {
+    const g = GASES[selGas.value];
+    const T = parseFloat(inT.value);
+    const m0 = g.m0;
+
+    const vmp = Math.sqrt((2 * kB * T) / m0);
+    const vprom = Math.sqrt((8 * kB * T) / (Math.PI * m0));
+    const vrms = Math.sqrt((3 * kB * T) / m0);
+
+    document.getElementById('mbVmp').textContent = Math.round(vmp) + " m/s";
+    document.getElementById('mbVprom').textContent = Math.round(vprom) + " m/s";
+    document.getElementById('mbVrms').textContent = Math.round(vrms) + " m/s";
+
+    document.getElementById('mbCurva').setAttribute('d', getPath(g, T));
+
+    if (chkComp.checked) {
+      document.getElementById('mbCurva2').setAttribute('d', getPath(g, 900));
+      document.getElementById('mbCurva2').setAttribute('opacity', '1');
+    } else {
+      document.getElementById('mbCurva2').setAttribute('opacity', '0');
+    }
+
+    // Posicionar líneas de rapideces
+    const vMax = 3500;
+    const xMp = 55 + (vmp / vMax) * (540 - 55);
+    const xProm = 55 + (vprom / vMax) * (540 - 55);
+    const xRms = 55 + (vrms / vMax) * (540 - 55);
+
+    document.getElementById('mbLineaMp').setAttribute('x1', xMp);
+    document.getElementById('mbLineaMp').setAttribute('x2', xMp);
+    document.getElementById('mbLblMp').setAttribute('x', xMp - 12);
+    document.getElementById('mbLblMp').setAttribute('y', 20);
+
+    document.getElementById('mbLineaProm').setAttribute('x1', xProm);
+    document.getElementById('mbLineaProm').setAttribute('x2', xProm);
+    document.getElementById('mbLblProm').setAttribute('x', xProm - 12);
+    document.getElementById('mbLblProm').setAttribute('y', 35);
+
+    document.getElementById('mbLineaRms').setAttribute('x1', xRms);
+    document.getElementById('mbLineaRms').setAttribute('x2', xRms);
+    document.getElementById('mbLblRms').setAttribute('x', xRms - 12);
+    document.getElementById('mbLblRms').setAttribute('y', 50);
+  }
+
+  selGas.addEventListener('change', update);
+  inT.addEventListener('input', update);
+  chkComp.addEventListener('change', update);
+  update();
+}
+
+// 8. Ejemplos interactivos paso a paso
+function initEjemplos() {
+  document.querySelectorAll('.ejemplo').forEach(eCard => {
+    const steps = eCard.querySelectorAll('.step');
+    const total = steps.length;
+    let curr = 0;
+
+    const btnNext = eCard.querySelector('[data-siguiente]');
+    const btnReset = eCard.querySelector('[data-reiniciar]');
+    const lblProg = eCard.querySelector('[data-progreso]');
+
+    function renderState() {
+      steps.forEach((st, idx) => {
+        if (idx < curr) st.classList.add('shown');
+        else st.classList.remove('shown');
+      });
+      lblProg.textContent = `Paso ${curr} / ${total}`;
+      if (curr >= total) {
+        btnNext.disabled = true;
+        btnNext.textContent = 'Completado ✓';
+      } else {
+        btnNext.disabled = false;
+        btnNext.textContent = 'Siguiente ▶';
+      }
+    }
+
+    btnNext.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (curr < total) { curr++; renderState(); }
+    });
+
+    btnReset.addEventListener('click', (e) => {
+      e.stopPropagation();
+      curr = 0; renderState();
+    });
+
+    eCard.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (curr < total) { curr++; renderState(); }
+      }
+    });
+
+    renderState();
+  });
+}
+
+// Inicialización global cuando el DOM y KaTeX estén listos
+document.addEventListener("DOMContentLoaded", function() {
+  // Renderizar matemáticas LaTeX
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\[', right: '\\]', display: true},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '$', right: '$', display: false}
+    ],
+    throwOnError: false
+  });
+
+  // Inicializar componentes interactivos
+  initModelo();
+  initPresion();
+  initCalorEspecifico();
+  initEquiparticion();
+  initAdiabaticos();
+  initBoltzmann();
+  initMaxwell();
+  initEjemplos();
+});
+</script>
+
+</body>
+</html>
