@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Física General II · FS0310 · Segunda ley de la termodinámica</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+:root{
+  --eth-blue-dark:#133565;
+  --eth-blue:#215CAF;
+  --celeste-ucr:#50AAD7;
+  --gold-ucr:#C69214;
+  --gris-texto:#3C3C3C;
+  --fondo-nota:#F5F7FA;
+  --fondo-gold:#FBF3E1;
+  --linea:#D8DEE8;
+  --rojo:#D6413A;
+  --azul-frio:#2E6DB4;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; padding:0;
+  font-family: Georgia, 'Cambria', 'Times New Roman', serif;
+  color:var(--gris-texto);
+  background:#fff;
+  line-height:1.55;
+}
+img{max-width:100%;}
+h1,h2,h3{color:var(--eth-blue-dark); font-weight:700; margin:0 0 .5em 0;}
+p{margin:0 0 1em 0;}
+.wrap{max-width:900px; margin:0 auto; padding:0 24px;}
+.narrow{max-width:70ch;}
+
+/* ---------- Portada ---------- */
+.portada{
+  min-height:100vh;
+  display:flex; flex-direction:column; justify-content:center;
+  border-bottom:6px solid var(--gold-ucr);
+  padding:48px 24px 64px;
+  background:
+    radial-gradient(circle at 85% 12%, rgba(80,170,215,.10), transparent 45%),
+    radial-gradient(circle at 10% 85%, rgba(198,146,20,.08), transparent 45%);
+}
+.portada-header{
+  display:flex; align-items:center; justify-content:space-between;
+  max-width:900px; width:100%; margin:0 auto 56px;
+  padding-bottom:18px; border-bottom:1.5px solid rgba(33,92,175,.35);
+}
+.portada-header img.ucr{height:56px;}
+.portada-header img.efis{height:40px;}
+.portada-titulo{max-width:900px; width:100%; margin:0 auto; text-align:left;}
+.eyebrow{color:var(--gris-texto); font-size:1.05rem; letter-spacing:.02em;}
+.curso{color:var(--eth-blue-dark); font-size:2.6rem; font-weight:700; margin:.1em 0 .3em;}
+.gold-rule{width:110px; height:3px; background:var(--gold-ucr); margin:.4em 0 .7em;}
+.tema-titulo{font-size:1.7rem; color:var(--eth-blue); font-weight:700; margin:0 0 .15em;}
+.tema-sub{font-size:1.1rem; color:var(--gris-texto);}
+.portada-footer{max-width:900px; width:100%; margin:64px auto 0; font-size:.95rem; color:var(--gris-texto);}
+.portada-footer b{color:var(--eth-blue-dark);}
+
+/* ---------- Nav ---------- */
+nav.toc{
+  position:sticky; top:0; z-index:50;
+  background:rgba(255,255,255,.94); backdrop-filter:blur(4px);
+  border-bottom:1px solid var(--linea);
+  overflow-x:auto; white-space:nowrap;
+}
+nav.toc .wrap{display:flex; gap:4px; padding:10px 24px;}
+nav.toc a{
+  flex:0 0 auto;
+  font-family: Georgia, serif; font-size:.85rem; color:var(--eth-blue-dark);
+  text-decoration:none; padding:6px 12px; border-radius:16px;
+  border:1px solid transparent;
+}
+nav.toc a:hover{border-color:var(--eth-blue); background:var(--fondo-nota);}
+
+/* ---------- Secciones ---------- */
+section{padding:56px 0; border-bottom:1px solid var(--linea);}
+section:last-of-type{border-bottom:none;}
+.kicker{
+  display:inline-block; font-size:1.15rem; font-weight:700; color:var(--eth-blue-dark);
+  border:2px solid var(--gold-ucr); border-radius:10px;
+  padding:8px 18px; margin-bottom:24px; background:#fff;
+}
+
+/* ---------- Cajas ---------- */
+.ley{
+  background:#EAF3FB; border-left:4px solid var(--eth-blue);
+  border-radius:4px; padding:16px 20px; margin:18px 0;
+}
+.ley b{color:var(--eth-blue-dark);}
+.nota{
+  background:var(--fondo-nota); border:1px solid var(--linea); border-radius:6px;
+  padding:14px 18px; margin:18px 0; font-size:.94rem;
+}
+.leyenda{
+  border:1px solid var(--linea); border-radius:6px; padding:12px 16px; margin:14px 0 0;
+  font-size:.9rem; color:var(--gris-texto); background:#fff;
+}
+.leyenda b{color:var(--eth-blue-dark);}
+ul.limpia{margin:0 0 1em 1.2em; padding:0;}
+ul.limpia li{margin-bottom:.45em;}
+
+/* ---------- Ecuaciones (MathJax) ---------- */
+.eq{
+  display:block; text-align:center;
+  background:var(--fondo-nota); border-left:3px solid var(--eth-blue);
+  padding:14px 10px; margin:18px 0; border-radius:4px; overflow-x:auto;
+  position:relative;
+}
+.eq-num{
+  position:absolute; right:12px; top:50%; transform:translateY(-50%);
+  color:#999; font-size:.85rem; font-style:normal;
+}
+
+/* ---------- Tablas ---------- */
+table.datos{ border-collapse:collapse; width:100%; font-size:.86rem; margin:14px 0; }
+table.datos th, table.datos td{ border-bottom:1px solid var(--linea); padding:6px 10px; text-align:left; }
+table.datos th{color:var(--eth-blue-dark); border-bottom:2px solid var(--eth-blue-dark);}
+table.datos td.num, table.datos th.num{text-align:right; text-align:center;}
+.tabla-scroll{overflow-x:auto;}
+
+/* ---------- Paneles interactivos ---------- */
+.panel{
+  background:#fff; border:1px solid var(--linea); border-radius:10px;
+  padding:22px 24px; margin:20px 0;
+  box-shadow:0 1px 3px rgba(19,53,101,.06);
+}
+.panel h3{font-size:1.05rem; margin-bottom:14px;}
+.controls{display:flex; flex-wrap:wrap; gap:18px; align-items:center; margin-bottom:16px; font-size:.92rem;}
+.controls label{display:flex; flex-direction:column; gap:4px; font-size:.85rem; color:var(--gris-texto); margin-right:18px;}
+input[type=range]{accent-color:var(--eth-blue); width:180px;}
+select, button, input[type=number]{
+  font-family:inherit; font-size:.9rem; padding:6px 10px; border-radius:6px;
+  border:1px solid var(--linea); background:#fff; color:var(--gris-texto);
+}
+button{
+  background:var(--eth-blue-dark); color:#fff; border:none; cursor:pointer;
+  padding:8px 16px; font-weight:600;
+}
+button:hover{background:var(--eth-blue);}
+button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible{
+  outline:3px solid var(--celeste-ucr); outline-offset:2px;
+}
+button.secundario{background:#fff; color:var(--eth-blue-dark); border:1px solid var(--eth-blue-dark);}
+button.secundario:hover{background:var(--fondo-nota);}
+button.chip{background:#fff; color:var(--eth-blue-dark); border:1px solid var(--linea); font-weight:400;}
+button.chip.activo{background:var(--eth-blue-dark); color:#fff; border-color:var(--eth-blue-dark); font-weight:600;}
+.readout{font-size:.95rem; margin-top:8px;}
+.readout .num{font-weight:700; color:var(--eth-blue-dark);}
+.grid2{display:flex; gap:26px; flex-wrap:wrap; align-items:flex-start;}
+.grid2 > *{flex:1 1 300px; min-width:280px;}
+
+/* ---------- Caja de partículas (expansión libre) ---------- */
+.caja-part{
+  position:relative; height:170px; border:2px solid var(--eth-blue-dark); border-radius:6px;
+  background:#EFF3F8; overflow:hidden;
+}
+.membrana{
+  position:absolute; top:0; bottom:0; left:50%; width:3px; background:#7a5a0c;
+  transition:opacity .4s ease;
+}
+.particula{position:absolute; width:8px; height:8px; border-radius:50%; background:var(--gold-ucr);}
+
+/* ---------- Pistón gas ideal ---------- */
+.gas-contenedor{
+  position:relative; background:#EFF3F8; border:2px solid var(--eth-blue-dark);
+  border-radius:6px; height:190px; margin:14px 0; overflow:hidden; transition:width .3s ease;
+}
+.piston{
+  position:absolute; top:-2px; bottom:-2px; right:-6px; width:12px;
+  background:repeating-linear-gradient(45deg,#555,#555 3px,#777 3px,#777 6px);
+  border-left:3px solid #333;
+}
+
+/* ---------- Ejemplos paso a paso ---------- */
+.ejemplo{ border:1px solid var(--linea); border-radius:10px; margin:26px 0; overflow:hidden; outline:none; }
+.ejemplo:focus{box-shadow:0 0 0 3px rgba(33,92,175,.25);}
+.ejemplo-header{
+  background:var(--eth-blue-dark); color:#fff; padding:12px 20px;
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;
+}
+.ejemplo-header b{font-size:1rem;}
+.ejemplo-body{padding:20px 22px;}
+.enunciado{
+  background:var(--fondo-nota); border-left:4px solid var(--eth-blue-dark);
+  padding:14px 18px; border-radius:4px; margin-bottom:6px;
+}
+.step{
+  opacity:0; max-height:0; overflow:hidden; transform:translateY(8px);
+  transition:opacity .45s ease, transform .45s ease, max-height .45s ease; padding-top:0;
+}
+.step.shown{opacity:1; max-height:900px; transform:translateY(0); padding-top:14px;}
+.step .titulo-paso{font-weight:700; color:var(--eth-blue); margin-bottom:4px; font-size:.92rem;}
+.resultado-final{
+  background:var(--fondo-gold); border:1px solid var(--gold-ucr); border-radius:6px;
+  padding:12px 16px; font-weight:700; color:#7A5A0C;
+}
+.ejemplo-controles{
+  display:flex; gap:10px; align-items:center; padding:14px 22px 20px;
+  border-top:1px dashed var(--linea);
+}
+.hint-enter{font-size:.82rem; color:#8a8a8a;}
+.progreso{font-size:.82rem; color:var(--gris-texto);}
+
+footer.doc-footer{padding:40px 24px 60px; text-align:center; color:#8a8a8a; font-size:.85rem;}
+
+@media (max-width:640px){
+  .curso{font-size:2rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================ PORTADA -->
+<div class="portada">
+  <div class="portada-header">
+    <img class="ucr" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iNjAiPjx0ZXh0IHg9IjEwIiB5PSI0MCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEiIGZvbnQtc2l6ZT0iMzUiIGZpbGw9IiM1MEFBRDciIGZvbnQtd2VpZ2h0PSJib2xkIj5VQ1I8L3RleHQ+PC9zdmc+" alt="Universidad de Costa Rica">
+    <img class="efis" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTAiIGhlaWdodD0iNjAiPjx0ZXh0IHg9IjEwIiB5PSI0MCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMxMzM1NjUiIGZvbnQtd2VpZ2h0PSJib2xkIj5Fc2N1ZWxhIGRlIEbDrXNpY2E8L3RleHQ+PC9zdmc+" alt="Escuela de Física">
+  </div>
+  <div class="portada-titulo">
+    <div class="eyebrow">Física General II</div>
+    <div class="curso">FS0310</div>
+    <div class="gold-rule"></div>
+    <div class="tema-titulo">Máquinas térmicas, entropía y segunda ley de la termodinámica</div>
+    <div class="tema-sub">Basado en Serway &amp; Jewett, <i>Física para ciencias e ingeniería 1</i>, 10.ª edición (cap. 21)</div>
+  </div>
+  <div class="portada-footer">
+    <div><b>Docente:</b> Keylor Arley Castro</div>
+    <div>Escuela de Física, Universidad de Costa Rica</div>
+  </div>
+</div>
+
+<nav class="toc">
+  <div class="wrap">
+    <a href="#maquinas">Máquinas térmicas</a>
+    <a href="#bombas">Bombas de calor</a>
+    <a href="#reversibilidad">Reversibilidad</a>
+    <a href="#carnot">Máquina de Carnot</a>
+    <a href="#otto">Motores Otto y diésel</a>
+    <a href="#entropia-micro">Entropía (microestados)</a>
+    <a href="#entropia-macro">Entropía (sistemas)</a>
+    <a href="#segunda-ley-entropia">Segunda ley y entropía</a>
+    <a href="#ejemplos">Ejemplos</a>
+  </div>
+</nav>
+
+<!-- ============================================================ 21.1 MÁQUINAS TÉRMICAS -->
+<section id="maquinas">
+  <div class="wrap">
+    <div class="kicker">21.1 · Máquinas térmicas y segunda ley de la termodinámica</div>
+    <p class="narrow">Una <b>máquina térmica</b> toma energía por calor y, al funcionar en un proceso
+      cíclico, expulsa una fracción de esa energía mediante trabajo. Absorbe energía
+      \(|Q_h|\) de un depósito caliente a \(T_h\), realiza trabajo \(W_{\text{máq}}\), y expulsa
+      energía \(|Q_c|\) a un depósito frío a \(T_c\). Como la sustancia de trabajo recorre un ciclo
+      completo, \(\Delta E_{\text{int}} = 0\).</p>
+
+    <div class="eq">\[ W_{\text{máq}} = |Q_h| - |Q_c| \]<span class="eq-num">21.1</span></div>
+    <p class="narrow">La <b>eficiencia térmica</b> \(e\) se define como la razón del trabajo neto
+      realizado por la máquina en un ciclo, a la energía absorbida a la mayor temperatura:</p>
+    <div class="eq">\[ e \equiv \frac{W_{\text{máq}}}{|Q_h|} = \frac{|Q_h|-|Q_c|}{|Q_h|} = 1 - \frac{|Q_c|}{|Q_h|} \]<span class="eq-num">21.2</span></div>
+    <div class="leyenda">
+      <b>\(W_{\text{máq}}\)</b>: trabajo neto realizado por la máquina en un ciclo [J] &middot;
+      <b>\(Q_h\)</b>: energía absorbida del depósito caliente [J] &middot;
+      <b>\(Q_c\)</b>: energía expulsada al depósito frío [J] &middot;
+      <b>\(e\)</b>: eficiencia térmica [adimensional, se expresa como %]
+    </div>
+
+    <div class="ley"><b>Enunciado de Kelvin-Planck de la segunda ley.</b> Es imposible construir una
+      máquina térmica que, funcionando en un ciclo, no produzca otro efecto que la entrada de energía
+      por calor de un depósito y la realización de una cantidad igual de trabajo.</div>
+    <div class="nota">Ninguna máquina real alcanza 100 % de eficiencia: siempre debe expulsarse algo de
+      energía \(|Q_c|\) al depósito frío. Un buen motor de automóvil tiene una eficiencia cercana al
+      20 %; los motores diésel varían entre 35 % y 40 %.</div>
+
+    <div class="panel">
+      <h3>Balance de energía de una máquina térmica</h3>
+      <div class="controls">
+        <label>\(|Q_h|\) (J)
+          <input type="range" id="mtQh" min="500" max="5000" step="50" value="2000">
+        </label>
+        <label>\(|Q_c|\) (J)
+          <input type="range" id="mtQc" min="0" max="4000" step="50" value="1500">
+        </label>
+      </div>
+      <svg width="100%" height="230" viewBox="0 0 480 230" style="max-width:480px;">
+        <rect x="30" y="15" width="150" height="55" rx="8" fill="#F5D0C4" stroke="var(--rojo)" stroke-width="2"/>
+        <text x="105" y="47" font-size="12" text-anchor="middle" font-family="Georgia" fill="#7a2418">Depósito caliente T_h</text>
+        <rect x="30" y="160" width="150" height="55" rx="8" fill="#CBDCEF" stroke="var(--azul-frio)" stroke-width="2"/>
+        <text x="105" y="192" font-size="12" text-anchor="middle" font-family="Georgia" fill="#123a63">Depósito frío T_c</text>
+        <circle cx="270" cy="115" r="42" fill="#EAF3FB" stroke="var(--eth-blue-dark)" stroke-width="2.5"/>
+        <text x="270" y="120" font-size="12" text-anchor="middle" font-family="Georgia" fill="#133565">Máquina</text>
+        <line id="mtLineaQh" x1="105" y1="70" x2="240" y2="105" stroke="var(--rojo)" stroke-width="4"/>
+        <polygon id="mtPuntaQh" points="240,98 252,105 240,112" fill="var(--rojo)"/>
+        <text x="150" y="80" font-size="12" font-family="Georgia" fill="var(--rojo)">Q_h</text>
+        <line id="mtLineaQc" x1="240" y1="130" x2="105" y2="160" stroke="var(--azul-frio)" stroke-width="4"/>
+        <polygon id="mtPuntaQc" points="115,157 103,160 115,164" fill="var(--azul-frio)"/>
+        <text x="150" y="152" font-size="12" font-family="Georgia" fill="var(--azul-frio)">Q_c</text>
+        <line id="mtLineaW" x1="312" y1="115" x2="420" y2="115" stroke="var(--gold-ucr)" stroke-width="4"/>
+        <polygon id="mtPuntaW" points="412,108 424,115 412,122" fill="var(--gold-ucr)"/>
+        <text x="360" y="100" font-size="12" font-family="Georgia" fill="#7a5a0c">W_máq</text>
+      </svg>
+      <p class="readout"><b>\(W_{\text{máq}} = |Q_h|-|Q_c| = \)<span class="num" id="mtW">—</span> J</b>
+        &nbsp;·&nbsp; <b>\(e = 1 - |Q_c|/|Q_h| = \)<span class="num" id="mtE">—</span></b>
+        (<span class="num" id="mtEpct">—</span> %)</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 21.2 BOMBAS DE CALOR -->
+<section id="bombas">
+  <div class="wrap">
+    <div class="kicker">21.2 · Bombas de calor y refrigeradores</div>
+    <p class="narrow">En una bomba de calor o un refrigerador, la máquina toma energía \(|Q_c|\) de un
+      depósito frío y expulsa energía \(|Q_h|\) a un depósito caliente, lo cual solo puede lograrse si
+      se realiza trabajo <i>sobre</i> la máquina.</p>
+    <div class="ley"><b>Enunciado de Clausius de la segunda ley.</b> Es imposible construir una máquina
+      cíclica cuyo único efecto sea transferir energía de manera continua por calor desde un objeto a
+      otro a una mayor temperatura, sin la entrada de energía por trabajo.</div>
+
+    <p class="narrow">La efectividad se describe con el <b>coeficiente de rendimiento</b> (COP):</p>
+    <div class="eq">\[ \text{COP (modo de enfriamiento)} = \frac{|Q_c|}{W} \]</div>
+    <div class="eq">\[ \text{COP (modo de calentamiento)} = \frac{|Q_h|}{W} \]</div>
+    <div class="leyenda">
+      <b>COP</b>: coeficiente de rendimiento [adimensional] &middot;
+      <b>\(W\)</b>: trabajo realizado sobre la bomba de calor o el refrigerador [J] &middot;
+      <b>\(Q_c\)</b>: energía extraída del depósito frío [J] &middot;
+      <b>\(Q_h\)</b>: energía entregada al depósito caliente [J]
+    </div>
+    <div class="nota">Un buen refrigerador tiene un COP típico de 5 o 6. Una bomba de calor que extrae
+      energía del aire exterior suele tener un COP cercano a 4, y ese valor disminuye conforme baja la
+      temperatura exterior.</div>
+
+    <div class="panel">
+      <h3>Calculadora de COP</h3>
+      <div class="controls">
+        <span>
+          <button class="chip activo" data-modo="enf">Modo enfriamiento</button>
+          <button class="chip" data-modo="cal">Modo calentamiento</button>
+        </span>
+        <label>\(W\) (J)
+          <input type="range" id="bcW" min="100" max="2000" step="10" value="500">
+        </label>
+        <label>COP
+          <input type="range" id="bcCOP" min="1" max="10" step="0.1" value="5.0">
+        </label>
+      </div>
+      <svg width="100%" height="220" viewBox="0 0 480 220" style="max-width:480px;">
+        <rect x="30" y="15" width="150" height="55" rx="8" fill="#F5D0C4" stroke="var(--rojo)" stroke-width="2"/>
+        <text x="105" y="47" font-size="12" text-anchor="middle" font-family="Georgia" fill="#7a2418" id="bcLblH">Depósito caliente T_h</text>
+        <rect x="30" y="150" width="150" height="55" rx="8" fill="#CBDCEF" stroke="var(--azul-frio)" stroke-width="2"/>
+        <text x="105" y="182" font-size="12" text-anchor="middle" font-family="Georgia" fill="#123a63" id="bcLblC">Depósito frío T_c</text>
+        <circle cx="270" cy="108" r="42" fill="#EAF3FB" stroke="var(--eth-blue-dark)" stroke-width="2.5"/>
+        <text x="270" y="105" font-size="11" text-anchor="middle" font-family="Georgia" fill="#133565">Bomba de</text>
+        <text x="270" y="119" font-size="11" text-anchor="middle" font-family="Georgia" fill="#133565">calor</text>
+        <line x1="240" y1="98" x2="105" y2="70" stroke="var(--rojo)" stroke-width="4" marker-end="url(#arrH)"/>
+        <defs><marker id="arrH" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--rojo)"/></marker></defs>
+        <text x="150" y="72" font-size="12" font-family="Georgia" fill="var(--rojo)">Q_h</text>
+        <line x1="105" y1="150" x2="240" y2="120" stroke="var(--azul-frio)" stroke-width="4" marker-end="url(#arrC)"/>
+        <defs><marker id="arrC" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--azul-frio)"/></marker></defs>
+        <text x="150" y="145" font-size="12" font-family="Georgia" fill="var(--azul-frio)">Q_c</text>
+        <line x1="420" y1="108" x2="312" y2="108" stroke="var(--gold-ucr)" stroke-width="4" marker-end="url(#arrW)"/>
+        <defs><marker id="arrW" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--gold-ucr)"/></marker></defs>
+        <text x="360" y="95" font-size="12" font-family="Georgia" fill="#7a5a0c">W</text>
+      </svg>
+      <p class="readout" id="bcResultado"></p>
+    </div>
+
+    <div class="panel">
+      <h3>¿Cómo funciona por dentro? Serpentines de un refrigerador o bomba de calor</h3>
+      <p style="font-size:.9rem;">El fluido refrigerante recorre un circuito cerrado: absorbe energía
+        en el <b>evaporador</b> (serpentín frío), se comprime, libera energía en el <b>condensador</b>
+        (serpentín caliente), y se expande de vuelta a baja presión en la <b>válvula de expansión</b>
+        para reiniciar el ciclo.</p>
+      <div class="controls">
+        <button id="refPlay">Encender el circuito ▶</button>
+        <button class="secundario" id="refPausa">Pausar</button>
+      </div>
+      <svg width="100%" height="280" viewBox="0 0 480 280" style="max-width:480px;">
+        <rect x="60" y="180" width="320" height="70" rx="8" fill="#CBDCEF" stroke="var(--azul-frio)" stroke-width="2"/>
+        <text id="refLblFrio" x="220" y="203" font-size="12" text-anchor="middle" font-family="Georgia" fill="#123a63">Interior del refrigerador (frío, T_c)</text>
+        <path d="M100 225 h30 l10 -14 l10 14 l10 -14 l10 14 l10 -14 l10 14 l10 -14 l10 14 l10 -14 l10 14 h30"
+              fill="none" stroke="#7a8aa0" stroke-width="3"/>
+        <text x="220" y="243" font-size="10" text-anchor="middle" font-family="Georgia" fill="#456">Evaporador (serpentín frío)</text>
+
+        <rect x="60" y="30" width="320" height="70" rx="8" fill="#F5D0C4" stroke="var(--rojo)" stroke-width="2"/>
+        <text id="refLblCaliente" x="220" y="53" font-size="12" text-anchor="middle" font-family="Georgia" fill="#7a2418">Aire exterior / del cuarto (caliente, T_h)</text>
+        <path d="M100 75 h30 l10 -14 l10 14 l10 -14 l10 14 l10 -14 l10 14 l10 -14 l10 14 l10 -14 l10 14 h30"
+              fill="none" stroke="#7a8aa0" stroke-width="3"/>
+        <text x="220" y="93" font-size="10" text-anchor="middle" font-family="Georgia" fill="#456">Condensador (serpentín caliente)</text>
+
+        <rect x="392" y="120" width="60" height="40" rx="6" fill="#EAF3FB" stroke="var(--eth-blue-dark)" stroke-width="2"/>
+        <text x="422" y="136" font-size="10" text-anchor="middle" font-family="Georgia" fill="#133565">Compre-</text>
+        <text x="422" y="148" font-size="10" text-anchor="middle" font-family="Georgia" fill="#133565">sor</text>
+
+        <rect x="28" y="120" width="55" height="40" rx="6" fill="#fff" stroke="#7a8aa0" stroke-width="2"/>
+        <text x="55" y="136" font-size="9" text-anchor="middle" font-family="Georgia" fill="#456">Válvula de</text>
+        <text x="55" y="147" font-size="9" text-anchor="middle" font-family="Georgia" fill="#456">expansión</text>
+
+        <!-- tubería del circuito -->
+        <path d="M83 140 H392" fill="none" stroke="#bbb" stroke-width="10" stroke-linecap="round" opacity=".35"/>
+        <path d="M60 215 H60 V140" fill="none" stroke="#bbb" stroke-width="10" stroke-linecap="round" opacity=".35"/>
+        <path d="M60 215 H60" fill="none" stroke="#bbb" stroke-width="10" opacity="0"/>
+        <path d="M60 65 V140" fill="none" stroke="#bbb" stroke-width="10" opacity="0"/>
+
+        <line x1="220" y1="215" x2="383" y2="215" stroke="#ccc" stroke-width="10" stroke-linecap="round"/>
+        <line x1="392" y1="215" x2="392" y2="160" stroke="#ccc" stroke-width="10" stroke-linecap="round"/>
+        <line x1="392" y1="120" x2="392" y2="65" stroke="#ccc" stroke-width="10" stroke-linecap="round"/>
+        <line x1="383" y1="65" x2="220" y2="65" stroke="#ccc" stroke-width="10" stroke-linecap="round"/>
+        <line x1="100" y1="65" x2="55" y2="65" stroke="#ccc" stroke-width="10" stroke-linecap="round"/>
+        <line x1="55" y1="120" x2="55" y2="65" stroke="#ccc" stroke-width="10" stroke-linecap="round"/>
+        <line x1="55" y1="160" x2="55" y2="215" stroke="#ccc" stroke-width="10" stroke-linecap="round"/>
+        <line x1="100" y1="215" x2="55" y2="215" stroke="#ccc" stroke-width="10" stroke-linecap="round"/>
+
+        <line x1="220" y1="262" x2="220" y2="250" stroke="var(--azul-frio)" stroke-width="2.5" marker-end="url(#arrQc2)"/>
+        <defs><marker id="arrQc2" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--azul-frio)"/></marker></defs>
+        <text id="refLblQc" x="240" y="268" font-size="11" font-family="Georgia" fill="var(--azul-frio)">Q_c entra</text>
+
+        <line x1="220" y1="18" x2="220" y2="30" stroke="var(--rojo)" stroke-width="2.5" marker-end="url(#arrQh2)"/>
+        <defs><marker id="arrQh2" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--rojo)"/></marker></defs>
+        <text id="refLblQh" x="240" y="15" font-size="11" font-family="Georgia" fill="var(--rojo)">Q_h sale</text>
+
+        <text x="422" y="112" font-size="10" font-family="Georgia" fill="#7a5a0c">W</text>
+
+        <g id="refParticulas"></g>
+      </svg>
+      <p class="readout" style="font-size:.88rem; color:#666;">Los puntos azules (fluido frío, baja
+        presión) se calientan al pasar por el compresor y salen rojos (caliente, alta presión); al
+        pasar por la válvula de expansión vuelven a enfriarse. El ciclo se repite continuamente
+        mientras el dispositivo está encendido.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 21.3 REVERSIBILIDAD -->
+<section id="reversibilidad">
+  <div class="wrap">
+    <div class="kicker">21.3 · Procesos reversibles e irreversibles</div>
+    <p class="narrow">En un proceso <b>reversible</b>, el sistema puede regresar a sus condiciones
+      iniciales a lo largo de la misma trayectoria sobre un diagrama <i>PV</i>, y cada punto de esa
+      ruta es un estado de equilibrio. Un proceso que no cumple esto es <b>irreversible</b>. Todos los
+      procesos reales son irreversibles.</p>
+
+    <div class="panel">
+      <h3>Expansión libre adiabática: rompe la membrana</h3>
+      <p style="font-size:.9rem;">Un gas ocupa la mitad de un recipiente aislado térmicamente; la otra
+        mitad está vacía. Al romperse la membrana, el gas se expande libremente: no ejerce fuerza a
+        través de un desplazamiento (\(W=0\)) y el recipiente está aislado (\(Q=0\)), así que
+        \(\Delta E_{\text{int}}=0\) y la temperatura no cambia. El sistema cambió, pero no hay forma de
+        devolver el gas a la mitad del recipiente sin afectar a los alrededores: el proceso es
+        irreversible.</p>
+      <div class="controls">
+        <button id="feRomper">Romper la membrana ▶</button>
+        <button class="secundario" id="feReset">Reiniciar</button>
+      </div>
+      <div class="caja-part" id="feCaja">
+        <div class="membrana" id="feMembrana"></div>
+      </div>
+      <p class="readout" id="feTexto">Antes de romper la membrana, todas las moléculas están confinadas
+        en la mitad izquierda: un estado muy poco probable si se permitiera al gas explorar todo el
+        volumen.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 21.4 MÁQUINA DE CARNOT -->
+<section id="carnot">
+  <div class="wrap">
+    <div class="kicker">21.4 · La máquina de Carnot</div>
+    <div class="ley"><b>Teorema de Carnot.</b> Ninguna máquina térmica real que opere entre dos
+      depósitos de energía puede ser más eficiente que una máquina de Carnot que funcione entre los
+      mismos dos depósitos.</div>
+    <p class="narrow">El <b>ciclo de Carnot</b> consiste en dos procesos isotérmicos y dos adiabáticos,
+      todos reversibles: (A→B) expansión isotérmica a \(T_h\) absorbiendo \(|Q_h|\); (B→C) expansión
+      adiabática, la temperatura baja de \(T_h\) a \(T_c\); (C→D) compresión isotérmica a \(T_c\)
+      expulsando \(|Q_c|\); (D→A) compresión adiabática, la temperatura sube de vuelta a \(T_h\).</p>
+
+    <div class="panel">
+      <h3>Ciclo de Carnot: anima las cuatro etapas</h3>
+      <div class="controls">
+        <label>Avance del ciclo
+          <input type="range" id="caAvance" min="0" max="100" step="1" value="0">
+        </label>
+        <button id="caAnimar">Animar ciclo ▶</button>
+        <button class="secundario" id="caReset">Reiniciar</button>
+      </div>
+      <div class="grid2">
+        <div>
+          <div class="gas-contenedor" id="caContenedor" style="width:55%;">
+            <div class="piston"></div>
+          </div>
+          <p class="readout" style="font-size:.86rem;" id="caDescripcion"></p>
+        </div>
+        <div>
+          <svg width="100%" height="260" viewBox="0 0 360 260" style="max-width:360px;">
+            <line x1="45" y1="25" x2="45" y2="195" stroke="#999"/>
+            <line x1="45" y1="195" x2="335" y2="195" stroke="#999"/>
+            <text x="22" y="32" font-size="11" fill="#666" font-family="Georgia">P</text>
+            <text x="326" y="215" font-size="11" fill="#666" font-family="Georgia">V</text>
+            <path id="caArea" fill="#F0DCC6" stroke="none" d="" opacity=".7"/>
+            <path id="caIsoH" fill="none" stroke="#F0B0A0" stroke-width="1.2" stroke-dasharray="3 3" d=""/>
+            <path id="caIsoC" fill="none" stroke="#A9CBEA" stroke-width="1.2" stroke-dasharray="3 3" d=""/>
+            <path id="caCiclo" fill="none" stroke="#B03A2E" stroke-width="2.5" d=""/>
+            <circle id="caPunto" r="5" fill="#C69214"/>
+            <text id="caLabelTh" font-size="10" font-family="Georgia" fill="#B0554A">T_h</text>
+            <text id="caLabelTc" font-size="10" font-family="Georgia" fill="#5C8DC0">T_c</text>
+            <circle id="caPtA" r="3.5" fill="#133565"/>
+            <circle id="caPtB" r="3.5" fill="#133565"/>
+            <circle id="caPtC" r="3.5" fill="#133565"/>
+            <circle id="caPtD" r="3.5" fill="#133565"/>
+            <text id="caLabelA" font-size="11" font-family="Georgia" font-style="italic" fill="#133565">A</text>
+            <text id="caLabelB" font-size="11" font-family="Georgia" font-style="italic" fill="#133565">B</text>
+            <text id="caLabelC" font-size="11" font-family="Georgia" font-style="italic" fill="#133565">C</text>
+            <text id="caLabelD" font-size="11" font-family="Georgia" font-style="italic" fill="#133565">D</text>
+            <text id="caLabelQh" font-size="11" font-family="Georgia" fill="var(--rojo)">Q_h</text>
+            <text id="caLabelQc" font-size="11" font-family="Georgia" fill="var(--azul-frio)">Q_c</text>
+            <text id="caLabelW" font-size="11" font-family="Georgia" fill="#7a5a0c">W</text>
+          </svg>
+        </div>
+      </div>
+      <p class="readout">n = 1.00 mol &nbsp;·&nbsp; \(T_h\) = <span class="num" id="caTh2">500</span> K
+        &nbsp;·&nbsp; \(T_c\) = <span class="num" id="caTc2">300</span> K</p>
+      <div class="leyenda">
+        <b>\(T_h, T_c\)</b>: temperaturas de los depósitos caliente y frío [K] &middot;
+        <b>A, B, C, D</b>: estados del gas en cada esquina del ciclo &middot;
+        <b>\(Q_h\)</b>: calor absorbido en A→B [J] &middot; <b>\(Q_c\)</b>: calor expulsado en C→D [J] &middot;
+        <b>\(W\)</b>: trabajo neto del ciclo, igual al área encerrada [J]
+      </div>
+    </div>
+
+    <div class="eq">\[ \frac{|Q_c|}{|Q_h|} = \frac{T_c}{T_h} \]<span class="eq-num">21.7</span></div>
+    <div class="eq">\[ e_C = 1 - \frac{T_c}{T_h} \]<span class="eq-num">21.8</span></div>
+    <div class="leyenda">
+      <b>\(e_C\)</b>: eficiencia de la máquina de Carnot [adimensional] &middot;
+      <b>\(T_h, T_c\)</b>: temperaturas absolutas de los depósitos caliente y frío [K]
+    </div>
+    <div class="nota">La eficiencia de Carnot es la <b>máxima eficiencia teórica</b> posible entre dos
+      depósitos. Solo depende de las temperaturas; sería 100 % únicamente si \(T_c = 0\) K, algo
+      inalcanzable en la práctica.</div>
+
+    <div class="panel">
+      <h3>Eficiencia de Carnot y COP máximo de una bomba de calor</h3>
+      <div class="controls">
+        <label>\(T_h\) (K)
+          <input type="range" id="caTh" min="310" max="900" step="5" value="500">
+        </label>
+        <label>\(T_c\) (K)
+          <input type="range" id="caTc" min="150" max="300" step="5" value="300">
+        </label>
+      </div>
+      <p class="readout"><b>\(e_C = 1 - T_c/T_h = \)<span class="num" id="caE">—</span></b>
+        (<span class="num" id="caEpct">—</span> %)</p>
+      <div class="eq">\[ \text{COP}_C \text{(calentamiento)} = \frac{T_h}{T_h - T_c} \qquad \text{COP}_C \text{(enfriamiento)} = \frac{T_c}{T_h - T_c} \]</div>
+      <div class="leyenda">\(\text{COP}_C\): coeficiente de rendimiento máximo (de Carnot) [adimensional]</div>
+      <p class="readout">COP\(_C\) calentamiento = <span class="num" id="caCopCal">—</span> &nbsp;·&nbsp;
+        COP\(_C\) enfriamiento = <span class="num" id="caCopEnf">—</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 21.5 OTTO Y DIÉSEL -->
+<section id="otto">
+  <div class="wrap">
+    <div class="kicker">21.5 · Motores de gasolina y diésel</div>
+    <p class="narrow">Un motor de gasolina sigue, de manera aproximada, el <b>ciclo de Otto</b>: carrera
+      de admisión (O→A), compresión adiabática (A→B), combustión a volumen aprox. constante (B→C),
+      expansión adiabática o carrera de potencia (C→D), liberación de gases a volumen constante (D→A)
+      y carrera de escape (A→O).</p>
+    <div class="eq">\[ e = 1 - \frac{1}{(V_1/V_2)^{\gamma - 1}} \quad \text{(ciclo de Otto)} \]<span class="eq-num">21.9</span></div>
+    <div class="leyenda">
+      <b>\(e\)</b>: eficiencia térmica del ciclo [adimensional] &middot;
+      <b>\(V_1/V_2\)</b>: relación de compresión [adimensional] &middot;
+      <b>\(\gamma = C_P/C_V\)</b>: razón de calores específicos de la mezcla aire-combustible [adimensional].
+      Los motores diésel no usan bujía: comprimen tanto el aire que el
+      combustible se enciende solo por la alta temperatura alcanzada, y logran relaciones de compresión
+      mayores que las de gasolina, por eso son más eficientes.
+    </div>
+
+    <div class="panel">
+      <h3>El motor en marcha: pistón sincronizado con el diagrama PV</h3>
+      <div class="controls">
+        <label>Relación de compresión \(V_1/V_2\)
+          <input type="range" id="otR" min="2" max="14" step="0.2" value="8">
+        </label>
+        <label>\(\gamma\)
+          <input type="range" id="otG" min="1.1" max="1.67" step="0.01" value="1.40">
+        </label>
+      </div>
+      <div class="controls">
+        <label>Avance del ciclo
+          <input type="range" id="otAvance" min="0" max="100" step="1" value="0">
+        </label>
+        <button id="otAnimar">Animar ciclo ▶</button>
+        <button class="secundario" id="otReset">Reiniciar</button>
+      </div>
+      <div class="grid2">
+        <div>
+          <div class="gas-contenedor" id="otContenedor" style="width:55%;">
+            <div class="piston"></div>
+          </div>
+          <p class="readout" style="font-size:.86rem;" id="otDescripcion"></p>
+        </div>
+        <div>
+          <svg width="100%" height="260" viewBox="0 0 360 260" style="max-width:360px;">
+            <line x1="45" y1="25" x2="45" y2="195" stroke="#999"/>
+            <line x1="45" y1="195" x2="335" y2="195" stroke="#999"/>
+            <text x="22" y="32" font-size="11" fill="#666" font-family="Georgia">P</text>
+            <text x="326" y="215" font-size="11" fill="#666" font-family="Georgia">V</text>
+            <path id="otRuta" fill="none" stroke="#B03A2E" stroke-width="2.5" d=""/>
+            <circle id="otPunto" r="5" fill="#C69214"/>
+            <text id="otLA" font-size="11" font-family="Georgia" font-style="italic" fill="#133565">A</text>
+            <text id="otLB" font-size="11" font-family="Georgia" font-style="italic" fill="#133565">B</text>
+            <text id="otLC" font-size="11" font-family="Georgia" font-style="italic" fill="#133565">C</text>
+            <text id="otLD" font-size="11" font-family="Georgia" font-style="italic" fill="#133565">D</text>
+            <line id="otFlechaQh" x1="0" y1="0" x2="0" y2="0" stroke="var(--rojo)" stroke-width="2.5" marker-end="url(#otArrQh)"/>
+            <defs><marker id="otArrQh" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--rojo)"/></marker></defs>
+            <text id="otLabelQh" font-size="11" font-family="Georgia" fill="var(--rojo)">Q_h</text>
+            <line id="otFlechaQc" x1="0" y1="0" x2="0" y2="0" stroke="var(--azul-frio)" stroke-width="2.5" marker-end="url(#otArrQc)"/>
+            <defs><marker id="otArrQc" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--azul-frio)"/></marker></defs>
+            <text id="otLabelQc" font-size="11" font-family="Georgia" fill="var(--azul-frio)">Q_c</text>
+          </svg>
+        </div>
+      </div>
+      <p class="readout"><b>\(e = 1-(V_2/V_1)^{\gamma-1} = \)<span class="num" id="otE">—</span></b>
+        (<span class="num" id="otEpct">—</span> %) — eficiencia teórica</p>
+      <p class="readout" style="font-size:.88rem; color:#666;">Los motores reales de gasolina logran
+        entre 15 % y 20 %, muy por debajo del valor teórico, debido a la fricción, la transferencia de
+        energía por conducción a través de las paredes del cilindro y la combustión incompleta.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 21.6 ENTROPÍA: MICROESTADOS -->
+<section id="entropia-micro">
+  <div class="wrap">
+    <div class="kicker">21.6 · Entropía: microestados y macroestados</div>
+    <p class="narrow">Un <b>microestado</b> es una configuración particular de los componentes
+      individuales de un sistema. Un <b>macroestado</b> describe las condiciones del sistema desde un
+      punto de vista macroscópico. Un macroestado dado puede tener muchos microestados; entre más
+      microestados corresponden a un macroestado, mayor es su <i>incertidumbre</i>, su <i>elección</i>
+      y su <i>probabilidad</i> — y estas tres cualidades se relacionan con la <b>entropía</b>.</p>
+
+    <div class="panel">
+      <h3>Ejemplo 21.6 generalizado: extraer canicas de una bolsa</h3>
+      <p style="font-size:.9rem;">De una bolsa con la mitad de canicas rojas y la mitad verdes, se
+        extraen (con reemplazo) varias canicas. El número de microestados de un macroestado con
+        \(k\) canicas rojas de \(N\) extraídas es el coeficiente binomial \(\binom{N}{k}\).</p>
+      <div class="controls">
+        <label>Canicas extraídas \(N\)
+          <input type="range" id="caniN" min="2" max="10" step="1" value="4">
+        </label>
+      </div>
+      <svg width="100%" height="230" viewBox="0 0 560 230" id="caniSvg" style="max-width:560px;"></svg>
+      <p class="readout" style="font-size:.88rem; color:#666;" id="caniTexto"></p>
+    </div>
+
+    <div class="panel">
+      <h3>Probabilidad de separación espontánea de moléculas</h3>
+      <p style="font-size:.9rem;">La probabilidad de que <i>una</i> molécula esté en la mitad izquierda
+        de un recipiente es \(\tfrac{1}{2}\). La probabilidad de que las \(N\) moléculas de un gas estén,
+        todas a la vez, en la mitad izquierda es \((\tfrac{1}{2})^N\).</p>
+      <div class="controls">
+        <label>Número de moléculas \(N\)
+          <input type="range" id="probN" min="1" max="100" step="1" value="10">
+        </label>
+      </div>
+      <p class="readout"><b>\((\tfrac{1}{2})^N = \)<span class="num" id="probVal">—</span></b></p>
+      <p class="readout" style="font-size:.88rem; color:#666;" id="probTexto"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 21.7 ENTROPÍA EN SISTEMAS TERMODINÁMICOS -->
+<section id="entropia-macro">
+  <div class="wrap">
+    <div class="kicker">21.7 · Entropía en sistemas termodinámicos</div>
+    <p class="narrow">Boltzmann demostró, con métodos estadísticos, la forma aceptada de la entropía:</p>
+    <div class="eq">\[ S \equiv k_B \ln W \]<span class="eq-num">21.10</span></div>
+    <div class="leyenda">\(k_B\) es la constante de Boltzmann; \(W\) (de <i>Wahrscheinlichkeit</i>,
+      "probabilidad" en alemán) es el número de microestados asociados con el macroestado. Las
+      unidades de entropía son las de \(k_B\): J/K.</div>
+
+    <div class="panel">
+      <h3>Calculadora: \(S = k_B \ln W\)</h3>
+      <div class="controls">
+        <label>\(W\) (potencia de 10)
+          <input type="range" id="skbExp" min="0" max="30" step="1" value="10">
+        </label>
+      </div>
+      <p class="readout">\(W = 10^{\text{<span id="skbExpLbl">10</span>}}\)</p>
+      <p class="readout"><b>\(S = k_B \ln W = \)<span class="num" id="skbS">—</span> J/K</b></p>
+    </div>
+
+    <p class="narrow">Para \(N\) moléculas distribuidas uniformemente en un volumen \(V\), la parte
+      espacial de la entropía del gas es</p>
+    <div class="eq">\[ S = k_B \ln\left(\frac{V}{V_m}\right)^{N} = Nk_B\ln\left(\frac{V}{V_m}\right) = nR\ln\left(\frac{V}{V_m}\right) \]<span class="eq-num">21.11</span></div>
+
+    <p class="narrow">La formulación original de entropía involucra la transferencia de energía por
+      calor durante un proceso reversible:</p>
+    <div class="eq">\[ dS = \frac{dQ_r}{T} \]<span class="eq-num">21.12</span></div>
+    <div class="eq">\[ \Delta S = \int_i^f dS = \int_i^f \frac{dQ_r}{T} \]<span class="eq-num">21.13</span></div>
+    <div class="eq">\[ \Delta S = k_B \ln\left(\frac{W_f}{W_i}\right) \]<span class="eq-num">21.14</span></div>
+    <div class="nota">La entropía es una variable de estado: \(\Delta S\) solo depende de los estados
+      inicial y final, sin importar si la trayectoria real fue reversible o irreversible. Para calcular
+      \(\Delta S\) de un proceso irreversible, se elige cualquier trayectoria <i>reversible</i>
+      conveniente que conecte los mismos dos estados.</div>
+
+    <div class="panel">
+      <h3>Cambio de entropía en la fusión de una sustancia</h3>
+      <p style="font-size:.9rem;">Un sólido con calor latente de fusión \(L_f\) se funde a temperatura
+        constante \(T_m\): \(\Delta S = L_f m / T_m\).</p>
+      <div class="controls">
+        <label>Masa \(m\) (kg)
+          <input type="range" id="fusM" min="0.05" max="2" step="0.05" value="1.00">
+        </label>
+        <label>\(L_f\) (×10⁵ J/kg)
+          <input type="range" id="fusL" min="0.5" max="4" step="0.05" value="3.33">
+        </label>
+        <label>\(T_m\) (K)
+          <input type="range" id="fusT" min="200" max="1300" step="5" value="273">
+        </label>
+      </div>
+      <p class="readout"><b>\(\Delta S = L_f m / T_m = \)<span class="num" id="fusS">—</span> J/K</b>
+        &nbsp;(positivo: se agrega energía al fundirse)</p>
+    </div>
+
+    <p class="narrow">Para la expansión libre de un gas ideal de \(V_i\) a \(V_f\) (irreversible), se
+      elige una trayectoria isotérmica reversible equivalente:</p>
+    <div class="eq">\[ \Delta S = nR\ln\left(\frac{V_f}{V_i}\right) \]<span class="eq-num">21.17</span></div>
+
+    <div class="panel">
+      <h3>Expansión libre: ΔS a partir de V<sub>i</sub> y V<sub>f</sub></h3>
+      <div class="controls">
+        <label>n (mol)
+          <input type="range" id="expN" min="0.5" max="5" step="0.5" value="1">
+        </label>
+        <label>\(V_f / V_i\)
+          <input type="range" id="expR" min="1.1" max="8" step="0.1" value="4">
+        </label>
+      </div>
+      <div class="caja-part" id="expCaja" style="height:110px;">
+        <div class="membrana" id="expMembrana" style="opacity:0;"></div>
+      </div>
+      <p class="readout"><b>\(\Delta S = nR\ln(V_f/V_i) = \)<span class="num" id="expS">—</span> J/K</b></p>
+    </div>
+
+    <p class="narrow">Para el ciclo completo de una máquina de Carnot, el cambio total de entropía es</p>
+    <div class="eq">\[ \Delta S = \frac{|Q_h|}{T_h} - \frac{|Q_c|}{T_c} = 0 \]<span class="eq-num">21.15</span></div>
+    <div class="eq">\[ \oint \frac{dQ_r}{T} = 0 \quad \text{(ciclo reversible)} \]<span class="eq-num">21.16</span></div>
+
+    <p class="narrow">Para dos depósitos en contacto térmico, con conducción de energía \(Q\) del
+      depósito caliente al frío:</p>
+    <div class="eq">\[ \Delta S = \frac{Q}{T_c} - \frac{Q}{T_h} = Q\left(\frac{1}{T_c}-\frac{1}{T_h}\right) > 0 \]<span class="eq-num">21.18</span></div>
+
+    <div class="panel">
+      <h3>Conducción térmica: ΔS del sistema de dos depósitos</h3>
+      <div class="controls">
+        <label>\(Q\) (J)
+          <input type="range" id="condQ" min="10" max="2000" step="10" value="500">
+        </label>
+        <label>\(T_h\) (K)
+          <input type="range" id="condTh" min="310" max="800" step="5" value="400">
+        </label>
+        <label>\(T_c\) (K)
+          <input type="range" id="condTc" min="150" max="300" step="5" value="300">
+        </label>
+      </div>
+      <p class="readout"><b>\(\Delta S = Q(1/T_c - 1/T_h) = \)<span class="num" id="condS">—</span> J/K</b>
+        — siempre positivo: la energía se dispersa de la región caliente a la fría.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 21.8 SEGUNDA LEY Y ENTROPÍA -->
+<section id="segunda-ley-entropia">
+  <div class="wrap">
+    <div class="kicker">21.8 · Entropía y la segunda ley</div>
+    <div class="ley"><b>Enunciado de entropía de la segunda ley.</b> La entropía del Universo aumenta
+      en todos los procesos reales.</div>
+    <p class="narrow">Este enunciado es equivalente a los de Kelvin-Planck y de Clausius. Si la energía
+      fluyera espontáneamente de un depósito frío a uno caliente (violando Clausius), la entropía se
+      concentraría en vez de dispersarse, y el enunciado de entropía también sería falso — de ahí su
+      equivalencia.</p>
+    <ul class="limpia narrow">
+      <li>En la <b>expansión libre</b> (ec. 21.17), como \(V_f > V_i\), \(\Delta S > 0\): consistente
+        con la segunda ley.</li>
+      <li>En la <b>conducción térmica</b> (ec. 21.18), como \(T_h > T_c\), \(\Delta S > 0\).</li>
+      <li>En un <b>ciclo de Carnot</b>, \(\Delta S = 0\) para la máquina y los depósitos juntos; el
+        único cambio de entropía del Universo proviene del trabajo que se disipa por fricción u otros
+        efectos no conservativos en el sistema externo, y ese cambio también es \(\ge 0\).</li>
+    </ul>
+    <div class="nota">Si el Universo entero se comporta como un sistema aislado, su entropía debe
+      aumentar estacionariamente hasta un valor máximo: la energía se dispersaría de manera completamente
+      uniforme y todos los procesos físicos, químicos y biológicos cesarían. A este panorama se le llama
+      <b>muerte térmica</b> del Universo.</div>
+  </div>
+</section>
+
+<!-- ============================================================ EJEMPLOS -->
+<section id="ejemplos">
+  <div class="wrap">
+    <div class="kicker">Ejemplos — resolvamos juntos</div>
+    <p class="narrow">Cada ejemplo comienza mostrando solo el enunciado. Haz clic dentro del recuadro y
+      presiona <b>Enter</b> (o toca "Siguiente ▶") para revelar el razonamiento paso a paso.</p>
+
+    <!-- 21.1 -->
+    <div class="ejemplo" tabindex="0">
+      <div class="ejemplo-header"><b>Ejemplo 21.1 — La eficiencia de una máquina</b><span class="progreso" data-progreso>Paso 0 / 4</span></div>
+      <div class="ejemplo-body">
+        <div class="enunciado">Durante un ciclo, una máquina transfiere \(2.00\times10^3\) J de energía
+          de un depósito caliente, y transfiere \(1.50\times10^3\) J conforme expulsa a un depósito
+          frío. (A) Encuentre la eficiencia de la máquina. (B) ¿Cuánto trabajo realiza esta máquina en
+          un ciclo?</div>
+        <div class="step"><div class="titulo-paso">Paso 1 — (A) Eficiencia</div>
+          \[ e = 1 - \frac{|Q_c|}{|Q_h|} = 1 - \frac{1.50\times10^3\text{ J}}{2.00\times10^3\text{ J}} = 0.250 = 25.0\% \]</div>
+        <div class="step"><div class="titulo-paso">Paso 2 — (B) Trabajo por ciclo</div>
+          \[ W_{\text{máq}} = |Q_h| - |Q_c| = 2.00\times10^3 - 1.50\times10^3 = 5.0\times10^2 \text{ J} \]</div>
+        <div class="step"><div class="titulo-paso">Paso 3 — ¿Y la potencia?</div>
+          Si la máquina opera a 2 000 rpm, el periodo por ciclo es \(T = \tfrac{1}{2000}\) min:
+          \[ P = \frac{W_{\text{máq}}}{T} = \frac{5.0\times10^2\text{ J}}{(1/2000)\text{ min}}\left(\frac{1\text{ min}}{60\text{ s}}\right) \approx 1.7\times10^4 \text{ W} \]</div>
+        <div class="step"><div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">e = 25.0 % &nbsp;&nbsp;&nbsp; W_máq = 5.0×10² J &nbsp;&nbsp;&nbsp; P ≈ 1.7×10⁴ W (a 2 000 rpm)</div></div>
+      </div>
+      <div class="ejemplo-controles"><button data-siguiente>Siguiente ▶</button><button class="secundario" data-reiniciar>Reiniciar</button><span class="hint-enter">o presiona Enter</span></div>
+    </div>
+
+    <!-- 21.2 -->
+    <div class="ejemplo" tabindex="0">
+      <div class="ejemplo-header"><b>Ejemplo 21.2 — Congelación de agua</b><span class="progreso" data-progreso>Paso 0 / 4</span></div>
+      <div class="ejemplo-body">
+        <div class="enunciado">Cierto refrigerador tiene un COP de 5.00. Cuando el refrigerador está en
+          funcionamiento, su potencia de entrada es de 500 W. Una muestra de agua de 500 g de masa y
+          20.0 °C de temperatura se coloca en el compartimiento del congelador. ¿Cuánto tarda en
+          congelar el agua a 0 °C? Suponga que toda la energía extraída proviene del agua.</div>
+        <div class="step"><div class="titulo-paso">Paso 1 — Relación entre potencia, trabajo y tiempo</div>
+          \[ P = \frac{W}{\Delta t} \;\Rightarrow\; \Delta t = \frac{W}{P} = \frac{|Q_c|}{P(\text{COP})} \]</div>
+        <div class="step"><div class="titulo-paso">Paso 2 — Energía que debe extraerse del agua</div>
+          El agua se enfría de 20.0 °C a 0 °C y luego se congela:
+          \[ |Q_c| = |mc\,\Delta T + L_f\,\Delta m| = |m(c\,\Delta T - L_f)| \]</div>
+        <div class="step"><div class="titulo-paso">Paso 3 — Sustituimos</div>
+          \[ \Delta t = \frac{|(0.500\text{ kg})[(4186\text{ J/kg·°C})(-20.0°\text{C}) - 3.33\times10^5\text{ J/kg}]|}{(500\text{ W})(5.00)} = 83.3 \text{ s} \]</div>
+        <div class="step"><div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">Δt ≈ 83.3 s — en la práctica es mucho mayor, porque también hay
+            que enfriar el recipiente y compensar fugas de calor del exterior.</div></div>
+      </div>
+      <div class="ejemplo-controles"><button data-siguiente>Siguiente ▶</button><button class="secundario" data-reiniciar>Reiniciar</button><span class="hint-enter">o presiona Enter</span></div>
+    </div>
+
+    <!-- 21.3 -->
+    <div class="ejemplo" tabindex="0">
+      <div class="ejemplo-header"><b>Ejemplo 21.3 — Eficiencia de la máquina de Carnot</b><span class="progreso" data-progreso>Paso 0 / 4</span></div>
+      <div class="ejemplo-body">
+        <div class="enunciado">Demuestre que la razón de transferencias de energía por calor en una
+          máquina de Carnot es igual a la razón de temperaturas de los depósitos, ecuación 21.7.</div>
+        <div class="step"><div class="titulo-paso">Paso 1 — Energía en las dos ramas isotérmicas</div>
+          \[ |Q_h| = nRT_h\ln\frac{V_B}{V_A} \qquad |Q_c| = nRT_c\ln\frac{V_C}{V_D} \]</div>
+        <div class="step"><div class="titulo-paso">Paso 2 — Dividimos</div>
+          \[ \frac{|Q_c|}{|Q_h|} = \frac{T_c}{T_h}\cdot\frac{\ln(V_C/V_D)}{\ln(V_B/V_A)} \]</div>
+        <div class="step"><div class="titulo-paso">Paso 3 — Aplicamos \(TV^{\gamma-1}=\text{cte}\) a las ramas adiabáticas B→C y D→A</div>
+          \[ T_hV_B^{\gamma-1} = T_cV_C^{\gamma-1} \qquad T_hV_A^{\gamma-1} = T_cV_D^{\gamma-1} \;\Rightarrow\; \frac{V_B}{V_A} = \frac{V_C}{V_D} \]</div>
+        <div class="step"><div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">Al sustituir, los logaritmos se cancelan y queda \(|Q_c|/|Q_h| = T_c/T_h\), que es la ecuación 21.7.</div></div>
+      </div>
+      <div class="ejemplo-controles"><button data-siguiente>Siguiente ▶</button><button class="secundario" data-reiniciar>Reiniciar</button><span class="hint-enter">o presiona Enter</span></div>
+    </div>
+
+    <!-- 21.4 -->
+    <div class="ejemplo" tabindex="0">
+      <div class="ejemplo-header"><b>Ejemplo 21.4 — La máquina de vapor</b><span class="progreso" data-progreso>Paso 0 / 4</span></div>
+      <div class="ejemplo-body">
+        <div class="enunciado">Una máquina de vapor tiene un calentador que funciona a 500 K. El
+          depósito frío es el aire exterior, aproximadamente a 300 K. ¿Cuál es la máxima eficiencia
+          térmica de esta máquina?</div>
+        <div class="step"><div class="titulo-paso">Paso 1 — Eficiencia de Carnot</div>
+          \[ e_C = 1 - \frac{T_c}{T_h} = 1 - \frac{300\text{ K}}{500\text{ K}} = 0.400 = 40.0\% \]</div>
+        <div class="step"><div class="titulo-paso">Paso 2 — ¿Y si subimos T_h en 50 K?</div>
+          \[ e_C = 1 - \frac{300}{550} = 0.455 \]</div>
+        <div class="step"><div class="titulo-paso">Paso 3 — ¿Y si bajamos T_c en 50 K?</div>
+          \[ e_C = 1 - \frac{250}{500} = 0.500 \]</div>
+        <div class="step"><div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">e_C = 40.0 % en las condiciones dadas. Bajar T_c es
+            matemáticamente más efectivo que subir T_h en la misma cantidad, aunque en la práctica
+            suele ser más factible elevar T_h.</div></div>
+      </div>
+      <div class="ejemplo-controles"><button data-siguiente>Siguiente ▶</button><button class="secundario" data-reiniciar>Reiniciar</button><span class="hint-enter">o presiona Enter</span></div>
+    </div>
+
+    <!-- 21.5 -->
+    <div class="ejemplo" tabindex="0">
+      <div class="ejemplo-header"><b>Ejemplo 21.5 — Eficiencia del ciclo de Otto</b><span class="progreso" data-progreso>Paso 0 / 5</span></div>
+      <div class="ejemplo-body">
+        <div class="enunciado">Demuestre que la eficiencia térmica de un motor que funciona en un ciclo
+          de Otto está dada por la ecuación 21.9. Trate la sustancia de trabajo como un gas ideal.</div>
+        <div class="step"><div class="titulo-paso">Paso 1 — Calor en los procesos a volumen constante</div>
+          \[ B\to C:\; |Q_h| = nC_V(T_C - T_B) \qquad D\to A:\; |Q_c| = nC_V(T_D - T_A) \]</div>
+        <div class="step"><div class="titulo-paso">Paso 2 — Eficiencia en términos de temperaturas</div>
+          \[ e = 1 - \frac{|Q_c|}{|Q_h|} = 1 - \frac{T_D - T_A}{T_C - T_B} \]</div>
+        <div class="step"><div class="titulo-paso">Paso 3 — Aplicamos \(TV^{\gamma-1}=\text{cte}\) a A→B y C→D</div>
+          \[ T_A = T_B\left(\frac{V_2}{V_1}\right)^{\gamma-1} \qquad T_D = T_C\left(\frac{V_2}{V_1}\right)^{\gamma-1} \]</div>
+        <div class="step"><div class="titulo-paso">Paso 4 — Restamos y sustituimos</div>
+          \[ \frac{T_D - T_A}{T_C - T_B} = \left(\frac{V_2}{V_1}\right)^{\gamma-1} \;\Rightarrow\; e = 1 - \frac{1}{(V_1/V_2)^{\gamma-1}} \]</div>
+        <div class="step"><div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">Queda demostrada la ecuación 21.9. Con una relación de compresión típica de 8 y γ = 1.40, e ≈ 56 %: mucho mayor que el 15–20 % real, debido a la fricción y otras pérdidas.</div></div>
+      </div>
+      <div class="ejemplo-controles"><button data-siguiente>Siguiente ▶</button><button class="secundario" data-reiniciar>Reiniciar</button><span class="hint-enter">o presiona Enter</span></div>
+    </div>
+
+    <!-- 21.6 -->
+    <div class="ejemplo" tabindex="0">
+      <div class="ejemplo-header"><b>Ejemplo 21.6 — ¡A jugar canicas!</b><span class="progreso" data-progreso>Paso 0 / 3</span></div>
+      <div class="ejemplo-body">
+        <div class="enunciado">Una bolsa tiene 100 canicas, 50 rojas y 50 verdes. Se extraen cuatro
+          canicas, una por una, registrando su color y regresándola a la bolsa antes de la siguiente
+          extracción. ¿Cuáles son los posibles macroestados y cuál es el menos probable?</div>
+        <div class="step"><div class="titulo-paso">Paso 1 — Cada extracción es equiprobable (50/50)</div>
+          Hay \(2^4=16\) microestados igualmente probables en total.</div>
+        <div class="step"><div class="titulo-paso">Paso 2 — Microestados por macroestado (Tabla 21.1)</div>
+          Todas R: 1 &nbsp;·&nbsp; 1V,3R: 4 &nbsp;·&nbsp; 2V,2R: 6 &nbsp;·&nbsp; 3V,1R: 4 &nbsp;·&nbsp; Todas V: 1</div>
+        <div class="step"><div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">El macroestado más probable es 2 rojas y 2 verdes (6 microestados); los menos probables —de incertidumbre cero— son las cuatro canicas del mismo color (1 microestado cada uno).</div></div>
+      </div>
+      <div class="ejemplo-controles"><button data-siguiente>Siguiente ▶</button><button class="secundario" data-reiniciar>Reiniciar</button><span class="hint-enter">o presiona Enter</span></div>
+    </div>
+
+    <!-- 21.7 -->
+    <div class="ejemplo" tabindex="0">
+      <div class="ejemplo-header"><b>Ejemplo 21.7 — Cambio en entropía: fusión</b><span class="progreso" data-progreso>Paso 0 / 3</span></div>
+      <div class="ejemplo-body">
+        <div class="enunciado">Un sólido con calor latente de fusión \(L_f\) se funde a una temperatura
+          \(T_m\). Calcule el cambio en entropía cuando se funde una masa \(m\) de la sustancia.</div>
+        <div class="step"><div class="titulo-paso">Paso 1 — La fusión es isotérmica: T sale de la integral</div>
+          \[ \Delta S = \int\frac{dQ_r}{T} = \frac{1}{T_m}\int dQ_r = \frac{Q_r}{T_m} \]</div>
+        <div class="step"><div class="titulo-paso">Paso 2 — La energía transferida es \(Q_r = L_f\Delta m = L_f m\)</div>
+          \[ \Delta S = \frac{L_f m}{T_m} \]</div>
+        <div class="step"><div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">ΔS = L_f m / T_m, siempre positivo: se agrega energía a la sustancia al fundirse.</div></div>
+      </div>
+      <div class="ejemplo-controles"><button data-siguiente>Siguiente ▶</button><button class="secundario" data-reiniciar>Reiniciar</button><span class="hint-enter">o presiona Enter</span></div>
+    </div>
+
+    <!-- 21.8 -->
+    <div class="ejemplo" tabindex="0">
+      <div class="ejemplo-header"><b>Ejemplo 21.8 — Expansión libre adiabática: una última vez</b><span class="progreso" data-progreso>Paso 0 / 5</span></div>
+      <div class="ejemplo-body">
+        <div class="enunciado">Un gas ideal se expande libremente a cuatro veces su volumen inicial
+          (\(V_f = 4V_i\)), con las mismas temperaturas inicial y final. (A) Calcule ΔS con un enfoque
+          macroscópico. (B) Verifique el resultado con un enfoque microscópico (estadístico).</div>
+        <div class="step"><div class="titulo-paso">Paso 1 — (A) Enfoque macroscópico</div>
+          \[ \Delta S = nR\ln\left(\frac{V_f}{V_i}\right) = nR\ln\left(\frac{4V_i}{V_i}\right) = nR\ln 4 \]</div>
+        <div class="step"><div class="titulo-paso">Paso 2 — (B) Número de microestados para N moléculas</div>
+          \[ W_i = \left(\frac{V_i}{V_m}\right)^N \qquad W_f = \left(\frac{4V_i}{V_m}\right)^N \]</div>
+        <div class="step"><div class="titulo-paso">Paso 3 — Aplicamos la ecuación 21.14</div>
+          \[ \Delta S = k_B\ln\left(\frac{W_f}{W_i}\right) = k_B\ln(4^N) = Nk_B\ln 4 = nR\ln 4 \]</div>
+        <div class="step"><div class="titulo-paso">Paso 4 — Verificación con dos etapas reversibles (adiabática + isovolumétrica)</div>
+          \[ \Delta S = nC_V\ln\frac{T_1}{T_2} = nC_V(\gamma-1)\ln 4 = n(C_P-C_V)\ln 4 = nR\ln 4 \]</div>
+        <div class="step"><div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">Los tres caminos —macroscópico, microscópico y de dos etapas— dan exactamente ΔS = nR ln 4, confirmando que la entropía es una variable de estado.</div></div>
+      </div>
+      <div class="ejemplo-controles"><button data-siguiente>Siguiente ▶</button><button class="secundario" data-reiniciar>Reiniciar</button><span class="hint-enter">o presiona Enter</span></div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="doc-footer">Física General II (FS0310) · Escuela de Física, UCR · Máquinas térmicas, entropía y segunda ley de la termodinámica</footer>
+
+<script>
+function fmt(x, d){
+  if(!isFinite(x)) return '—';
+  if(Math.abs(x) >= 1e5 || (Math.abs(x) > 0 && Math.abs(x) < 1e-3)) return x.toExponential(2);
+  return x.toFixed(d === undefined ? 2 : d);
+}
+const R = 8.314, kB = 1.38e-23;
+
+// ============================================================ MÁQUINA TÉRMICA
+(function(){
+  const sQh = document.getElementById('mtQh'), sQc = document.getElementById('mtQc');
+  function actualizar(){
+    let Qh = parseFloat(sQh.value), Qc = parseFloat(sQc.value);
+    if(Qc > Qh) { Qc = Qh; sQc.value = Qh; }
+    const W = Qh - Qc, e = W / Qh;
+    document.getElementById('mtW').textContent = fmt(W, 0);
+    document.getElementById('mtE').textContent = fmt(e, 3);
+    document.getElementById('mtEpct').textContent = fmt(e*100, 1);
+    const escala = v => Math.max(0.4, Math.min(1, v/3000));
+    document.getElementById('mtLineaQh').setAttribute('stroke-width', 2 + 4*escala(Qh));
+    document.getElementById('mtLineaQc').setAttribute('stroke-width', 2 + 4*escala(Qc));
+    document.getElementById('mtLineaW').setAttribute('stroke-width', 2 + 4*escala(W));
+  }
+  sQh.addEventListener('input', actualizar);
+  sQc.addEventListener('input', actualizar);
+  actualizar();
+})();
+
+// ============================================================ BOMBAS DE CALOR
+(function(){
+  let modo = 'enf';
+  const sW = document.getElementById('bcW'), sCOP = document.getElementById('bcCOP');
+  function actualizar(){
+    const W = parseFloat(sW.value), COP = parseFloat(sCOP.value);
+    const Q = W * COP;
+    const texto = (modo === 'enf')
+      ? '\\(\\text{COP} = |Q_c|/W \\Rightarrow |Q_c| = \\) <b>' + fmt(Q,0) + ' J</b> retirados del depósito frío, con W = ' + fmt(W,0) + ' J de trabajo.'
+      : '\\(\\text{COP} = |Q_h|/W \\Rightarrow |Q_h| = \\) <b>' + fmt(Q,0) + ' J</b> entregados al depósito caliente, con W = ' + fmt(W,0) + ' J de trabajo.';
+    const el = document.getElementById('bcResultado');
+    el.innerHTML = texto;
+    if(window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([el]);
+  }
+  document.querySelectorAll('[data-modo]').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('[data-modo]').forEach(x => x.classList.remove('activo'));
+      b.classList.add('activo');
+      modo = b.getAttribute('data-modo');
+      actualizar();
+      actualizarEtiquetasRef();
+    });
+  });
+  sW.addEventListener('input', actualizar);
+  sCOP.addEventListener('input', actualizar);
+
+  function actualizarEtiquetasRef(){
+    const lblFrio = document.getElementById('refLblFrio'), lblCaliente = document.getElementById('refLblCaliente'),
+          lblQc = document.getElementById('refLblQc'), lblQh = document.getElementById('refLblQh');
+    if(!lblFrio) return;
+    if(modo === 'enf'){
+      lblFrio.textContent = 'Interior del refrigerador (frío, T_c)';
+      lblCaliente.textContent = 'Aire exterior / del cuarto (caliente, T_h)';
+      lblQc.textContent = 'Q_c entra (alimentos)';
+      lblQh.textContent = 'Q_h sale (al cuarto)';
+    } else {
+      lblFrio.textContent = 'Aire exterior (frío, T_c)';
+      lblCaliente.textContent = 'Interior del edificio (caliente, T_h)';
+      lblQc.textContent = 'Q_c entra (del exterior)';
+      lblQh.textContent = 'Q_h sale (calienta el edificio)';
+    }
+  }
+  actualizar();
+  actualizarEtiquetasRef();
+})();
+
+// ============================================================ SIMULACIÓN DEL SERPENTÍN / CIRCUITO
+(function(){
+  const grupo = document.getElementById('refParticulas');
+  if(!grupo) return;
+  // Waypoints del circuito, en sentido horario, en fracciones de recorrido t en [0,4)
+  // Tramo 0: evaporador (frío) y=215, x:100->383  |  Tramo 1: sube por el compresor x=392, y:215->65
+  // Tramo 2: condensador (caliente) y=65, x:383->100 (izq)  |  Tramo 3: baja por la válvula x=55, y:65->215
+  function punto(t){
+    const f = t % 4;
+    if(f < 1) return { x: 100 + (383-100)*f, y: 215, caliente: false };
+    if(f < 2) { const s = f-1; return { x: 392, y: 215 - (215-65)*s, caliente: s > 0.55 }; }
+    if(f < 3) { const s = f-2; return { x: 383 - (383-100)*s, y: 65, caliente: true }; }
+    const s = f-3; return { x: 55, y: 65 + (215-65)*s, caliente: s < 0.55 };
+  }
+  const N = 12;
+  const particulas = [];
+  for(let i = 0; i < N; i++){
+    const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('r', 5);
+    grupo.appendChild(c);
+    particulas.push({ el: c, t: (i / N) * 4 });
+  }
+  let corriendo = true;
+  function loop(){
+    if(corriendo){
+      particulas.forEach(p => {
+        p.t = (p.t + 0.01) % 4;
+        const pt = punto(p.t);
+        p.el.setAttribute('cx', pt.x);
+        p.el.setAttribute('cy', pt.y);
+        p.el.setAttribute('fill', pt.caliente ? 'var(--rojo)' : 'var(--azul-frio)');
+      });
+    }
+    requestAnimationFrame(loop);
+  }
+  document.getElementById('refPlay').addEventListener('click', () => { corriendo = true; });
+  document.getElementById('refPausa').addEventListener('click', () => { corriendo = false; });
+  loop();
+})();
+
+// ============================================================ EXPANSIÓN LIBRE (21.3)
+(function(){
+  const caja = document.getElementById('feCaja'), membrana = document.getElementById('feMembrana');
+  const texto = document.getElementById('feTexto');
+  let particulas = [], roto = false;
+
+  for(let i = 0; i < 24; i++){
+    const p = document.createElement('div');
+    p.className = 'particula';
+    caja.appendChild(p);
+    particulas.push({el:p, x: Math.random()*40, y: Math.random()*85,
+                     vx:(Math.random()-0.5)*1.6, vy:(Math.random()-0.5)*1.6});
+  }
+  function loop(){
+    particulas.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      const limite = roto ? 95 : 42;
+      if(p.x < 0){ p.x = 0; p.vx *= -1; }
+      if(p.x > limite){ p.x = limite; p.vx *= -1; }
+      if(p.y < 0){ p.y = 0; p.vy *= -1; }
+      if(p.y > 90){ p.y = 90; p.vy *= -1; }
+      p.el.style.left = p.x + '%'; p.el.style.top = p.y + '%';
+    });
+    requestAnimationFrame(loop);
+  }
+  document.getElementById('feRomper').addEventListener('click', () => {
+    roto = true;
+    membrana.style.opacity = '0';
+    texto.textContent = 'Al romperse la membrana, el gas se expande libremente por todo el volumen: W = 0 (no hay fuerza a través de un desplazamiento) y Q = 0 (recipiente aislado), así que ΔEint = 0 y T no cambia. El sistema no regresará espontáneamente a la mitad izquierda: el proceso es irreversible.';
+  });
+  document.getElementById('feReset').addEventListener('click', () => {
+    roto = false;
+    membrana.style.opacity = '1';
+    particulas.forEach(p => { p.x = Math.random()*40; });
+    texto.textContent = 'Antes de romper la membrana, todas las moléculas están confinadas en la mitad izquierda: un estado muy poco probable si se permitiera al gas explorar todo el volumen.';
+  });
+  loop();
+})();
+
+// ============================================================ CICLO DE CARNOT (animación)
+(function(){
+  const sAv = document.getElementById('caAvance');
+  const cont = document.getElementById('caContenedor');
+  const Th0 = 500, Tc0 = 300, n = 1.0;
+  document.getElementById('caTh2').textContent = Th0;
+  document.getElementById('caTc2').textContent = Tc0;
+
+  // Estados de referencia (V en L, con nR=0.08206*n en atm·L/K aprox para dibujo)
+  const VA = 10, VB = 16; // expansión isotérmica a Th
+  // adiabática B->C: Th*VB^(g-1) = Tc*VC^(g-1); usamos g=1.4
+  const g = 1.4;
+  const VC = VB * Math.pow(Th0/Tc0, 1/(g-1));
+  const VD = VA * Math.pow(Th0/Tc0, 1/(g-1));
+
+  function Patm(V, T){ return (0.08206 * T) / V; }
+  const Vmin = 5, Vmax = Math.max(VC, VD) * 1.15;
+  const X = V => 45 + (Math.log(V/Vmin)/Math.log(Vmax/Vmin)) * 270;
+  const Y = P => 195 - Math.min(1, P/6) * 160;
+
+  function estado(p){
+    const f = p/100 * 4; // 0-4 recorre las 4 etapas
+    if(f < 1){ const t=f; const V=VA+(VB-VA)*t; return {V:V, T:Th0, P:Patm(V,Th0), etapa:'A→B: expansión isotérmica a T_h — el gas absorbe |Q_h| y realiza trabajo.'}; }
+    if(f < 2){ const t=f-1; const V=VB+(VC-VB)*t; const T=Th0*Math.pow(VB/V,g-1); return {V:V, T:T, P:Patm(V,T), etapa:'B→C: expansión adiabática — Q=0, la temperatura baja de T_h a T_c.'}; }
+    if(f < 3){ const t=f-2; const V=VC+(VD-VC)*t; return {V:V, T:Tc0, P:Patm(V,Tc0), etapa:'C→D: compresión isotérmica a T_c — el gas expulsa |Q_c|.'}; }
+    const t=f-3; const V=VD+(VA-VD)*t; const T=Tc0*Math.pow(VD/V,g-1); return {V:V, T:T, P:Patm(V,T), etapa:'D→A: compresión adiabática — Q=0, la temperatura sube de vuelta a T_h.'};
+  }
+  function dibujarCiclo(){
+    let d = '';
+    for(let p = 0; p <= 100; p += 1){
+      const e = estado(p);
+      d += (d === '' ? 'M ' : ' L ') + X(e.V).toFixed(1) + ' ' + Y(e.P).toFixed(1);
+    }
+    document.getElementById('caCiclo').setAttribute('d', d);
+    document.getElementById('caArea').setAttribute('d', d + ' Z');
+    let dh = '', dc = '';
+    for(let V = Vmin; V <= Vmax; V += (Vmax-Vmin)/60){
+      dh += (dh === '' ? 'M ' : ' L ') + X(V).toFixed(1) + ' ' + Y(Patm(V,Th0)).toFixed(1);
+      dc += (dc === '' ? 'M ' : ' L ') + X(V).toFixed(1) + ' ' + Y(Patm(V,Tc0)).toFixed(1);
+    }
+    document.getElementById('caIsoH').setAttribute('d', dh);
+    document.getElementById('caIsoC').setAttribute('d', dc);
+
+    // Etiquetas de las isotermas, cerca del extremo derecho de cada curva
+    document.getElementById('caLabelTh').setAttribute('x', X(Vmax)-26);
+    document.getElementById('caLabelTh').setAttribute('y', Y(Patm(Vmax,Th0))-6);
+    document.getElementById('caLabelTc').setAttribute('x', X(Vmax)-26);
+    document.getElementById('caLabelTc').setAttribute('y', Y(Patm(Vmax,Tc0))-6);
+
+    // Vértices A, B, C, D
+    const pA = {x:X(VA), y:Y(Patm(VA,Th0))}, pB = {x:X(VB), y:Y(Patm(VB,Th0))},
+          pC = {x:X(VC), y:Y(Patm(VC,Tc0))}, pD = {x:X(VD), y:Y(Patm(VD,Tc0))};
+    document.getElementById('caPtA').setAttribute('cx', pA.x); document.getElementById('caPtA').setAttribute('cy', pA.y);
+    document.getElementById('caPtB').setAttribute('cx', pB.x); document.getElementById('caPtB').setAttribute('cy', pB.y);
+    document.getElementById('caPtC').setAttribute('cx', pC.x); document.getElementById('caPtC').setAttribute('cy', pC.y);
+    document.getElementById('caPtD').setAttribute('cx', pD.x); document.getElementById('caPtD').setAttribute('cy', pD.y);
+    document.getElementById('caLabelA').setAttribute('x', pA.x-14); document.getElementById('caLabelA').setAttribute('y', pA.y+14);
+    document.getElementById('caLabelB').setAttribute('x', pB.x+5); document.getElementById('caLabelB').setAttribute('y', pB.y-6);
+    document.getElementById('caLabelC').setAttribute('x', pC.x+5); document.getElementById('caLabelC').setAttribute('y', pC.y-6);
+    document.getElementById('caLabelD').setAttribute('x', pD.x-14); document.getElementById('caLabelD').setAttribute('y', pD.y+14);
+
+    // Q_h junto al tramo A→B, Q_c junto al tramo C→D, W en el centro del área
+    document.getElementById('caLabelQh').setAttribute('x', (pA.x+pB.x)/2 - 8);
+    document.getElementById('caLabelQh').setAttribute('y', (pA.y+pB.y)/2 - 8);
+    document.getElementById('caLabelQc').setAttribute('x', (pC.x+pD.x)/2 - 8);
+    document.getElementById('caLabelQc').setAttribute('y', (pC.y+pD.y)/2 + 16);
+    document.getElementById('caLabelW').setAttribute('x', (pA.x+pB.x+pC.x+pD.x)/4 - 6);
+    document.getElementById('caLabelW').setAttribute('y', (pA.y+pB.y+pC.y+pD.y)/4);
+  }
+  function render(){
+    const p = parseFloat(sAv.value);
+    const e = estado(p);
+    document.getElementById('caPunto').setAttribute('cx', X(e.V));
+    document.getElementById('caPunto').setAttribute('cy', Y(e.P));
+    document.getElementById('caDescripcion').textContent = e.etapa;
+    cont.style.width = (25 + (e.V/Vmax)*55) + '%';
+  }
+  let animando = false;
+  document.getElementById('caAnimar').addEventListener('click', () => {
+    if(animando) return; animando = true;
+    let t0 = null;
+    function paso(ts){
+      if(!t0) t0 = ts;
+      const p = Math.min((ts-t0)/4000, 1) * 100;
+      sAv.value = p; render();
+      if(p < 100) requestAnimationFrame(paso); else animando = false;
+    }
+    requestAnimationFrame(paso);
+  });
+  document.getElementById('caReset').addEventListener('click', () => { sAv.value = 0; render(); });
+  sAv.addEventListener('input', render);
+  dibujarCiclo(); render();
+})();
+
+// ============================================================ EFICIENCIA DE CARNOT Y COP
+(function(){
+  const sTh = document.getElementById('caTh'), sTc = document.getElementById('caTc');
+  function actualizar(){
+    const Th = parseFloat(sTh.value), Tc = parseFloat(sTc.value);
+    const eC = 1 - Tc/Th;
+    document.getElementById('caE').textContent = fmt(eC, 3);
+    document.getElementById('caEpct').textContent = fmt(eC*100, 1);
+    document.getElementById('caCopCal').textContent = fmt(Th/(Th-Tc), 2);
+    document.getElementById('caCopEnf').textContent = fmt(Tc/(Th-Tc), 2);
+  }
+  sTh.addEventListener('input', actualizar);
+  sTc.addEventListener('input', actualizar);
+  actualizar();
+})();
+
+// ============================================================ CICLO DE OTTO
+(function(){
+  const sR = document.getElementById('otR'), sG = document.getElementById('otG'), sAv = document.getElementById('otAvance');
+  const ruta = document.getElementById('otRuta'), cont = document.getElementById('otContenedor');
+  const Vmin = 1, Vmax = 16;
+  const X = V => 45 + (V/Vmax)*280;
+  const Y = P => 195 - Math.min(1, P/8)*165;
+  let V1=16, V2=2, PA=1.0, PB=1, PC=1, PD=1, g=1.4;
+
+  function adiabPath(Va, Pa, Vb, Pb, pasos){
+    let dd = '';
+    for(let i = 0; i <= pasos; i++){
+      const V = Va + (Vb-Va)*(i/pasos);
+      const P = Pa * Math.pow(Va/V, g);
+      dd += (dd === '' ? '' : ' L ') + X(V).toFixed(1) + ' ' + Y(P).toFixed(1);
+    }
+    return dd;
+  }
+  function actualizar(){
+    const r = parseFloat(sR.value); g = parseFloat(sG.value);
+    const e = 1 - 1/Math.pow(r, g-1);
+    document.getElementById('otE').textContent = fmt(e, 3);
+    document.getElementById('otEpct').textContent = fmt(e*100, 1);
+
+    V2 = 2; V1 = V2 * r;
+    PA = 1.0;
+    PB = PA * Math.pow(r, g); // adiabática A->B (compresión)
+    PC = PB * 1.8; // combustión aprox (isovolumétrica, sube presión)
+    PD = PC / Math.pow(r, g); // adiabática C->D (expansión)
+
+    let d = 'M ' + adiabPath(V1, PA, V2, PB, 20);
+    d += ' L ' + X(V2).toFixed(1) + ' ' + Y(PC).toFixed(1);
+    d += ' L ' + adiabPath(V2, PC, V1, PD, 20);
+    d += ' L ' + X(V1).toFixed(1) + ' ' + Y(PA).toFixed(1);
+    ruta.setAttribute('d', d);
+
+    document.getElementById('otLA').setAttribute('x', X(V1)+4); document.getElementById('otLA').setAttribute('y', Y(PA)+14);
+    document.getElementById('otLB').setAttribute('x', X(V2)-16); document.getElementById('otLB').setAttribute('y', Y(PB)-4);
+    document.getElementById('otLC').setAttribute('x', X(V2)-16); document.getElementById('otLC').setAttribute('y', Y(PC)-4);
+    document.getElementById('otLD').setAttribute('x', X(V1)+4); document.getElementById('otLD').setAttribute('y', Y(PD)-4);
+
+    // Flecha Q_h: sube por el tramo B→C (volumen V2, presión de PB a PC)
+    const xQh = X(V2);
+    document.getElementById('otFlechaQh').setAttribute('x1', xQh); document.getElementById('otFlechaQh').setAttribute('y1', Y(PB));
+    document.getElementById('otFlechaQh').setAttribute('x2', xQh); document.getElementById('otFlechaQh').setAttribute('y2', Y(PC));
+    document.getElementById('otLabelQh').setAttribute('x', xQh+6); document.getElementById('otLabelQh').setAttribute('y', (Y(PB)+Y(PC))/2);
+
+    // Flecha Q_c: baja por el tramo D→A (volumen V1, presión de PD a PA)
+    const xQc = X(V1);
+    document.getElementById('otFlechaQc').setAttribute('x1', xQc); document.getElementById('otFlechaQc').setAttribute('y1', Y(PD));
+    document.getElementById('otFlechaQc').setAttribute('x2', xQc); document.getElementById('otFlechaQc').setAttribute('y2', Y(PA));
+    document.getElementById('otLabelQc').setAttribute('x', xQc-32); document.getElementById('otLabelQc').setAttribute('y', (Y(PD)+Y(PA))/2);
+
+    render();
+  }
+
+  function estado(p){
+    const f = (p/100) * 4;
+    if(f < 1){ const t=f; const V=V1+(V2-V1)*t; const P=PA*Math.pow(V1/V,g); return {V:V,P:P, etapa:'A→B: compresión adiabática — Q = 0, sube la presión y la temperatura.'}; }
+    if(f < 2){ const t=f-1; const V=V2; const P=PB+(PC-PB)*t; return {V:V,P:P, etapa:'B→C: combustión a volumen constante — entra |Q_h|, P y T suben bruscamente.'}; }
+    if(f < 3){ const t=f-2; const V=V2+(V1-V2)*t; const P=PC*Math.pow(V2/V,g); return {V:V,P:P, etapa:'C→D: expansión adiabática (carrera de potencia) — Q = 0, el gas empuja el pistón.'}; }
+    const t=f-3; const V=V1; const P=PD+(PA-PD)*t; return {V:V,P:P, etapa:'D→A: liberación de gases a volumen constante — sale |Q_c|, caen P y T.'};
+  }
+  function render(){
+    const p = parseFloat(sAv.value);
+    const e = estado(p);
+    document.getElementById('otPunto').setAttribute('cx', X(e.V));
+    document.getElementById('otPunto').setAttribute('cy', Y(e.P));
+    document.getElementById('otDescripcion').textContent = e.etapa;
+    cont.style.width = (25 + (e.V/V1)*55) + '%';
+  }
+  let animando = false;
+  document.getElementById('otAnimar').addEventListener('click', () => {
+    if(animando) return; animando = true;
+    let t0 = null;
+    function paso(ts){
+      if(!t0) t0 = ts;
+      const p = Math.min((ts-t0)/4000, 1) * 100;
+      sAv.value = p; render();
+      if(p < 100) requestAnimationFrame(paso); else animando = false;
+    }
+    requestAnimationFrame(paso);
+  });
+  document.getElementById('otReset').addEventListener('click', () => { sAv.value = 0; render(); });
+  sAv.addEventListener('input', render);
+  sR.addEventListener('input', actualizar);
+  sG.addEventListener('input', actualizar);
+  actualizar();
+})();
+
+// ============================================================ ENTROPÍA: CANICAS (binomial)
+(function(){
+  const sN = document.getElementById('caniN');
+  const svg = document.getElementById('caniSvg');
+  function C(n,k){ let r=1; for(let i=0;i<k;i++) r = r*(n-i)/(i+1); return Math.round(r); }
+  function actualizar(){
+    const N = parseInt(sN.value);
+    const conteos = [];
+    for(let k = 0; k <= N; k++) conteos.push(C(N,k));
+    const total = conteos.reduce((a,b)=>a+b, 0);
+    const maxC = Math.max.apply(null, conteos);
+    const anchoBarra = Math.min(60, Math.max(14, (480 - 8*N)/(N+1)));
+    let html = '';
+    conteos.forEach((c, k) => {
+      const h = (c / maxC) * 160;
+      const x = 50 + k * (anchoBarra + 8);
+      const y = 195 - h;
+      html += '<rect x="'+x+'" y="'+y+'" width="'+anchoBarra+'" height="'+h+'" fill="#215CAF" rx="2"/>';
+      html += '<text x="'+(x+anchoBarra/2)+'" y="'+(y-6)+'" font-size="10" text-anchor="middle" font-family="Georgia" fill="#133565">'+c+'</text>';
+      html += '<text x="'+(x+anchoBarra/2)+'" y="212" font-size="9" text-anchor="middle" font-family="Georgia" fill="#666">'+(N-k)+'R,'+k+'V</text>';
+    });
+    svg.innerHTML = html;
+    document.getElementById('caniTexto').textContent = 'Con N = ' + N + ' canicas extraídas hay ' +
+      Math.pow(2,N) + ' microestados en total. El macroestado más probable es el más equilibrado (cerca de ' +
+      Math.round(N/2) + ' de cada color), con ' + maxC + ' microestados; los macroestados "todas del mismo color" tienen un único microestado cada uno.';
+  }
+  sN.addEventListener('input', actualizar);
+  actualizar();
+})();
+
+// ============================================================ ENTROPÍA: PROBABILIDAD DE SEPARACIÓN
+(function(){
+  const sN = document.getElementById('probN');
+  function actualizar(){
+    const N = parseInt(sN.value);
+    const p = Math.pow(0.5, N);
+    document.getElementById('probVal').textContent = p.toExponential(2);
+    let texto;
+    if(N <= 5) texto = 'Con pocas moléculas, no es tan improbable encontrarlas todas en una mitad.';
+    else if(N < 50) texto = 'La probabilidad ya cae rápidamente al aumentar N.';
+    else texto = 'Con N = 100, la probabilidad es de aproximadamente 1 en 10³⁰: extrapolado a un mol de gas (6.02×10²³ moléculas), semejante separación es esencialmente imposible de observar.';
+    document.getElementById('probTexto').textContent = texto;
+  }
+  sN.addEventListener('input', actualizar);
+  actualizar();
+})();
+
+// ============================================================ S = kB ln W
+(function(){
+  const sExp = document.getElementById('skbExp');
+  function actualizar(){
+    const exp = parseInt(sExp.value);
+    document.getElementById('skbExpLbl').textContent = exp;
+    const W = Math.pow(10, exp);
+    const S = kB * Math.log(W);
+    document.getElementById('skbS').textContent = fmt(S, 3);
+  }
+  sExp.addEventListener('input', actualizar);
+  actualizar();
+})();
+
+// ============================================================ ΔS FUSIÓN
+(function(){
+  const sM = document.getElementById('fusM'), sL = document.getElementById('fusL'), sT = document.getElementById('fusT');
+  function actualizar(){
+    const m = parseFloat(sM.value), Lf = parseFloat(sL.value)*1e5, Tm = parseFloat(sT.value);
+    document.getElementById('fusS').textContent = fmt(Lf*m/Tm, 1);
+  }
+  [sM,sL,sT].forEach(e => e.addEventListener('input', actualizar));
+  actualizar();
+})();
+
+// ============================================================ ΔS EXPANSIÓN LIBRE
+(function(){
+  const sN = document.getElementById('expN'), sR = document.getElementById('expR');
+  function actualizar(){
+    const n = parseFloat(sN.value), ratio = parseFloat(sR.value);
+    const dS = n * R * Math.log(ratio);
+    document.getElementById('expS').textContent = fmt(dS, 3);
+  }
+  sN.addEventListener('input', actualizar);
+  sR.addEventListener('input', actualizar);
+  actualizar();
+})();
+
+// ============================================================ ΔS CONDUCCIÓN
+(function(){
+  const sQ = document.getElementById('condQ'), sTh = document.getElementById('condTh'), sTc = document.getElementById('condTc');
+  function actualizar(){
+    let Q = parseFloat(sQ.value), Th = parseFloat(sTh.value), Tc = parseFloat(sTc.value);
+    if(Tc > Th){ Tc = Th; sTc.value = Th; }
+    const dS = Q * (1/Tc - 1/Th);
+    document.getElementById('condS').textContent = fmt(dS, 4);
+  }
+  [sQ,sTh,sTc].forEach(e => e.addEventListener('input', actualizar));
+  actualizar();
+})();
+
+// ============================================================ EJEMPLOS INTERACTIVOS (Steppers)
+(function(){
+  document.querySelectorAll('.ejemplo').forEach(ej => {
+    const steps = ej.querySelectorAll('.step');
+    const btnSig = ej.querySelector('[data-siguiente]');
+    const btnRe = ej.querySelector('[data-reiniciar]');
+    const prog = ej.querySelector('[data-progreso]');
+    let actual = 0;
+    function render(){
+      steps.forEach((s, i) => { if(i < actual) s.classList.add('shown'); else s.classList.remove('shown'); });
+      prog.textContent = 'Paso ' + actual + ' / ' + steps.length;
+    }
+    btnSig.addEventListener('click', () => { if(actual < steps.length){ actual++; render(); } });
+    btnRe.addEventListener('click', () => { actual = 0; render(); });
+    ej.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter'){ if(actual < steps.length){ actual++; render(); } e.preventDefault(); }
+    });
+    render();
+  });
+})();
+</script>
+</body>
+</html>
