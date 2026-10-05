@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Física General II · FS0310 · Práctica para el segundo parcial</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+:root{
+  --eth-blue-dark:#133565;
+  --eth-blue:#215CAF;
+  --celeste-ucr:#50AAD7;
+  --gold-ucr:#C69214;
+  --gris-texto:#3C3C3C;
+  --fondo-nota:#F5F7FA;
+  --fondo-gold:#FBF3E1;
+  --linea:#D8DEE8;
+  --rojo:#D6413A;
+  --azul-frio:#2E6DB4;
+  --verde:#3D8A52;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; padding:0;
+  font-family: Georgia, 'Cambria', 'Times New Roman', serif;
+  color:var(--gris-texto);
+  background:#fff;
+  line-height:1.55;
+}
+img{max-width:100%;}
+h1,h2,h3{color:var(--eth-blue-dark); font-weight:700; margin:0 0 .5em 0;}
+p{margin:0 0 1em 0;}
+.wrap{max-width:900px; margin:0 auto; padding:0 24px;}
+.narrow{max-width:70ch;}
+
+/* ---------- Portada ---------- */
+.portada{
+  min-height:100vh;
+  display:flex; flex-direction:column; justify-content:center;
+  border-bottom:6px solid var(--gold-ucr);
+  padding:48px 24px 64px;
+  background:
+    radial-gradient(circle at 85% 12%, rgba(80,170,215,.10), transparent 45%),
+    radial-gradient(circle at 10% 85%, rgba(198,146,20,.08), transparent 45%);
+}
+.portada-header{
+  display:flex; align-items:center; justify-content:space-between;
+  max-width:900px; width:100%; margin:0 auto 56px;
+  padding-bottom:18px; border-bottom:1.5px solid rgba(33,92,175,.35);
+}
+.portada-header img.ucr{height:56px;}
+.portada-header img.efis{height:40px;}
+.portada-titulo{max-width:900px; width:100%; margin:0 auto; text-align:left;}
+.eyebrow{color:var(--gris-texto); font-size:1.05rem; letter-spacing:.02em;}
+.curso{color:var(--eth-blue-dark); font-size:2.6rem; font-weight:700; margin:.1em 0 .3em;}
+.gold-rule{width:110px; height:3px; background:var(--gold-ucr); margin:.4em 0 .7em;}
+.tema-titulo{font-size:1.7rem; color:var(--eth-blue); font-weight:700; margin:0 0 .15em;}
+.tema-sub{font-size:1.1rem; color:var(--gris-texto);}
+.portada-footer{max-width:900px; width:100%; margin:64px auto 0; font-size:.95rem; color:var(--gris-texto);}
+.portada-footer b{color:var(--eth-blue-dark);}
+
+/* ---------- Nav ---------- */
+nav.toc{
+  position:sticky; top:0; z-index:50;
+  background:rgba(255,255,255,.94); backdrop-filter:blur(4px);
+  border-bottom:1px solid var(--linea);
+  overflow-x:auto; white-space:nowrap;
+}
+nav.toc .wrap{display:flex; gap:4px; padding:10px 24px;}
+nav.toc a{
+  flex:0 0 auto;
+  font-family: Georgia, serif; font-size:.85rem; color:var(--eth-blue-dark);
+  text-decoration:none; padding:6px 12px; border-radius:16px;
+  border:1px solid transparent;
+}
+nav.toc a:hover{border-color:var(--eth-blue); background:var(--fondo-nota);}
+
+/* ---------- Secciones ---------- */
+section{padding:56px 0; border-bottom:1px solid var(--linea);}
+section:last-of-type{border-bottom:none;}
+.kicker{
+  display:inline-block; font-size:1.15rem; font-weight:700; color:var(--eth-blue-dark);
+  border:2px solid var(--gold-ucr); border-radius:10px;
+  padding:8px 18px; margin-bottom:24px; background:#fff;
+}
+.puntaje{
+  display:inline-block; font-size:.82rem; font-weight:700; color:#7A5A0C;
+  background:var(--fondo-gold); border:1px solid var(--gold-ucr); border-radius:14px;
+  padding:3px 12px; margin-left:10px; vertical-align:middle;
+}
+
+/* ---------- Cajas ---------- */
+.ley{
+  background:#EAF3FB; border-left:4px solid var(--eth-blue);
+  border-radius:4px; padding:16px 20px; margin:18px 0;
+}
+.ley b{color:var(--eth-blue-dark);}
+.nota{
+  background:var(--fondo-nota); border:1px solid var(--linea); border-radius:6px;
+  padding:14px 18px; margin:18px 0; font-size:.94rem;
+}
+.leyenda{
+  border:1px solid var(--linea); border-radius:6px; padding:12px 16px; margin:14px 0 0;
+  font-size:.9rem; color:var(--gris-texto); background:#fff;
+}
+.leyenda b{color:var(--eth-blue-dark);}
+.enunciado{
+  background:var(--fondo-nota); border-left:4px solid var(--eth-blue-dark);
+  padding:16px 20px; border-radius:4px; margin-bottom:6px;
+}
+.enunciado ol{margin:.6em 0 0 1.1em; padding:0;}
+.enunciado li{margin-bottom:.5em;}
+ul.limpia{margin:0 0 1em 1.2em; padding:0;}
+ul.limpia li{margin-bottom:.45em;}
+
+/* ---------- Ecuaciones (MathJax) ---------- */
+.eq{
+  display:block; text-align:center;
+  background:var(--fondo-nota); border-left:3px solid var(--eth-blue);
+  padding:14px 10px; margin:18px 0; border-radius:4px; overflow-x:auto;
+  position:relative;
+}
+
+/* ---------- Paneles interactivos ---------- */
+.panel{
+  background:#fff; border:1px solid var(--linea); border-radius:10px;
+  padding:22px 24px; margin:20px 0;
+  box-shadow:0 1px 3px rgba(19,53,101,.06);
+}
+.panel h3{font-size:1.05rem; margin-bottom:14px;}
+.controls{display:flex; flex-wrap:wrap; gap:18px; align-items:center; margin-bottom:16px; font-size:.92rem;}
+.controls label{display:flex; flex-direction:column; gap:4px; font-size:.85rem; color:var(--gris-texto); margin-right:18px;}
+input[type=range]{accent-color:var(--eth-blue); width:180px;}
+select, button, input[type=number]{
+  font-family:inherit; font-size:.9rem; padding:6px 10px; border-radius:6px;
+  border:1px solid var(--linea); background:#fff; color:var(--gris-texto);
+}
+button{
+  background:var(--eth-blue-dark); color:#fff; border:none; cursor:pointer;
+  padding:8px 16px; font-weight:600;
+}
+button:hover{background:var(--eth-blue);}
+button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible{
+  outline:3px solid var(--celeste-ucr); outline-offset:2px;
+}
+button.secundario{background:#fff; color:var(--eth-blue-dark); border:1px solid var(--eth-blue-dark);}
+button.secundario:hover{background:var(--fondo-nota);}
+button.chip{background:#fff; color:var(--eth-blue-dark); border:1px solid var(--linea); font-weight:400;}
+button.chip.activo{background:var(--eth-blue-dark); color:#fff; border-color:var(--eth-blue-dark); font-weight:600;}
+.readout{font-size:.95rem; margin-top:8px;}
+.readout .num{font-weight:700; color:var(--eth-blue-dark);}
+.grid2{display:flex; gap:26px; flex-wrap:wrap; align-items:flex-start;}
+.grid2 > *{flex:1 1 300px; min-width:280px;}
+
+/* ---------- Tablas ---------- */
+table.datos{ border-collapse:collapse; width:100%; font-size:.88rem; margin:14px 0; }
+table.datos th, table.datos td{ border-bottom:1px solid var(--linea); padding:7px 10px; text-align:center; }
+table.datos th{color:var(--eth-blue-dark); border-bottom:2px solid var(--eth-blue-dark);}
+.tabla-scroll{overflow-x:auto;}
+
+/* ---------- Cilindro/pistón (reutilizable) ---------- */
+.gas-contenedor{
+  position:relative; background:#EFF3F8; border:2px solid var(--eth-blue-dark);
+  border-radius:6px; height:170px; margin:14px 0; overflow:hidden; transition:width .3s ease;
+}
+.piston{
+  position:absolute; top:-2px; bottom:-2px; right:-6px; width:12px;
+  background:repeating-linear-gradient(45deg,#555,#555 3px,#777 3px,#777 6px);
+  border-left:3px solid #333;
+}
+
+/* ---------- Pasos de solución (stepper) ---------- */
+.ejemplo{ border:1px solid var(--linea); border-radius:10px; margin:26px 0; overflow:hidden; outline:none; }
+.ejemplo:focus{box-shadow:0 0 0 3px rgba(33,92,175,.25);}
+.ejemplo-header{
+  background:var(--eth-blue-dark); color:#fff; padding:12px 20px;
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;
+}
+.ejemplo-header b{font-size:1rem;}
+.ejemplo-body{padding:20px 22px;}
+.step{
+  opacity:0; max-height:0; overflow:hidden; transform:translateY(8px);
+  transition:opacity .45s ease, transform .45s ease, max-height .45s ease; padding-top:0;
+}
+.step.shown{opacity:1; max-height:900px; transform:translateY(0); padding-top:14px;}
+.step .titulo-paso{font-weight:700; color:var(--eth-blue); margin-bottom:4px; font-size:.92rem;}
+.resultado-final{
+  background:var(--fondo-gold); border:1px solid var(--gold-ucr); border-radius:6px;
+  padding:12px 16px; font-weight:700; color:#7A5A0C;
+}
+.ejemplo-controles{
+  display:flex; gap:10px; align-items:center; padding:14px 22px 20px;
+  border-top:1px dashed var(--linea);
+}
+.hint-enter{font-size:.82rem; color:#8a8a8a;}
+.progreso{font-size:.82rem; color:var(--gris-texto);}
+
+footer.doc-footer{padding:40px 24px 60px; text-align:center; color:#8a8a8a; font-size:.85rem;}
+
+@media (max-width:640px){
+  .curso{font-size:2rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================ PORTADA -->
+<div class="portada">
+  <div class="portada-header">
+    <img class="ucr" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iNjAiPjx0ZXh0IHg9IjEwIiB5PSI0MCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEiIGZvbnQtc2l6ZT0iMzUiIGZpbGw9IiM1MEFBRDciIGZvbnQtd2VpZ2h0PSJib2xkIj5VQ1I8L3RleHQ+PC9zdmc+" alt="Universidad de Costa Rica">
+    <img class="efis" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTAiIGhlaWdodD0iNjAiPjx0ZXh0IHg9IjEwIiB5PSI0MCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEiIGZvbnQtc2l6ZT0iMjIiIGZpbGw9IiMxMzM1NjUiIGZvbnQtd2VpZ2h0PSJib2xkIj5Fc2N1ZWxhIGRlIEbDrXNpY2E8L3RleHQ+PC9zdmc+" alt="Escuela de Física">
+  </div>
+  <div class="portada-titulo">
+    <div class="eyebrow">Física General II</div>
+    <div class="curso">FS0310</div>
+    <div class="gold-rule"></div>
+    <div class="tema-titulo">Práctica para el segundo examen parcial — Termodinámica</div>
+    <div class="tema-sub">Tres problemas tipo examen, con el mismo estilo y dificultad (o mayor) que los
+      del parcial. Explora cada simulación y luego revisa la solución paso a paso.</div>
+  </div>
+  <div class="portada-footer">
+    <div><b>Docente:</b> Keylor Arley Castro</div>
+    <div>Escuela de Física, Universidad de Costa Rica</div>
+  </div>
+</div>
+
+<nav class="toc">
+  <div class="wrap">
+    <a href="#problema1">Problema 1</a>
+    <a href="#problema2">Problema 2</a>
+    <a href="#problema3">Problema 3</a>
+    <a href="#formulario">Fórmulas útiles</a>
+  </div>
+</nav>
+
+<!-- ============================================================ PROBLEMA 1 -->
+<section id="problema1">
+  <div class="wrap">
+    <div class="kicker">Problema 1 <span class="puntaje">20 puntos</span></div>
+
+    <div class="enunciado">
+      Un mol de gas ideal <b>diatómico</b> (sin vibración), inicialmente a presión atmosférica y
+      \(T_i = 20.0\,^{\circ}\text{C}\), se somete a un proceso especial tal que, al graficarlo en un
+      diagrama \(p\)-\(V\), se observa una <b>recta</b>. El efecto neto de este proceso fue
+      <b>triplicar el volumen</b> y <b>duplicar la presión</b>.
+      <ol>
+        <li>Calcule la presión, el volumen y la temperatura, tanto en el estado inicial como en el
+          final. (6 puntos)</li>
+        <li>Calcule el cambio de energía interna del gas durante el proceso. (5 puntos)</li>
+        <li>Calcule el trabajo realizado por el gas durante el proceso. (4 puntos)</li>
+        <li>Calcule el calor intercambiado por el gas durante el proceso. (3 puntos)</li>
+        <li>Calcule el cambio de entropía del gas durante el proceso. (2 puntos)</li>
+      </ol>
+    </div>
+
+    <div class="panel">
+      <h3>Explora el proceso: una recta en el diagrama p-V</h3>
+      <p style="font-size:.9rem;">Ajusta la razón de volumen y de presión entre el estado inicial y el
+        final para ver cómo cambia la recta y las cantidades termodinámicas. Cuando termines de
+        explorar, deja los controles en los valores del problema (ya están puestos por defecto) y
+        revisa la solución paso a paso.</p>
+      <div class="controls">
+        <span>
+          <button class="chip activo" data-gas1="di">Diatómico (C_V = 5R/2)</button>
+          <button class="chip" data-gas1="mono">Monoatómico (C_V = 3R/2)</button>
+        </span>
+        <label>\(T_i\) (°C)
+          <input type="range" id="p1Ti" min="-20" max="80" step="1" value="20">
+        </label>
+        <label>\(V_f/V_i\)
+          <input type="range" id="p1Vr" min="1" max="5" step="0.1" value="3">
+        </label>
+        <label>\(P_f/P_i\)
+          <input type="range" id="p1Pr" min="0.3" max="4" step="0.1" value="2">
+        </label>
+      </div>
+      <svg width="100%" height="250" viewBox="0 0 360 250" style="max-width:360px;">
+        <line x1="50" y1="20" x2="50" y2="200" stroke="#999"/>
+        <line x1="50" y1="200" x2="330" y2="200" stroke="#999"/>
+        <text x="25" y="28" font-size="11" fill="#666" font-family="Georgia">p</text>
+        <text x="320" y="220" font-size="11" fill="#666" font-family="Georgia">V</text>
+        <line id="p1Recta" x1="0" y1="0" x2="0" y2="0" stroke="var(--verde)" stroke-width="3"/>
+        <circle id="p1PtI" r="5" fill="#133565"/>
+        <circle id="p1PtF" r="5" fill="#133565"/>
+        <text id="p1LblI" font-size="11" font-family="Georgia" fill="#133565">(V_i, p_i)</text>
+        <text id="p1LblF" font-size="11" font-family="Georgia" fill="#133565">(V_f, p_f)</text>
+      </svg>
+      <div class="grid2">
+        <div class="gas-contenedor" id="p1Contenedor" style="width:35%;">
+          <div class="piston"></div>
+        </div>
+        <div>
+          <p class="readout">\(p_i = \)<span class="num" id="p1Pi">—</span> atm &nbsp;·&nbsp;
+            \(V_i = \)<span class="num" id="p1ViL">—</span> L &nbsp;·&nbsp;
+            \(T_i = \)<span class="num" id="p1TiK">—</span> K</p>
+          <p class="readout">\(p_f = \)<span class="num" id="p1Pf">—</span> atm &nbsp;·&nbsp;
+            \(V_f = \)<span class="num" id="p1VfL">—</span> L &nbsp;·&nbsp;
+            \(T_f = \)<span class="num" id="p1TfK">—</span> K</p>
+          <p class="readout"><b>\(\Delta E_{\text{int}} = \)<span class="num" id="p1dE">—</span> J</b></p>
+          <p class="readout"><b>\(W_{\text{por el gas}} = \)<span class="num" id="p1W">—</span> J</b></p>
+          <p class="readout"><b>\(Q = \)<span class="num" id="p1Q">—</span> J</b></p>
+          <p class="readout"><b>\(\Delta S = \)<span class="num" id="p1dS">—</span> J/K</b></p>
+        </div>
+      </div>
+      <div class="leyenda">
+        <b>\(p, V, T\)</b>: presión [atm o Pa], volumen [L o m³] y temperatura [K] en cada estado &middot;
+        <b>\(\Delta E_{\text{int}}\)</b>: cambio de energía interna [J] &middot;
+        <b>\(W\)</b>: trabajo realizado por el gas [J] &middot; <b>\(Q\)</b>: calor neto intercambiado [J] &middot;
+        <b>\(\Delta S\)</b>: cambio de entropía del gas [J/K]
+      </div>
+    </div>
+
+    <div class="ejemplo" tabindex="0">
+      <div class="ejemplo-header"><b>Solución paso a paso — Problema 1</b><span class="progreso" data-progreso>Paso 0 / 6</span></div>
+      <div class="ejemplo-body">
+        <div class="step"><div class="titulo-paso">Paso 1 — (a) Estado inicial</div>
+          \[ T_i = 20.0\,^{\circ}\text{C} = 293.15\text{ K} \qquad P_i = 1.00\text{ atm} = 1.013\times10^5\text{ Pa} \]
+          \[ V_i = \frac{nRT_i}{P_i} = \frac{(1)(8.314)(293.15)}{1.013\times10^5} \approx 2.405\times10^{-2}\text{ m}^3 = 24.05\text{ L} \]</div>
+        <div class="step"><div class="titulo-paso">Paso 2 — (a) Estado final</div>
+          \[ P_f = 2P_i = 2.00\text{ atm} \qquad V_f = 3V_i \approx 7.215\times10^{-2}\text{ m}^3 = 72.15\text{ L} \]
+          \[ T_f = \frac{P_fV_f}{nR} = \frac{P_f}{P_i}\cdot\frac{V_f}{V_i}\cdot T_i = (2)(3)(293.15\text{ K}) = 1758.9\text{ K} \]</div>
+        <div class="step"><div class="titulo-paso">Paso 3 — (b) Cambio de energía interna</div>
+          Gas diatómico: \(C_V = \tfrac{5}{2}R\).
+          \[ \Delta E_{\text{int}} = nC_V\Delta T = (1)\left(\tfrac{5}{2}\right)(8.314)(1758.9-293.15) \approx 3.05\times10^4\text{ J} \]</div>
+        <div class="step"><div class="titulo-paso">Paso 4 — (c) Trabajo realizado por el gas</div>
+          Como el proceso es una <i>recta</i> en el diagrama p-V, el trabajo es el área bajo la recta
+          (un trapecio):
+          \[ W = \int_{V_i}^{V_f}P\,dV = \frac{P_i+P_f}{2}(V_f-V_i) = \frac{(1.013+2.026)\times10^5}{2}(7.215-2.405)\times10^{-2} \approx 7.31\times10^3\text{ J} \]</div>
+        <div class="step"><div class="titulo-paso">Paso 5 — (d) Calor intercambiado</div>
+          \[ Q = \Delta E_{\text{int}} + W = 3.05\times10^4 + 7.31\times10^3 \approx 3.78\times10^4\text{ J} \]
+          (positivo: el gas absorbe energía por calor).</div>
+        <div class="step"><div class="titulo-paso">Paso 6 — (e) Cambio de entropía</div>
+          Como \(S\) es variable de estado, se usa la expresión general para un gas ideal (de
+          \(dS=nC_V\,dT/T + nR\,dV/V\)):
+          \[ \Delta S = nC_V\ln\frac{T_f}{T_i} + nR\ln\frac{V_f}{V_i} = (1)\left(\tfrac{5}{2}\right)(8.314)\ln(6) + (1)(8.314)\ln(3) \approx 46.4\text{ J/K} \]</div>
+        <div class="step"><div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">
+            V_i ≈ 24.05 L, T_f = 1758.9 K &nbsp;|&nbsp; ΔE_int ≈ 3.05×10⁴ J &nbsp;|&nbsp;
+            W ≈ 7.31×10³ J &nbsp;|&nbsp; Q ≈ 3.78×10⁴ J &nbsp;|&nbsp; ΔS ≈ 46.4 J/K
+          </div></div>
+      </div>
+      <div class="ejemplo-controles"><button data-siguiente>Siguiente ▶</button><button class="secundario" data-reiniciar>Reiniciar</button><span class="hint-enter">o presiona Enter</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ PROBLEMA 2 -->
+<section id="problema2">
+  <div class="wrap">
+    <div class="kicker">Problema 2 <span class="puntaje">25 puntos</span></div>
+
+    <div class="enunciado">
+      Una <b>máquina térmica ideal (de Carnot)</b> opera entre un depósito caliente a
+      \(T_h = 950\text{ K}\) y un depósito frío (el ambiente) a \(T_c = 310\text{ K}\). La máquina
+      absorbe \(|Q_h| = 3200\text{ J}\) de calor del depósito caliente en cada ciclo. <b>Todo</b> el
+      trabajo neto que produce se utiliza para accionar un <b>refrigerador de Carnot</b> que extrae
+      calor de un congelador a \(T_{c2} = 250\text{ K}\) y lo expulsa al mismo ambiente a 310 K.
+      <ol>
+        <li>Determine la eficiencia máxima de la máquina térmica. (5 puntos)</li>
+        <li>Calcule el trabajo neto que produce la máquina en cada ciclo. (5 puntos)</li>
+        <li>Calcule el calor que la máquina expulsa al ambiente. (5 puntos)</li>
+        <li>Calcule el coeficiente de rendimiento (COP) del refrigerador de Carnot. (5 puntos)</li>
+        <li>Con el trabajo de la parte (b), calcule cuánto calor extrae el refrigerador del
+          congelador en cada ciclo, y cuánto calor entrega al ambiente. (5 puntos)</li>
+      </ol>
+    </div>
+
+    <div class="panel">
+      <h3>Máquina de Carnot acoplada a un refrigerador de Carnot</h3>
+      <div class="controls">
+        <label>\(T_h\) (K)
+          <input type="range" id="p2Th" min="500" max="1200" step="10" value="950">
+        </label>
+        <label>\(|Q_h|\) (J)
+          <input type="range" id="p2Qh" min="500" max="6000" step="50" value="3200">
+        </label>
+        <label>\(T_c\) = \(T_{h2}\) (K)
+          <input type="range" id="p2Tc" min="260" max="330" step="2" value="310">
+        </label>
+        <label>\(T_{c2}\) congelador (K)
+          <input type="range" id="p2Tc2" min="200" max="300" step="2" value="250">
+        </label>
+      </div>
+      <svg width="100%" height="200" viewBox="0 0 560 200" style="max-width:560px;">
+        <rect x="20" y="10" width="140" height="45" rx="8" fill="#F5D0C4" stroke="var(--rojo)" stroke-width="2"/>
+        <text x="90" y="37" font-size="11" text-anchor="middle" font-family="Georgia" fill="#7a2418">Depósito caliente T_h</text>
+        <circle cx="230" cy="70" r="36" fill="#EAF3FB" stroke="var(--eth-blue-dark)" stroke-width="2.5"/>
+        <text x="230" y="67" font-size="10" text-anchor="middle" font-family="Georgia" fill="#133565">Máquina</text>
+        <text x="230" y="79" font-size="10" text-anchor="middle" font-family="Georgia" fill="#133565">de Carnot</text>
+        <line x1="90" y1="55" x2="200" y2="68" stroke="var(--rojo)" stroke-width="3" marker-end="url(#p2arH)"/>
+        <defs><marker id="p2arH" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--rojo)"/></marker></defs>
+        <text x="110" y="52" font-size="10" font-family="Georgia" fill="var(--rojo)">Q_h</text>
+
+        <rect x="170" y="130" width="150" height="45" rx="8" fill="#CBDCEF" stroke="var(--azul-frio)" stroke-width="2"/>
+        <text x="245" y="157" font-size="11" text-anchor="middle" font-family="Georgia" fill="#123a63">Ambiente T_c = T_h2</text>
+        <line x1="222" y1="100" x2="250" y2="128" stroke="var(--azul-frio)" stroke-width="3" marker-end="url(#p2arC)"/>
+        <defs><marker id="p2arC" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--azul-frio)"/></marker></defs>
+        <text x="190" y="118" font-size="10" font-family="Georgia" fill="var(--azul-frio)">Q_c</text>
+
+        <line x1="266" y1="70" x2="420" y2="70" stroke="var(--gold-ucr)" stroke-width="3" marker-end="url(#p2arW)"/>
+        <defs><marker id="p2arW" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--gold-ucr)"/></marker></defs>
+        <text x="320" y="62" font-size="10" font-family="Georgia" fill="#7a5a0c">W</text>
+
+        <circle cx="460" cy="100" r="36" fill="#EAF3FB" stroke="var(--eth-blue-dark)" stroke-width="2.5"/>
+        <text x="460" y="97" font-size="10" text-anchor="middle" font-family="Georgia" fill="#133565">Refrigerador</text>
+        <text x="460" y="109" font-size="10" text-anchor="middle" font-family="Georgia" fill="#133565">de Carnot</text>
+        <line x1="320" y1="155" x2="432" y2="118" stroke="var(--rojo)" stroke-width="3" marker-end="url(#p2arH2)"/>
+        <defs><marker id="p2arH2" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--rojo)"/></marker></defs>
+        <text x="350" y="150" font-size="10" font-family="Georgia" fill="var(--rojo)">Q_h2</text>
+
+        <rect x="400" y="10" width="140" height="45" rx="8" fill="#CBDCEF" stroke="var(--azul-frio)" stroke-width="2"/>
+        <text x="470" y="37" font-size="11" text-anchor="middle" font-family="Georgia" fill="#123a63">Congelador T_c2</text>
+        <line x1="460" y1="55" x2="460" y2="64" stroke="var(--azul-frio)" stroke-width="3" marker-end="url(#p2arC2)"/>
+        <defs><marker id="p2arC2" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--azul-frio)"/></marker></defs>
+        <text x="468" y="60" font-size="10" font-family="Georgia" fill="var(--azul-frio)">Q_c2</text>
+      </svg>
+      <p class="readout">\(e_C = \)<span class="num" id="p2E">—</span> (<span class="num" id="p2Epct">—</span> %) &nbsp;·&nbsp;
+        \(W = \)<span class="num" id="p2W">—</span> J &nbsp;·&nbsp; \(Q_c = \)<span class="num" id="p2Qc">—</span> J</p>
+      <p class="readout">COP<sub>enf</sub> = <span class="num" id="p2COP">—</span> &nbsp;·&nbsp;
+        \(Q_{c2} = \)<span class="num" id="p2Qc2">—</span> J &nbsp;·&nbsp;
+        \(Q_{h2} = \)<span class="num" id="p2Qh2">—</span> J</p>
+      <div class="leyenda">
+        <b>\(T_h, T_c, T_{c2}\)</b>: temperaturas de los tres depósitos [K] &middot;
+        <b>\(Q_h, Q_c\)</b>: calor absorbido/expulsado por la máquina [J] &middot;
+        <b>\(W\)</b>: trabajo neto de la máquina, usado íntegramente por el refrigerador [J] &middot;
+        <b>COP<sub>enf</sub></b>: coeficiente de rendimiento del refrigerador [adimensional] &middot;
+        <b>\(Q_{c2}, Q_{h2}\)</b>: calor extraído del congelador y entregado al ambiente por el refrigerador [J]
+      </div>
+    </div>
+
+    <div class="ejemplo" tabindex="0">
+      <div class="ejemplo-header"><b>Solución paso a paso — Problema 2</b><span class="progreso" data-progreso>Paso 0 / 6</span></div>
+      <div class="ejemplo-body">
+        <div class="step"><div class="titulo-paso">Paso 1 — (a) Eficiencia de Carnot de la máquina</div>
+          \[ e_C = 1-\frac{T_c}{T_h} = 1-\frac{310}{950} \approx 0.674 = 67.4\% \]</div>
+        <div class="step"><div class="titulo-paso">Paso 2 — (b) Trabajo neto por ciclo</div>
+          \[ W = e_C|Q_h| = (0.674)(3200\text{ J}) \approx 2.16\times10^3\text{ J} \]</div>
+        <div class="step"><div class="titulo-paso">Paso 3 — (c) Calor expulsado al ambiente</div>
+          \[ |Q_c| = |Q_h| - W = 3200 - 2156 \approx 1.04\times10^3\text{ J} \]</div>
+        <div class="step"><div class="titulo-paso">Paso 4 — (d) COP del refrigerador de Carnot</div>
+          \[ \text{COP}_{\text{enf}} = \frac{T_{c2}}{T_{h2}-T_{c2}} = \frac{250}{310-250} \approx 4.17 \]</div>
+        <div class="step"><div class="titulo-paso">Paso 5 — (e) Calor extraído del congelador y entregado al ambiente</div>
+          Todo el trabajo de la máquina (2.16×10³ J) impulsa el refrigerador:
+          \[ |Q_{c2}| = \text{COP}_{\text{enf}}\cdot W = (4.17)(2156\text{ J}) \approx 8.98\times10^3\text{ J} \]
+          \[ |Q_{h2}| = |Q_{c2}| + W \approx 8982 + 2156 \approx 1.11\times10^4\text{ J} \]</div>
+        <div class="step"><div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">
+            e_C ≈ 67.4 % &nbsp;|&nbsp; W ≈ 2.16×10³ J &nbsp;|&nbsp; Q_c ≈ 1.04×10³ J &nbsp;|&nbsp;
+            COP_enf ≈ 4.17 &nbsp;|&nbsp; Q_c2 ≈ 8.98×10³ J &nbsp;|&nbsp; Q_h2 ≈ 1.11×10⁴ J
+          </div></div>
+      </div>
+      <div class="ejemplo-controles"><button data-siguiente>Siguiente ▶</button><button class="secundario" data-reiniciar>Reiniciar</button><span class="hint-enter">o presiona Enter</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ PROBLEMA 3 -->
+<section id="problema3">
+  <div class="wrap">
+    <div class="kicker">Problema 3 <span class="puntaje">25 puntos</span></div>
+
+    <div class="enunciado">
+      Un mol de gas ideal <b>diatómico</b> recorre el siguiente ciclo reversible, en tres pasos:
+      <ol style="margin-top:.4em;">
+        <li>(1→2) <b>Expansión isobárica</b> a \(P_1 = 2.00\text{ atm}\), desde \(V_1 = 0.0100\text{ m}^3\)
+          hasta \(V_2 = 0.0200\text{ m}^3\).</li>
+        <li>(2→3) <b>Proceso isocórico</b> (volumen constante) hasta que la presión baja a
+          \(P_3 = 1.00\text{ atm}\).</li>
+        <li>(3→1) <b>Compresión isotérmica</b> de regreso al estado inicial.</li>
+      </ol>
+      <ol>
+        <li>Calcule la presión, el volumen y la temperatura en los tres estados (1, 2 y 3). (6 puntos)</li>
+        <li>Calcule el trabajo realizado por el gas en cada uno de los tres procesos y el trabajo neto
+          del ciclo. (6 puntos)</li>
+        <li>Calcule el calor intercambiado en cada proceso, indicando si se absorbe o se libera.
+          (6 puntos)</li>
+        <li>Tratando el ciclo como una máquina térmica, calcule su eficiencia. (4 puntos)</li>
+        <li>Compare esta eficiencia con la de una máquina de Carnot que operara entre las temperaturas
+          extremas del ciclo. ¿Es consistente con el teorema de Carnot? (3 puntos)</li>
+      </ol>
+    </div>
+
+    <div class="panel">
+      <h3>Ciclo de tres procesos: isobárico + isocórico + isotérmico</h3>
+      <div class="controls">
+        <label>\(P_1\) (atm)
+          <input type="range" id="p3P1" min="1" max="4" step="0.1" value="2.0">
+        </label>
+        <label>\(V_1\) (×10⁻² m³)
+          <input type="range" id="p3V1" min="0.5" max="2" step="0.1" value="1.0">
+        </label>
+        <label>\(V_2\) (×10⁻² m³)
+          <input type="range" id="p3V2" min="1" max="4" step="0.1" value="2.0">
+        </label>
+        <label>\(P_3\) (atm)
+          <input type="range" id="p3P3" min="0.3" max="2" step="0.1" value="1.0">
+        </label>
+        <button id="p3Animar">Animar ciclo ▶</button>
+      </div>
+      <div class="grid2">
+        <div>
+          <div class="gas-contenedor" id="p3Contenedor" style="width:35%;">
+            <div class="piston"></div>
+          </div>
+          <p class="readout" style="font-size:.86rem;" id="p3Descripcion"></p>
+        </div>
+        <div>
+          <svg width="100%" height="230" viewBox="0 0 320 230" style="max-width:320px;">
+            <line x1="45" y1="15" x2="45" y2="195" stroke="#999"/>
+            <line x1="45" y1="195" x2="305" y2="195" stroke="#999"/>
+            <text x="22" y="22" font-size="11" fill="#666" font-family="Georgia">p</text>
+            <text x="296" y="215" font-size="11" fill="#666" font-family="Georgia">V</text>
+            <path id="p3Ciclo" fill="none" stroke="var(--verde)" stroke-width="2.5" d=""/>
+            <circle id="p3Punto" r="5" fill="#C69214"/>
+            <circle id="p3Pt1" r="3.5" fill="#133565"/>
+            <circle id="p3Pt2" r="3.5" fill="#133565"/>
+            <circle id="p3Pt3" r="3.5" fill="#133565"/>
+            <text id="p3L1" font-size="11" font-family="Georgia" font-style="italic" fill="#133565">1</text>
+            <text id="p3L2" font-size="11" font-family="Georgia" font-style="italic" fill="#133565">2</text>
+            <text id="p3L3" font-size="11" font-family="Georgia" font-style="italic" fill="#133565">3</text>
+          </svg>
+        </div>
+      </div>
+      <p class="readout">\(T_1 = \)<span class="num" id="p3T1">—</span> K &nbsp;·&nbsp;
+        \(T_2 = \)<span class="num" id="p3T2">—</span> K &nbsp;·&nbsp;
+        \(T_3 = \)<span class="num" id="p3T3">—</span> K</p>
+      <p class="readout">\(W_{\text{neto}} = \)<span class="num" id="p3Wneto">—</span> J &nbsp;·&nbsp;
+        <b>\(e = W_{\text{neto}}/|Q_h| = \)<span class="num" id="p3E">—</span></b>
+        (<span class="num" id="p3Epct">—</span> %)</p>
+      <p class="readout" style="font-size:.88rem; color:#666;">Eficiencia de Carnot entre
+        \(T_{\text{máx}}\) y \(T_{\text{mín}}\) del ciclo: <span class="num" id="p3EcarnotPct">—</span> %</p>
+      <div class="leyenda">
+        <b>Estados 1, 2, 3</b>: vértices del ciclo, cada uno con su \(P\) [atm], \(V\) [m³] y \(T\) [K] &middot;
+        <b>\(W_{\text{neto}}\)</b>: trabajo neto del ciclo (suma de los tres procesos) [J] &middot;
+        <b>\(e\)</b>: eficiencia del ciclo tratado como máquina térmica [adimensional]
+      </div>
+    </div>
+
+    <div class="ejemplo" tabindex="0">
+      <div class="ejemplo-header"><b>Solución paso a paso — Problema 3</b><span class="progreso" data-progreso>Paso 0 / 7</span></div>
+      <div class="ejemplo-body">
+        <div class="step"><div class="titulo-paso">Paso 1 — (a) Estado 1 y estado 2 (proceso isobárico)</div>
+          \[ T_1 = \frac{P_1V_1}{nR} = \frac{(2.026\times10^5)(0.0100)}{8.314} \approx 243.8\text{ K} \]
+          \[ T_2 = \frac{P_1V_2}{nR} = \frac{(2.026\times10^5)(0.0200)}{8.314} \approx 487.5\text{ K} \]</div>
+        <div class="step"><div class="titulo-paso">Paso 2 — (a) Estado 3 (proceso isocórico, \(V_3=V_2\))</div>
+          \[ T_3 = \frac{P_3V_2}{nR} = \frac{(1.013\times10^5)(0.0200)}{8.314} \approx 243.8\text{ K} \]
+          Observe que \(T_3=T_1\): por eso el proceso 3→1 puede cerrarse isotérmicamente.</div>
+        <div class="step"><div class="titulo-paso">Paso 3 — (b) Trabajo en cada proceso</div>
+          \[ W_{12} = P_1(V_2-V_1) = (2.026\times10^5)(0.0100) \approx 2.03\times10^3\text{ J} \]
+          \[ W_{23} = 0 \quad(\text{volumen constante}) \]
+          \[ W_{31} = nRT_1\ln\frac{V_1}{V_2} = (8.314)(243.8)\ln(0.5) \approx -1.40\times10^3\text{ J} \]</div>
+        <div class="step"><div class="titulo-paso">Paso 4 — (b) Trabajo neto del ciclo</div>
+          \[ W_{\text{neto}} = W_{12}+W_{23}+W_{31} \approx 2030+0-1405 \approx 6.2\times10^2\text{ J} \]</div>
+        <div class="step"><div class="titulo-paso">Paso 5 — (c) Calor en cada proceso (\(C_V=\tfrac{5}{2}R\))</div>
+          \[ Q_{12} = nC_V(T_2-T_1)+W_{12} \approx 5066+2030 \approx 7.09\times10^3\text{ J} \quad(\text{absorbe}) \]
+          \[ Q_{23} = nC_V(T_3-T_2)+0 \approx -5.07\times10^3\text{ J} \quad(\text{libera}) \]
+          \[ Q_{31} = 0 + W_{31} \approx -1.40\times10^3\text{ J} \quad(\text{libera}) \]</div>
+        <div class="step"><div class="titulo-paso">Paso 6 — (d) Eficiencia del ciclo</div>
+          Solo \(Q_{12}\) es calor absorbido (\(|Q_h|\)); el resto se libera (\(|Q_c|\)):
+          \[ e = \frac{W_{\text{neto}}}{|Q_h|} = \frac{622}{7093} \approx 0.0877 = 8.77\% \]</div>
+        <div class="step"><div class="titulo-paso">Paso 7 — (e) Comparación con el límite de Carnot</div>
+          Entre \(T_{\text{máx}}=T_2\approx487.5\text{ K}\) y \(T_{\text{mín}}=T_1\approx243.8\text{ K}\):
+          \[ e_C = 1-\frac{T_{\text{mín}}}{T_{\text{máx}}} = 1-\frac{243.8}{487.5} \approx 0.500 = 50.0\% \]
+          La eficiencia real del ciclo (8.77 %) es mucho menor que el límite de Carnot (50.0 %),
+          consistente con el teorema de Carnot: ninguna máquina real entre esas temperaturas puede
+          superar a una de Carnot.</div>
+        <div class="step"><div class="titulo-paso">Resultado</div>
+          <div class="resultado-final">
+            T_1 ≈ 243.8 K, T_2 ≈ 487.5 K, T_3 ≈ 243.8 K &nbsp;|&nbsp; W_neto ≈ 6.2×10² J &nbsp;|&nbsp;
+            e ≈ 8.77 % &nbsp;|&nbsp; e_Carnot(T_máx,T_mín) ≈ 50.0 %
+          </div></div>
+      </div>
+      <div class="ejemplo-controles"><button data-siguiente>Siguiente ▶</button><button class="secundario" data-reiniciar>Reiniciar</button><span class="hint-enter">o presiona Enter</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FORMULARIO -->
+<section id="formulario">
+  <div class="wrap">
+    <div class="kicker">Fórmulas útiles para estos problemas</div>
+    <div class="tabla-scroll">
+      <table class="datos">
+        <thead><tr><th>Concepto</th><th>Fórmula</th></tr></thead>
+        <tbody>
+          <tr><td>Gas ideal</td><td>\(PV=nRT\)</td></tr>
+          <tr><td>Energía interna (ΔT)</td><td>\(\Delta E_{\text{int}} = nC_V\Delta T\)</td></tr>
+          <tr><td>Primera ley</td><td>\(\Delta E_{\text{int}} = Q+W\), &nbsp; \(W=-\int P\,dV\)</td></tr>
+          <tr><td>Trabajo isobárico</td><td>\(W=-P(V_f-V_i)\)</td></tr>
+          <tr><td>Trabajo isotérmico</td><td>\(W=nRT\ln(V_i/V_f)\)</td></tr>
+          <tr><td>\(C_P-C_V=R\)</td><td>\(C_V=\tfrac{3}{2}R\) (mono), \(\tfrac{5}{2}R\) (diatómico sin vib.)</td></tr>
+          <tr><td>Entropía (gas ideal)</td><td>\(\Delta S=nC_V\ln(T_f/T_i)+nR\ln(V_f/V_i)\)</td></tr>
+          <tr><td>Eficiencia de una máquina</td><td>\(e=W/|Q_h|=1-|Q_c|/|Q_h|\)</td></tr>
+          <tr><td>Eficiencia de Carnot</td><td>\(e_C=1-T_c/T_h\)</td></tr>
+          <tr><td>COP (enfriamiento / calentamiento)</td><td>\(\text{COP}=|Q_c|/W\) &nbsp;/&nbsp; \(|Q_h|/W\)</td></tr>
+          <tr><td>COP de Carnot</td><td>\(\text{COP}_C=T_c/(T_h-T_c)\) &nbsp;(enf.), \(T_h/(T_h-T_c)\) (cal.)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="nota">
+      <b>Constantes:</b> \(R=8.314\text{ J/(mol·K)}=0.08206\text{ L·atm/(mol·K)}\) &middot;
+      \(1\text{ atm}=1.013\times10^5\text{ Pa}\) &middot; \(0\,^{\circ}\text{C}=273.15\text{ K}\)
+    </div>
+  </div>
+</section>
+
+<footer class="doc-footer">Física General II (FS0310) · Escuela de Física, UCR · Práctica para el segundo parcial — Termodinámica</footer>
+
+<script>
+function fmt(x, d){
+  if(!isFinite(x)) return '—';
+  if(Math.abs(x) >= 1e5 || (Math.abs(x) > 0 && Math.abs(x) < 1e-3)) return x.toExponential(2);
+  return x.toFixed(d === undefined ? 2 : d);
+}
+const R = 8.314, atm = 101325;
+
+// ============================================================ PROBLEMA 1
+(function(){
+  let gasTipo = 'di';
+  const sTi = document.getElementById('p1Ti'), sVr = document.getElementById('p1Vr'), sPr = document.getElementById('p1Pr');
+  const recta = document.getElementById('p1Recta'), cont = document.getElementById('p1Contenedor');
+  const Vmin = 0.5, Vmax = 6, Pmin = 0.2, Pmax = 5;
+  const X = V => 50 + (V/Vmax)*260;
+  const Y = P => 200 - (P/Pmax)*170;
+
+  function actualizar(){
+    const Cv = (gasTipo === 'di') ? 2.5*R : 1.5*R;
+    const TiC = parseFloat(sTi.value), TiK = TiC + 273.15;
+    const Pi = 1.00*atm;
+    const Vi = R*TiK/Pi; // m3 per mol
+    const Vr = parseFloat(sVr.value), Pr = parseFloat(sPr.value);
+    const Vf = Vi*Vr, Pf = Pi*Pr;
+    const Tf = Pf*Vf/R;
+    const dE = Cv*(Tf-TiK);
+    const W = (Pi+Pf)/2*(Vf-Vi);
+    const Q = dE + W;
+    const dS = Cv*Math.log(Tf/TiK) + R*Math.log(Vf/Vi);
+
+    document.getElementById('p1Pi').textContent = '1.00';
+    document.getElementById('p1ViL').textContent = fmt(Vi*1000, 2);
+    document.getElementById('p1TiK').textContent = fmt(TiK, 1);
+    document.getElementById('p1Pf').textContent = fmt(Pr, 2);
+    document.getElementById('p1VfL').textContent = fmt(Vf*1000, 2);
+    document.getElementById('p1TfK').textContent = fmt(Tf, 1);
+    document.getElementById('p1dE').textContent = fmt(dE, 0);
+    document.getElementById('p1W').textContent = fmt(W, 0);
+    document.getElementById('p1Q').textContent = fmt(Q, 0);
+    document.getElementById('p1dS').textContent = fmt(dS, 2);
+
+    const ViN = Vi/1e-2, VfN = Vf/1e-2; // escalar a unidades de la gráfica (x1e-2 m3)
+    const xi = X(ViN), yi = Y(Pi/atm), xf = X(VfN), yf = Y(Pf/atm);
+    recta.setAttribute('x1', xi); recta.setAttribute('y1', yi);
+    recta.setAttribute('x2', xf); recta.setAttribute('y2', yf);
+    document.getElementById('p1PtI').setAttribute('cx', xi); document.getElementById('p1PtI').setAttribute('cy', yi);
+    document.getElementById('p1PtF').setAttribute('cx', xf); document.getElementById('p1PtF').setAttribute('cy', yf);
+    document.getElementById('p1LblI').setAttribute('x', xi-10); document.getElementById('p1LblI').setAttribute('y', yi+16);
+    document.getElementById('p1LblF').setAttribute('x', xf+6); document.getElementById('p1LblF').setAttribute('y', yf-8);
+
+    cont.style.width = (15 + Math.min(70, (Vf/Vi)*18)) + '%';
+  }
+  document.querySelectorAll('[data-gas1]').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('[data-gas1]').forEach(x => x.classList.remove('activo'));
+      b.classList.add('activo');
+      gasTipo = b.getAttribute('data-gas1');
+      actualizar();
+    });
+  });
+  [sTi, sVr, sPr].forEach(e => e.addEventListener('input', actualizar));
+  actualizar();
+})();
+
+// ============================================================ PROBLEMA 2
+(function(){
+  const sTh = document.getElementById('p2Th'), sQh = document.getElementById('p2Qh'),
+        sTc = document.getElementById('p2Tc'), sTc2 = document.getElementById('p2Tc2');
+  function actualizar(){
+    const Th = parseFloat(sTh.value), Qh = parseFloat(sQh.value),
+          Tc = parseFloat(sTc.value), Tc2 = parseFloat(sTc2.value);
+    const e = 1 - Tc/Th;
+    const W = e*Qh;
+    const Qc = Qh - W;
+    const COP = Tc2/(Tc - Tc2);
+    const Qc2 = COP*W;
+    const Qh2 = Qc2 + W;
+    document.getElementById('p2E').textContent = fmt(e, 3);
+    document.getElementById('p2Epct').textContent = fmt(e*100, 1);
+    document.getElementById('p2W').textContent = fmt(W, 0);
+    document.getElementById('p2Qc').textContent = fmt(Qc, 0);
+    document.getElementById('p2COP').textContent = fmt(COP, 2);
+    document.getElementById('p2Qc2').textContent = fmt(Qc2, 0);
+    document.getElementById('p2Qh2').textContent = fmt(Qh2, 0);
+  }
+  [sTh, sQh, sTc, sTc2].forEach(e => e.addEventListener('input', actualizar));
+  actualizar();
+})();
+
+// ============================================================ PROBLEMA 3
+(function(){
+  const sP1 = document.getElementById('p3P1'), sV1 = document.getElementById('p3V1'),
+        sV2 = document.getElementById('p3V2'), sP3 = document.getElementById('p3P3');
+  const ciclo = document.getElementById('p3Ciclo'), cont = document.getElementById('p3Contenedor');
+  const Vscale = 5;   // tope del eje V, en las mismas unidades que los sliders (×10⁻² m³)
+  const Pscale = 4.5; // tope del eje p, en atm
+  const X = V => 45 + (V/Vscale)*260;
+  const Y = P => 195 - (P/Pscale)*170;
+  let V1=1, V2=2, P1=2, P3=1, T1=1, T2=1, T3=1;
+
+  function estado(p){
+    const f = (p/100)*3;
+    if(f < 1){ const t=f; return {V: V1+(V2-V1)*t, P: P1, etapa:'1→2: expansión isobárica — el gas absorbe calor y se expande a presión constante.'}; }
+    if(f < 2){ const t=f-1; return {V: V2, P: P1+(P3-P1)*t, etapa:'2→3: proceso isocórico — la presión cae a volumen constante; el gas libera calor.'}; }
+    const t=f-2; return {V: V2*Math.pow(V1/V2, t), P: P3*Math.pow(V2/(V2*Math.pow(V1/V2,t)), 1), etapa:'3→1: compresión isotérmica — el gas regresa al estado inicial liberando calor.'};
+  }
+  function actualizar(){
+    V1 = parseFloat(sV1.value); V2 = parseFloat(sV2.value);
+    if(V2 <= V1){ V2 = V1 + 0.1; sV2.value = V2; }
+    P1 = parseFloat(sP1.value); P3 = parseFloat(sP3.value);
+
+    const P1pa = P1*atm, P3pa = P3*atm, V1m3 = V1*1e-2, V2m3 = V2*1e-2;
+    T1 = P1pa*V1m3/R; T2 = P1pa*V2m3/R; T3 = P3pa*V2m3/R;
+    document.getElementById('p3T1').textContent = fmt(T1, 1);
+    document.getElementById('p3T2').textContent = fmt(T2, 1);
+    document.getElementById('p3T3').textContent = fmt(T3, 1);
+
+    const Cv = 2.5*R;
+    const W12 = P1pa*(V2m3-V1m3);
+    const W23 = 0;
+    const W31 = R*T3*Math.log(V1m3/V2m3);
+    const Wneto = W12+W23+W31;
+    const Q12 = Cv*(T2-T1)+W12;
+    const e = Wneto / Q12;
+    document.getElementById('p3Wneto').textContent = fmt(Wneto, 0);
+    document.getElementById('p3E').textContent = fmt(e, 4);
+    document.getElementById('p3Epct').textContent = fmt(e*100, 2);
+
+    const Tmax = Math.max(T1,T2,T3), Tmin = Math.min(T1,T2,T3);
+    document.getElementById('p3EcarnotPct').textContent = fmt((1-Tmin/Tmax)*100, 1);
+
+    // dibujar ciclo
+    const p1pt = {x:X(V1), y:Y(P1)}, p2pt = {x:X(V2), y:Y(P1)}, p3pt = {x:X(V2), y:Y(P3)};
+    let d = 'M ' + p1pt.x.toFixed(1) + ' ' + p1pt.y.toFixed(1) + ' L ' + p2pt.x.toFixed(1) + ' ' + p2pt.y.toFixed(1) +
+            ' L ' + p3pt.x.toFixed(1) + ' ' + p3pt.y.toFixed(1);
+    // isoterma de regreso 3->1
+    for(let t = 0; t <= 1.001; t += 0.05){
+      const V = V2*Math.pow(V1/V2, t);
+      const P = P3*(V2/V); // isotermico: P3*V2 = P*V
+      d += ' L ' + X(V).toFixed(1) + ' ' + Y(P).toFixed(1);
+    }
+    ciclo.setAttribute('d', d);
+    document.getElementById('p3Pt1').setAttribute('cx', p1pt.x); document.getElementById('p3Pt1').setAttribute('cy', p1pt.y);
+    document.getElementById('p3Pt2').setAttribute('cx', p2pt.x); document.getElementById('p3Pt2').setAttribute('cy', p2pt.y);
+    document.getElementById('p3Pt3').setAttribute('cx', p3pt.x); document.getElementById('p3Pt3').setAttribute('cy', p3pt.y);
+    document.getElementById('p3L1').setAttribute('x', p1pt.x-14); document.getElementById('p3L1').setAttribute('y', p1pt.y+14);
+    document.getElementById('p3L2').setAttribute('x', p2pt.x+6); document.getElementById('p3L2').setAttribute('y', p2pt.y-4);
+    document.getElementById('p3L3').setAttribute('x', p3pt.x+6); document.getElementById('p3L3').setAttribute('y', p3pt.y+12);
+
+    render();
+  }
+  const sAvFake = { value: 0 };
+  function render(p){
+    if(p === undefined) p = sAvFake.value;
+    const e = estado(p);
+    document.getElementById('p3Descripcion').textContent = e.etapa;
+    cont.style.width = (15 + (e.V/Vscale)*70) + '%';
+  }
+  let animando = false;
+  document.getElementById('p3Animar').addEventListener('click', () => {
+    if(animando) return; animando = true;
+    let t0 = null;
+    function paso(ts){
+      if(!t0) t0 = ts;
+      const p = Math.min((ts-t0)/4000, 1)*100;
+      sAvFake.value = p; render(p);
+      if(p < 100) requestAnimationFrame(paso); else animando = false;
+    }
+    requestAnimationFrame(paso);
+  });
+  [sP1, sV1, sV2, sP3].forEach(e => e.addEventListener('input', actualizar));
+  actualizar();
+})();
+
+// ============================================================ PASOS DE SOLUCIÓN (steppers)
+(function(){
+  document.querySelectorAll('.ejemplo').forEach(ej => {
+    const steps = ej.querySelectorAll('.step');
+    const btnSig = ej.querySelector('[data-siguiente]');
+    const btnRe = ej.querySelector('[data-reiniciar]');
+    const prog = ej.querySelector('[data-progreso]');
+    let actual = 0;
+    function render(){
+      steps.forEach((s, i) => { if(i < actual) s.classList.add('shown'); else s.classList.remove('shown'); });
+      prog.textContent = 'Paso ' + actual + ' / ' + steps.length;
+    }
+    btnSig.addEventListener('click', () => { if(actual < steps.length){ actual++; render(); } });
+    btnRe.addEventListener('click', () => { actual = 0; render(); });
+    ej.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter'){ if(actual < steps.length){ actual++; render(); } e.preventDefault(); }
+    });
+    render();
+  });
+})();
+</script>
+</body>
+</html>
